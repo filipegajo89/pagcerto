@@ -56,6 +56,21 @@
       flex-direction: column;
       font-size: 0.9rem;
     }
+    .input-group {
+      position: relative;
+    }
+    .input-group input {
+      padding-right: 3rem;
+    }
+    .suffix {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-text);
+      font-weight: 500;
+      pointer-events: none;
+    }
     label .material-icons {
       font-size: 18px;
       vertical-align: middle;
@@ -97,17 +112,23 @@
       margin: 0.75rem 0;
       line-height: 1.4;
     }
+    .error {
+      color: #e53935;
+      font-weight: 500;
+    }
   </style>
 </head>
 <body>
   <h1>Simulador Financeiro</h1>
 
-  <!-- Formulário de entrada em cartão -->
   <div class="card">
     <div class="form-row">
       <label>
         <span><i class="material-icons">attach_money</i>Preço à vista (R$):</span>
-        <input id="v0" type="number" step="0.01" placeholder="Ex: 469.90">
+        <div class="input-group">
+          <input id="v0" type="text" placeholder="Ex: 469,90">
+          <span class="suffix">R$</span>
+        </div>
       </label>
 
       <label>
@@ -129,7 +150,10 @@
 
       <label>
         <span><i class="material-icons">view_module</i>Valor da parcela (R$):</span>
-        <input id="p" type="number" step="0.01" placeholder="Ex: 73.42">
+        <div class="input-group">
+          <input id="p" type="text" placeholder="Ex: 73,42">
+          <span class="suffix">R$</span>
+        </div>
       </label>
 
       <label>
@@ -142,7 +166,6 @@
     <button onclick="calc()">Calcular</button>
   </div>
 
-  <!-- Resultado em cartão separado -->
   <div class="card">
     <div class="result" id="res"></div>
   </div>
@@ -173,16 +196,18 @@
     window.addEventListener('load', fetchCDI);
 
     function calc() {
-      const V0 = parseFloat(document.getElementById('v0').value);
+      const V0raw = document.getElementById('v0').value.trim();
+      const Praw  = document.getElementById('p').value.trim();
+      const V0 = parseFloat(V0raw.replace(',', '.'));
+      const P  = parseFloat(Praw.replace(',', '.'));
       let n = document.getElementById('n_select').value;
       n = n === 'other' ? parseInt(document.getElementById('n_custom').value, 10) : parseInt(n, 10);
-      const P = parseFloat(document.getElementById('p').value);
       const pct = parseFloat(document.getElementById('cdipercent').value);
       const r = cdiMensal * (pct / 100);
 
       if (isNaN(V0) || !n || isNaN(P) || isNaN(r)) {
         document.getElementById('res').innerHTML =
-          '<p style="color:#e53935; font-weight:500;">Preencha todos os campos corretamente.</p>';
+          '<p class="error">Preencha todos os campos corretamente.</p>';
         return;
       }
 
