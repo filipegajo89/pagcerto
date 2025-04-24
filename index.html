@@ -3,52 +3,104 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Simulador Parcelar ou À Vista</title>
+  <title>Simulador Financeiro</title>
   <style>
-    body { font-family: sans-serif; max-width: 360px; margin: 2rem auto; padding: 0 1rem; }
+    body { font-family: sans-serif; max-width: 400px; margin: 2rem auto; padding: 0 1rem; }
     h1 { text-align: center; }
-    label { display: block; margin: .75rem 0 0.25rem; }
-    input, textarea, button { width: 100%; padding: .5rem; font-size: 1rem; }
-    textarea { height: 4rem; font-family: monospace; }
-    .result { margin-top: 1.25rem; background: #f9f9f9; padding: .75rem; border-radius: 6px; }
+    label { display: block; margin: 1rem 0 0.25rem; }
+    input, select, button { width: 100%; padding: .5rem; font-size: 1rem; }
+    .hidden { display: none; }
+    .result { margin-top: 1.5rem; background: #f9f9f9; padding: .75rem; border-radius: 6px; }
   </style>
 </head>
 <body>
-  <h1>Parcelar ou À Vista?</h1>
-  <label>Valor à vista (R$):
-    <input id="v0" type="number" step="0.01" value="469.90">
+  <h1>Simulador Financeiro</h1>
+
+  <label>Preço à vista (R$):
+    <input id="v0" type="number" step="0.01" placeholder="Ex: 469.90">
   </label>
-  <label>Digite os valores das parcelas (separados por vírgula):
-    <textarea id="parcelas">73.42,73.42,73.42,73.42,73.42,73.42,73.42,73.42</textarea>
+
+  <label>Quantidade de parcelas:
+    <select id="n_select">
+      <option value="">— selecione —</option>
+      <!-- opções de 1 a 12 -->
+      ${[...Array(12)].map((_,i)=>`<option value="${i+1}">${i+1}</option>`).join('')}
+      <option value="other">Outro</option>
+    </select>
   </label>
-  <label>CDI mensal (decimal):
-    <input id="r" type="number" step="0.0001" value="0.0104">
+
+  <label id="label_n_custom" class="hidden">Digite o número de parcelas:
+    <input id="n_custom" type="number" min="1" placeholder="Ex: 18">
   </label>
+
+  <label>Valor da parcela (R$):
+    <input id="p" type="number" step="0.01" placeholder="Ex: 73.42">
+  </label>
+
+  <label>Investimento – % CDI (atualiza ao carregar):
+    <input id="r" type="number" step="0.0001" readonly>
+  </label>
+
   <button onclick="calc()">Calcular</button>
   <div class="result" id="res"></div>
+
   <script>
+    // Mostra/oculta campo “Outro” de parcelas
+    document.getElementById('n_select')
+      .addEventListener('change', e => {
+        document.getElementById('label_n_custom')
+          .classList.toggle('hidden', e.target.value !== 'other');
+      });
+
+    // Busca último CDI diário na BrasilAPI e converte para mensal (~21 dias úteis)
+    async function fetchCDI() {
+      try {
+        const resp = await fetch('https://brasilapi.com.br/api/cdi/v1');
+        const json = await resp.json();
+        const diario = parseFloat(json.valor);
+        const mensal = Math.pow(1 + diario, 21) - 1;
+        document.getElementById('r').value = mensal.toFixed(4);
+      } catch(err) {
+        console.error('Erro ao buscar CDI:', err);
+        document.getElementById('r').placeholder = 'erro';
+      }
+    }
+    window.addEventListener('load', fetchCDI);
+
     function calc() {
-      const V0 = parseFloat(document.getElementById('v0').value);
-      const r  = parseFloat(document.getElementById('r').value);
-      const parcelas = document.getElementById('parcelas').value
-        .split(',').map(x => parseFloat(x.trim())).filter(x => !isNaN(x));
-      const F = parcelas.reduce((s, p) => s + p, 0);
+      const V0  = parseFloat(document.getElementById('v0').value);
+      let n     = document.getElementById('n_select').value;
+      if (n === 'other') {
+        n = parseInt(document.getElementById('n_custom').value, 10);
+      } else {
+        n = parseInt(n, 10);
+      }
+      const P   = parseFloat(document.getElementById('p').value);
+      const r   = parseFloat(document.getElementById('r').value);
+
+      if (isNaN(V0)||!n||isNaN(P)||isNaN(r)) {
+        document.getElementById('res').innerHTML =
+          '<p style="color:red">Por favor, preencha todos os campos corretamente.</p>';
+        return;
+      }
+
+      const F = P * n;
       let juros = 0, pago = 0;
-      for (let p of parcelas) {
-        pago += p;
+      for (let k = 1; k <= n; k++) {
+        pago += P;
         juros += Math.max(F - pago, 0) * r;
       }
       const CL = F - juros;
       const decisao = CL > V0
         ? '👉 Melhor: Pagar à vista'
         : '👉 Melhor: Parcelar e investir';
+
       document.getElementById('res').innerHTML =
-        `<p>Total: R$ ${F.toFixed(2)}</p>` +
-        `<p>Juros: R$ ${juros.toFixed(2)}</p>` +
+        `<p>Total financiado: R$ ${F.toFixed(2)}</p>` +
+        `<p>Juros totais: R$ ${juros.toFixed(2)}</p>` +
         `<p>Custo líquido: R$ ${CL.toFixed(2)}</p>` +
         `<p><strong>${decisao}</strong></p>`;
     }
   </script>
 </body>
 </html>
-
