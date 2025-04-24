@@ -2,107 +2,190 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Simulador Financeiro</title>
+  <!-- Google Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
-    body { font-family: sans-serif; max-width: 400px; margin: 2rem auto; padding: 0 1rem; }
-    h1 { text-align: center; }
-    label { display: block; margin: 1rem 0 0.25rem; }
-    input, select, button { width: 100%; padding: .5rem; font-size: 1rem; }
-    .hidden { display: none; }
-    .result { margin-top: 1.5rem; background: #f9f9f9; padding: .75rem; border-radius: 6px; }
-    .small { font-size: .85rem; color: #555; margin-top: .25rem; }
+    /* Tema de cores e variáveis */
+    :root {
+      --color-bg: #f4f6f8;
+      --color-card: #ffffff;
+      --color-primary: #0052cc;
+      --color-accent: #ff8c00;
+      --color-text: #333333;
+      --border-radius: 8px;
+      --box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: 'Roboto', sans-serif;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-weight: 500;
+    }
+    .card {
+      background: var(--color-card);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 1.25rem;
+      margin: 1rem;
+    }
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .form-row > label {
+      flex: 1 1 100%;
+    }
+    @media (min-width: 500px) {
+      .form-row > label {
+        flex: 1 1 48%;
+      }
+    }
+    label {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.9rem;
+    }
+    label .material-icons {
+      font-size: 18px;
+      vertical-align: middle;
+      margin-right: 4px;
+      color: var(--color-primary);
+    }
+    input, select, button {
+      margin-top: 0.25rem;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: var(--border-radius);
+      transition: border 0.2s ease;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+    button {
+      display: block;
+      width: 100%;
+      background: var(--color-primary);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      margin-top: 1rem;
+      transition: background 0.2s ease;
+    }
+    button:hover {
+      background: var(--color-accent);
+    }
+    .small {
+      font-size: 0.85rem;
+      color: #555;
+      margin-top: 0.5rem;
+    }
+    .result p {
+      margin: 0.75rem 0;
+      line-height: 1.4;
+    }
   </style>
 </head>
 <body>
   <h1>Simulador Financeiro</h1>
 
-  <label>Preço à vista (R$):
-    <input id="v0" type="number" step="0.01" placeholder="Ex: 469.90">
-  </label>
+  <!-- Formulário de entrada em cartão -->
+  <div class="card">
+    <div class="form-row">
+      <label>
+        <span><i class="material-icons">attach_money</i>Preço à vista (R$):</span>
+        <input id="v0" type="number" step="0.01" placeholder="Ex: 469.90">
+      </label>
 
-  <label>Quantidade de parcelas:
-    <select id="n_select">
-      <option value="">— selecione —</option>
-      <option value="1">1</option><option value="2">2</option><option value="3">3</option>
-      <option value="4">4</option><option value="5">5</option><option value="6">6</option>
-      <option value="7">7</option><option value="8">8</option><option value="9">9</option>
-      <option value="10">10</option><option value="11">11</option><option value="12">12</option>
-      <option value="other">Outro</option>
-    </select>
-  </label>
+      <label>
+        <span><i class="material-icons">payment</i>Quantidade de parcelas:</span>
+        <select id="n_select">
+          <option value="">— selecione —</option>
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+          <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+          <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+          <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+          <option value="other">Outro</option>
+        </select>
+      </label>
 
-  <label id="label_n_custom" class="hidden">Digite o número de parcelas:
-    <input id="n_custom" type="number" min="1" placeholder="Ex: 18">
-  </label>
+      <label id="label_n_custom" class="hidden">
+        <span><i class="material-icons">edit</i>Digite o número de parcelas:</span>
+        <input id="n_custom" type="number" min="1" placeholder="Ex: 18">
+      </label>
 
-  <label>Valor da parcela (R$):
-    <input id="p" type="number" step="0.01" placeholder="Ex: 73.42">
-  </label>
+      <label>
+        <span><i class="material-icons">view_module</i>Valor da parcela (R$):</span>
+        <input id="p" type="number" step="0.01" placeholder="Ex: 73.42">
+      </label>
 
-  <label>Rendimento (% do CDI):
-    <input id="cdipercent" type="number" step="0.1" value="100">
-  </label>
-  <div class="small">
-    CDI mensal atual: <span id="cdi_valor">—</span>
+      <label>
+        <span><i class="material-icons">trending_up</i>Rendimento (% do CDI):</span>
+        <input id="cdipercent" type="number" step="0.1" value="100">
+      </label>
+    </div>
+
+    <div class="small">CDI mensal atual: <span id="cdi_valor">—</span></div>
+    <button onclick="calc()">Calcular</button>
   </div>
 
-  <button onclick="calc()">Calcular</button>
-  <div class="result" id="res"></div>
+  <!-- Resultado em cartão separado -->
+  <div class="card">
+    <div class="result" id="res"></div>
+  </div>
 
   <script>
-    // Mostrar/ocultar campo “Outro” de parcelas
     document.getElementById('n_select').addEventListener('change', function(e) {
       document.getElementById('label_n_custom')
         .classList.toggle('hidden', e.target.value !== 'other');
     });
 
-    // Variável global para guardar a taxa CDI mensal
     let cdiMensal = NaN;
-
-    // Busca CDI diário do Banco Central e converte para taxa mensal (~21 dias úteis)
     async function fetchCDI() {
       const el = document.getElementById('cdi_valor');
       el.textContent = 'carregando…';
       try {
-        const resp = await fetch(
-          'https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados/ultimos/1?formato=json'
-        );
-        if (!resp.ok) throw new Error('status ' + resp.status);
+        const resp = await fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados/ultimos/1?formato=json');
+        if (!resp.ok) throw new Error(resp.status);
         const data = await resp.json();
         let diario = parseFloat(data[0].valor.replace(',', '.'));
-        if (isNaN(diario)) throw new Error('valor CDI inválido');
         diario = diario / 100;
         cdiMensal = Math.pow(1 + diario, 21) - 1;
         el.textContent = (cdiMensal * 100).toFixed(2) + '%';
       } catch (err) {
-        console.error('Erro ao buscar CDI:', err);
         el.textContent = 'não disponível';
+        console.error('Erro CDI:', err);
       }
     }
     window.addEventListener('load', fetchCDI);
 
-    // Função de cálculo
     function calc() {
-      const V0  = parseFloat(document.getElementById('v0').value);
-      let n     = document.getElementById('n_select').value;
-      if (n === 'other') {
-        n = parseInt(document.getElementById('n_custom').value, 10);
-      } else {
-        n = parseInt(n, 10);
-      }
-      const P   = parseFloat(document.getElementById('p').value);
+      const V0 = parseFloat(document.getElementById('v0').value);
+      let n = document.getElementById('n_select').value;
+      n = n === 'other' ? parseInt(document.getElementById('n_custom').value, 10) : parseInt(n, 10);
+      const P = parseFloat(document.getElementById('p').value);
       const pct = parseFloat(document.getElementById('cdipercent').value);
-      const r   = cdiMensal * (pct / 100);
+      const r = cdiMensal * (pct / 100);
 
-      // Validação dos campos
       if (isNaN(V0) || !n || isNaN(P) || isNaN(r)) {
         document.getElementById('res').innerHTML =
-          '<p style="color:red">PRENCHA TODOS OS CAMPOS CORRETAMENTE.</p>';
+          '<p style="color:#e53935; font-weight:500;">Preencha todos os campos corretamente.</p>';
         return;
       }
 
-      // Cálculo mês a mês dos juros
       const F = P * n;
       let juros = 0, pago = 0;
       for (let i = 0; i < n; i++) {
@@ -114,12 +197,11 @@
         ? '👉 Melhor: Pagar à vista'
         : '👉 Melhor: Parcelar e investir';
 
-      // Exibe os resultados
       document.getElementById('res').innerHTML =
-        `<p>Total parcelado: R$ ${F.toFixed(2)}</p>` +
-        `<p>Rendimento total: R$ ${juros.toFixed(2)}</p>` +
-        `<p>Custo líquido: R$ ${CL.toFixed(2)}</p>` +
-        `<p><strong>${decisao}</strong></p>`;
+        `<p><strong>Total parcelado:</strong> R$ ${F.toFixed(2)}</p>` +
+        `<p><strong>Rendimento total:</strong> R$ ${juros.toFixed(2)}</p>` +
+        `<p><strong>Custo líquido:</strong> R$ ${CL.toFixed(2)}</p>` +
+        `<p style="margin-top:1rem;"><strong>${decisao}</strong></p>`;
     }
   </script>
 </body>
