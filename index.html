@@ -8,7 +8,7 @@
     body { font-family: sans-serif; max-width: 400px; margin: 2rem auto; padding: 0 1rem; }
     h1 { text-align: center; }
     label { display: block; margin: 1rem 0 0.25rem; }
-    input, select, button { width: 100%; padding: .5rem; font-size: 1rem; }
+    input, select, button, textarea { width: 100%; padding: .5rem; font-size: 1rem; }
     .hidden { display: none; }
     .result { margin-top: 1.5rem; background: #f9f9f9; padding: .75rem; border-radius: 6px; }
   </style>
@@ -23,8 +23,18 @@
   <label>Quantidade de parcelas:
     <select id="n_select">
       <option value="">— selecione —</option>
-      <!-- opções de 1 a 12 -->
-      ${[...Array(12)].map((_,i)=>`<option value="${i+1}">${i+1}</option>`).join('')}
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
       <option value="other">Outro</option>
     </select>
   </label>
@@ -38,55 +48,63 @@
   </label>
 
   <label>Investimento – % CDI (atualiza ao carregar):
-    <input id="r" type="number" step="0.0001" readonly>
+    <input id="r" type="number" step="0.0001" readonly placeholder="Carregando…">
   </label>
 
   <button onclick="calc()">Calcular</button>
+
   <div class="result" id="res"></div>
 
   <script>
-    // Mostra/oculta campo “Outro” de parcelas
-    document.getElementById('n_select')
-      .addEventListener('change', e => {
-        document.getElementById('label_n_custom')
-          .classList.toggle('hidden', e.target.value !== 'other');
-      });
+    // Mostrar/ocultar campo “Outro”
+    document.getElementById('n_select').addEventListener('change', function(e) {
+      document.getElementById('label_n_custom')
+        .classList.toggle('hidden', e.target.value !== 'other');
+    });
 
-    // Busca último CDI diário na BrasilAPI e converte para mensal (~21 dias úteis)
+    // Buscar CDI via BrasilAPI e converter para taxa mensal (~21 dias úteis)
     async function fetchCDI() {
+      const inputR = document.getElementById('r');
+      inputR.value = '';
+      inputR.placeholder = 'Carregando…';
       try {
         const resp = await fetch('https://brasilapi.com.br/api/cdi/v1');
+        if (!resp.ok) throw new Error('Status ' + resp.status);
         const json = await resp.json();
         const diario = parseFloat(json.valor);
         const mensal = Math.pow(1 + diario, 21) - 1;
-        document.getElementById('r').value = mensal.toFixed(4);
-      } catch(err) {
+        inputR.value = mensal.toFixed(4);
+      } catch (err) {
         console.error('Erro ao buscar CDI:', err);
-        document.getElementById('r').placeholder = 'erro';
+        inputR.value = '';
+        inputR.placeholder = 'não disponível';
       }
     }
     window.addEventListener('load', fetchCDI);
 
+    // Função de cálculo
     function calc() {
-      const V0  = parseFloat(document.getElementById('v0').value);
-      let n     = document.getElementById('n_select').value;
+      const V0 = parseFloat(document.getElementById('v0').value);
+      let n = document.getElementById('n_select').value;
       if (n === 'other') {
         n = parseInt(document.getElementById('n_custom').value, 10);
       } else {
         n = parseInt(n, 10);
       }
-      const P   = parseFloat(document.getElementById('p').value);
-      const r   = parseFloat(document.getElementById('r').value);
+      const P = parseFloat(document.getElementById('p').value);
+      const r = parseFloat(document.getElementById('r').value);
 
-      if (isNaN(V0)||!n||isNaN(P)||isNaN(r)) {
+      // Validação
+      if (isNaN(V0) || !n || isNaN(P) || isNaN(r)) {
         document.getElementById('res').innerHTML =
           '<p style="color:red">Por favor, preencha todos os campos corretamente.</p>';
         return;
       }
 
+      // Cálculo mês a mês
       const F = P * n;
       let juros = 0, pago = 0;
-      for (let k = 1; k <= n; k++) {
+      for (let i = 0; i < n; i++) {
         pago += P;
         juros += Math.max(F - pago, 0) * r;
       }
@@ -95,6 +113,7 @@
         ? '👉 Melhor: Pagar à vista'
         : '👉 Melhor: Parcelar e investir';
 
+      // Exibir resultados
       document.getElementById('res').innerHTML =
         `<p>Total financiado: R$ ${F.toFixed(2)}</p>` +
         `<p>Juros totais: R$ ${juros.toFixed(2)}</p>` +
