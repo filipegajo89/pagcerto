@@ -8,9 +8,10 @@
     body { font-family: sans-serif; max-width: 400px; margin: 2rem auto; padding: 0 1rem; }
     h1 { text-align: center; }
     label { display: block; margin: 1rem 0 0.25rem; }
-    input, select, button, textarea { width: 100%; padding: .5rem; font-size: 1rem; }
+    input, select, button { width: 100%; padding: .5rem; font-size: 1rem; }
     .hidden { display: none; }
     .result { margin-top: 1.5rem; background: #f9f9f9; padding: .75rem; border-radius: 6px; }
+    .small { font-size: .85rem; color: #555; margin-top: .25rem; }
   </style>
 </head>
 <body>
@@ -23,18 +24,10 @@
   <label>Quantidade de parcelas:
     <select id="n_select">
       <option value="">— selecione —</option>
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-      <option value="6">6</option>
-      <option value="7">7</option>
-      <option value="8">8</option>
-      <option value="9">9</option>
-      <option value="10">10</option>
-      <option value="11">11</option>
-      <option value="12">12</option>
+      <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+      <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+      <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+      <option value="10">10</option><option value="11">11</option><option value="12">12</option>
       <option value="other">Outro</option>
     </select>
   </label>
@@ -47,42 +40,44 @@
     <input id="p" type="number" step="0.01" placeholder="Ex: 73.42">
   </label>
 
-  <label>Investimento – % CDI (atualiza ao carregar):
-    <input id="r" type="number" step="0.0001" readonly placeholder="Carregando…">
+  <label>Rendimento (% do CDI):
+    <input id="cdipercent" type="number" step="0.1" value="100">
   </label>
+  <div class="small">
+    CDI mensal atual: <span id="cdi_valor">—</span>
+  </div>
 
   <button onclick="calc()">Calcular</button>
-
   <div class="result" id="res"></div>
 
   <script>
-    // Mostrar/ocultar campo “Outro”
+    // Controle do campo “Outro” de parcelas
     document.getElementById('n_select').addEventListener('change', function(e) {
       document.getElementById('label_n_custom')
         .classList.toggle('hidden', e.target.value !== 'other');
     });
 
-    // Buscar CDI via BrasilAPI e converter para taxa mensal (~21 dias úteis)
+    // Variável global para guardar o CDI mensal
+    let cdiMensal = NaN;
+
+    // Busca CDI diário e converte para mensal (~21 dias úteis)
     async function fetchCDI() {
-      const inputR = document.getElementById('r');
-      inputR.value = '';
-      inputR.placeholder = 'Carregando…';
+      const el = document.getElementById('cdi_valor');
+      el.textContent = 'carregando…';
       try {
         const resp = await fetch('https://brasilapi.com.br/api/cdi/v1');
-        if (!resp.ok) throw new Error('Status ' + resp.status);
+        if (!resp.ok) throw new Error('status ' + resp.status);
         const json = await resp.json();
         const diario = parseFloat(json.valor);
-        const mensal = Math.pow(1 + diario, 21) - 1;
-        inputR.value = mensal.toFixed(4);
+        cdiMensal = Math.pow(1 + diario, 21) - 1;
+        el.textContent = (cdiMensal * 100).toFixed(2) + '%';
       } catch (err) {
         console.error('Erro ao buscar CDI:', err);
-        inputR.value = '';
-        inputR.placeholder = 'não disponível';
+        el.textContent = 'não disponível';
       }
     }
     window.addEventListener('load', fetchCDI);
 
-    // Função de cálculo
     function calc() {
       const V0 = parseFloat(document.getElementById('v0').value);
       let n = document.getElementById('n_select').value;
@@ -92,12 +87,13 @@
         n = parseInt(n, 10);
       }
       const P = parseFloat(document.getElementById('p').value);
-      const r = parseFloat(document.getElementById('r').value);
+      const pct = parseFloat(document.getElementById('cdipercent').value);
+      const r = cdiMensal * (pct / 100);
 
-      // Validação
+      // Validação dos campos
       if (isNaN(V0) || !n || isNaN(P) || isNaN(r)) {
         document.getElementById('res').innerHTML =
-          '<p style="color:red">Por favor, preencha todos os campos corretamente.</p>';
+          '<p style="color:red">Preencha todos os campos corretamente.</p>';
         return;
       }
 
@@ -113,7 +109,7 @@
         ? '👉 Melhor: Pagar à vista'
         : '👉 Melhor: Parcelar e investir';
 
-      // Exibir resultados
+      // Mostrar resultados
       document.getElementById('res').innerHTML =
         `<p>Total financiado: R$ ${F.toFixed(2)}</p>` +
         `<p>Juros totais: R$ ${juros.toFixed(2)}</p>` +
