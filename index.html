@@ -51,24 +51,30 @@
   <div class="result" id="res"></div>
 
   <script>
-    // Controle do campo “Outro” de parcelas
+    // Mostrar/ocultar campo “Outro” de parcelas
     document.getElementById('n_select').addEventListener('change', function(e) {
       document.getElementById('label_n_custom')
         .classList.toggle('hidden', e.target.value !== 'other');
     });
 
-    // Variável global para guardar o CDI mensal
+    // Variável global para guardar a taxa CDI mensal
     let cdiMensal = NaN;
 
-    // Busca CDI diário e converte para mensal (~21 dias úteis)
+    // Busca CDI diário do Banco Central e converte para taxa mensal (~21 dias úteis)
     async function fetchCDI() {
       const el = document.getElementById('cdi_valor');
       el.textContent = 'carregando…';
       try {
-        const resp = await fetch('https://brasilapi.com.br/api/cdi/v1');
+        const resp = await fetch(
+          'https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados/ultimos/1?formato=json'
+        );
         if (!resp.ok) throw new Error('status ' + resp.status);
-        const json = await resp.json();
-        const diario = parseFloat(json.valor);
+        const data = await resp.json();
+        let diario = parseFloat(data[0].valor.replace(',', '.'));
+        if (isNaN(diario)) throw new Error('valor CDI inválido');
+        // BCB retorna valor em %, convertendo para decimal
+        diario = diario / 100;
+        // Converte para taxa mensal (aprox. 21 dias úteis)
         cdiMensal = Math.pow(1 + diario, 21) - 1;
         el.textContent = (cdiMensal * 100).toFixed(2) + '%';
       } catch (err) {
@@ -78,17 +84,19 @@
     }
     window.addEventListener('load', fetchCDI);
 
+    // Função de cálculo
     function calc() {
-      const V0 = parseFloat(document.getElementById('v0').value);
-      let n = document.getElementById('n_select').value;
+      const V0  = parseFloat(document.getElementById('v0').value);
+      let n     = document.getElementById('n_select').value;
       if (n === 'other') {
         n = parseInt(document.getElementById('n_custom').value, 10);
       } else {
         n = parseInt(n, 10);
       }
-      const P = parseFloat(document.getElementById('p').value);
+      const P   = parseFloat(document.getElementById('p').value);
       const pct = parseFloat(document.getElementById('cdipercent').value);
-      const r = cdiMensal * (pct / 100);
+      // Calcula a taxa efetiva de investimento
+      const r   = cdiMensal * (pct / 100);
 
       // Validação dos campos
       if (isNaN(V0) || !n || isNaN(P) || isNaN(r)) {
@@ -97,7 +105,7 @@
         return;
       }
 
-      // Cálculo mês a mês
+      // Cálculo mês a mês dos juros
       const F = P * n;
       let juros = 0, pago = 0;
       for (let i = 0; i < n; i++) {
@@ -109,7 +117,7 @@
         ? '👉 Melhor: Pagar à vista'
         : '👉 Melhor: Parcelar e investir';
 
-      // Mostrar resultados
+      // Exibe os resultados
       document.getElementById('res').innerHTML =
         `<p>Total financiado: R$ ${F.toFixed(2)}</p>` +
         `<p>Juros totais: R$ ${juros.toFixed(2)}</p>` +
