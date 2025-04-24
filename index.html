@@ -72,9 +72,7 @@
         const data = await resp.json();
         let diario = parseFloat(data[0].valor.replace(',', '.'));
         if (isNaN(diario)) throw new Error('valor CDI inválido');
-        // BCB retorna valor em %, convertendo para decimal
         diario = diario / 100;
-        // Converte para taxa mensal (aprox. 21 dias úteis)
         cdiMensal = Math.pow(1 + diario, 21) - 1;
         el.textContent = (cdiMensal * 100).toFixed(2) + '%';
       } catch (err) {
@@ -95,13 +93,12 @@
       }
       const P   = parseFloat(document.getElementById('p').value);
       const pct = parseFloat(document.getElementById('cdipercent').value);
-      // Calcula a taxa efetiva de investimento
       const r   = cdiMensal * (pct / 100);
 
       // Validação dos campos
       if (isNaN(V0) || !n || isNaN(P) || isNaN(r)) {
         document.getElementById('res').innerHTML =
-          '<p style="color:red">Preencha todos os campos corretamente.</p>';
+          '<p style="color:red">PRENCHA TODOS OS CAMPOS CORRETAMENTE.</p>';
         return;
       }
 
@@ -114,14 +111,14 @@
       }
       const CL = F - juros;
       const decisao = CL > V0
-        ? '👉 Melhor: Pagar à vista'
-        : '👉 Melhor: Parcelar e investir';
+        ? '👉 MELHOR: PAGAR À VISTA'
+        : '👉 MELHOR: PARCELAR E INVESTIR';
 
-      // Exibe os resultados
+      // Exibe os resultados em caixa alta
       document.getElementById('res').innerHTML =
-        `<p>Total financiado: R$ ${F.toFixed(2)}</p>` +
-        `<p>Juros totais: R$ ${juros.toFixed(2)}</p>` +
-        `<p>Custo líquido: R$ ${CL.toFixed(2)}</p>` +
+        `<p>VALOR TOTAL PARCELADO: R$ ${F.toFixed(2)}</p>` +
+        `<p>RENDIMENTO TOTAL: R$ ${juros.toFixed(2)}</p>` +
+        `<p>CUSTO LÍQUIDO: R$ ${CL.toFixed(2)}</p>` +
         `<p><strong>${decisao}</strong></p>`;
     }
   </script>
