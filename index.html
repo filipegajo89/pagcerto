@@ -111,14 +111,14 @@
       }
       const CL = F - juros;
       const decisao = CL > V0
-        ? '👉 MELHOR: PAGAR À VISTA'
-        : '👉 MELHOR: PARCELAR E INVESTIR';
+        ? '👉 Melhor: Pagar à vista'
+        : '👉 Melhor: Parcelar e investir';
 
-      // Exibe os resultados em caixa alta
+      // Exibe os resultados
       document.getElementById('res').innerHTML =
-        `<p>VALOR TOTAL PARCELADO: R$ ${F.toFixed(2)}</p>` +
-        `<p>RENDIMENTO TOTAL: R$ ${juros.toFixed(2)}</p>` +
-        `<p>CUSTO LÍQUIDO: R$ ${CL.toFixed(2)}</p>` +
+        `<p>Total parcelado: R$ ${F.toFixed(2)}</p>` +
+        `<p>Rendimento total: R$ ${juros.toFixed(2)}</p>` +
+        `<p>Custo líquido: R$ ${CL.toFixed(2)}</p>` +
         `<p><strong>${decisao}</strong></p>`;
     }
   </script>
