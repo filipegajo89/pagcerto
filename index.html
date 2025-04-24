@@ -1,1 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Simulador Parcelar ou À Vista</title>
+  <style>
+    body { font-family: sans-serif; max-width: 360px; margin: 2rem auto; padding: 0 1rem; }
+    h1 { text-align: center; }
+    label { display: block; margin: .75rem 0 0.25rem; }
+    input, textarea, button { width: 100%; padding: .5rem; font-size: 1rem; }
+    textarea { height: 4rem; font-family: monospace; }
+    .result { margin-top: 1.25rem; background: #f9f9f9; padding: .75rem; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h1>Parcelar ou À Vista?</h1>
+  <label>Valor à vista (R$):
+    <input id="v0" type="number" step="0.01" value="469.90">
+  </label>
+  <label>Digite os valores das parcelas (separados por vírgula):
+    <textarea id="parcelas">73.42,73.42,73.42,73.42,73.42,73.42,73.42,73.42</textarea>
+  </label>
+  <label>CDI mensal (decimal):
+    <input id="r" type="number" step="0.0001" value="0.0104">
+  </label>
+  <button onclick="calc()">Calcular</button>
+  <div class="result" id="res"></div>
+  <script>
+    function calc() {
+      const V0 = parseFloat(document.getElementById('v0').value);
+      const r  = parseFloat(document.getElementById('r').value);
+      const parcelas = document.getElementById('parcelas').value
+        .split(',').map(x => parseFloat(x.trim())).filter(x => !isNaN(x));
+      const F = parcelas.reduce((s, p) => s + p, 0);
+      let juros = 0, pago = 0;
+      for (let p of parcelas) {
+        pago += p;
+        juros += Math.max(F - pago, 0) * r;
+      }
+      const CL = F - juros;
+      const decisao = CL > V0
+        ? '👉 Melhor: Pagar à vista'
+        : '👉 Melhor: Parcelar e investir';
+      document.getElementById('res').innerHTML =
+        `<p>Total: R$ ${F.toFixed(2)}</p>` +
+        `<p>Juros: R$ ${juros.toFixed(2)}</p>` +
+        `<p>Custo líquido: R$ ${CL.toFixed(2)}</p>` +
+        `<p><strong>${decisao}</strong></p>`;
+    }
+  </script>
+</body>
+</html>
 
