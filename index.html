@@ -3,20 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Simulador Financeiro</title>
-  <link rel="icon" href="favicon.png" type="image/png">
-  <link rel="shortcut icon" href="favicon.png" type="image/png">
+  <title>PagCerto</title>
   <!-- Google Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
     /* Tema de cores e variáveis */
     :root {
-      --color-bg: #f4f6f8;
+      --color-bg: #f0f2f5;
       --color-card: #ffffff;
-      --color-primary: #0052cc;
-      --color-accent: #ff8c00;
+      --color-primary: #00214D;
+      --color-accent: #FFB400;
       --color-text: #333333;
+      --color-border: #cccccc;
       --border-radius: 8px;
       --box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
@@ -30,14 +29,15 @@
     }
     h1 {
       text-align: center;
-      margin-top: 1.5rem;
+      margin-top: 2rem;
       font-weight: 500;
+      color: var(--color-primary);
     }
     .card {
       background: var(--color-card);
       border-radius: var(--border-radius);
       box-shadow: var(--box-shadow);
-      padding: 1.25rem;
+      padding: 1.5rem;
       margin: 1rem;
     }
     .form-row {
@@ -57,12 +57,23 @@
       display: flex;
       flex-direction: column;
       font-size: 0.9rem;
+      color: var(--color-primary);
     }
     .input-group {
       position: relative;
     }
     .input-group input {
-      padding-right: 3rem;
+      width: 100%;
+      padding: 0.5rem;
+      padding-right: 2.5rem;
+      font-size: 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius);
+      transition: border 0.2s ease;
+    }
+    .input-group input:focus {
+      outline: none;
+      border-color: var(--color-primary);
     }
     .suffix {
       position: absolute;
@@ -71,35 +82,32 @@
       transform: translateY(-50%);
       color: var(--color-text);
       font-weight: 500;
+      visibility: hidden;
       pointer-events: none;
     }
-    label .material-icons {
-      font-size: 18px;
-      vertical-align: middle;
-      margin-right: 4px;
-      color: var(--color-primary);
-    }
-    input, select, button {
+    select, button {
       margin-top: 0.25rem;
       padding: 0.5rem;
       font-size: 1rem;
-      border: 1px solid #ccc;
+      border: 1px solid var(--color-border);
       border-radius: var(--border-radius);
       transition: border 0.2s ease;
     }
-    input:focus, select:focus {
+    select:focus {
       outline: none;
       border-color: var(--color-primary);
     }
     button {
-      display: block;
-      width: 100%;
       background: var(--color-primary);
       color: #fff;
       border: none;
       cursor: pointer;
       font-weight: 500;
       margin-top: 1rem;
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border-radius: var(--border-radius);
       transition: background 0.2s ease;
     }
     button:hover {
@@ -121,12 +129,12 @@
   </style>
 </head>
 <body>
-  <h1>Simulador Financeiro</h1>
+  <h1>PagCerto</h1>
 
   <div class="card">
     <div class="form-row">
       <label>
-        <span><i class="material-icons">attach_money</i>Preço à vista (R$):</span>
+        <span><i class="material-icons">attach_money</i>Preço à vista:</span>
         <div class="input-group">
           <input id="v0" type="text" placeholder="Ex: 469,90">
           <span class="suffix">R$</span>
@@ -151,7 +159,7 @@
       </label>
 
       <label>
-        <span><i class="material-icons">view_module</i>Valor da parcela (R$):</span>
+        <span><i class="material-icons">view_module</i>Valor da parcela:</span>
         <div class="input-group">
           <input id="p" type="text" placeholder="Ex: 73,42">
           <span class="suffix">R$</span>
@@ -163,9 +171,8 @@
         <input id="cdipercent" type="number" step="0.1" value="100">
       </label>
     </div>
-
     <div class="small">CDI mensal atual: <span id="cdi_valor">—</span></div>
-    <button onclick="calc()">Calcular</button>
+    <button id="btnCalc">Calcular</button>
   </div>
 
   <div class="card">
@@ -173,11 +180,24 @@
   </div>
 
   <script>
+    // Toggle campo "Outro"
     document.getElementById('n_select').addEventListener('change', function(e) {
       document.getElementById('label_n_custom')
         .classList.toggle('hidden', e.target.value !== 'other');
     });
 
+    // Mostrar sufixo R$ após preenchimento
+    ['v0', 'p'].forEach(id => {
+      const input = document.getElementById(id);
+      const suffix = input.parentElement.querySelector('.suffix');
+      const toggleSuffix = () => {
+        suffix.style.visibility = input.value.trim() ? 'visible' : 'hidden';
+      };
+      input.addEventListener('input', toggleSuffix);
+      toggleSuffix();
+    });
+
+    // Buscar CDI
     let cdiMensal = NaN;
     async function fetchCDI() {
       const el = document.getElementById('cdi_valor');
@@ -186,8 +206,7 @@
         const resp = await fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados/ultimos/1?formato=json');
         if (!resp.ok) throw new Error(resp.status);
         const data = await resp.json();
-        let diario = parseFloat(data[0].valor.replace(',', '.'));
-        diario = diario / 100;
+        let diario = parseFloat(data[0].valor.replace(',', '.')) / 100;
         cdiMensal = Math.pow(1 + diario, 21) - 1;
         el.textContent = (cdiMensal * 100).toFixed(2) + '%';
       } catch (err) {
@@ -197,39 +216,34 @@
     }
     window.addEventListener('load', fetchCDI);
 
-    function calc() {
-      const V0raw = document.getElementById('v0').value.trim();
-      const Praw  = document.getElementById('p').value.trim();
-      const V0 = parseFloat(V0raw.replace(',', '.'));
-      const P  = parseFloat(Praw.replace(',', '.'));
+    // Cálculo
+    document.getElementById('btnCalc').addEventListener('click', function() {
+      const rawV0 = document.getElementById('v0').value.replace(',', '.').trim();
+      const rawP  = document.getElementById('p').value.replace(',', '.').trim();
+      const V0 = parseFloat(rawV0);
+      const P  = parseFloat(rawP);
       let n = document.getElementById('n_select').value;
       n = n === 'other' ? parseInt(document.getElementById('n_custom').value, 10) : parseInt(n, 10);
       const pct = parseFloat(document.getElementById('cdipercent').value);
       const r = cdiMensal * (pct / 100);
 
+      const resEl = document.getElementById('res');
       if (isNaN(V0) || !n || isNaN(P) || isNaN(r)) {
-        document.getElementById('res').innerHTML =
-          '<p class="error">Preencha todos os campos corretamente.</p>';
+        resEl.innerHTML = '<p class="error">Preencha todos os campos corretamente.</p>';
         return;
       }
-
       const F = P * n;
       let juros = 0, pago = 0;
-      for (let i = 0; i < n; i++) {
-        pago += P;
-        juros += Math.max(F - pago, 0) * r;
-      }
+      for (let i = 0; i < n; i++) { pago += P; juros += Math.max(F - pago, 0) * r; }
       const CL = F - juros;
-      const decisao = CL > V0
-        ? '👉 Melhor: Pagar à vista'
-        : '👉 Melhor: Parcelar e investir';
+      const decisao = CL > V0 ? '👉 Melhor: Pagar à vista' : '👉 Melhor: Parcelar e investir';
 
-      document.getElementById('res').innerHTML =
+      resEl.innerHTML =
         `<p><strong>Total parcelado:</strong> R$ ${F.toFixed(2)}</p>` +
         `<p><strong>Rendimento total:</strong> R$ ${juros.toFixed(2)}</p>` +
         `<p><strong>Custo líquido:</strong> R$ ${CL.toFixed(2)}</p>` +
         `<p style="margin-top:1rem;"><strong>${decisao}</strong></p>`;
-    }
+    });
   </script>
 </body>
 </html>
