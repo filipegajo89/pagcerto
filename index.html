@@ -59,11 +59,18 @@
       font-size: 0.9rem;
       color: var(--color-primary);
     }
+    /* forçar inputs, selects e grupos a ocuparem 100% */
+    .input-group,
+    .input-group input,
+    .input-group select,
+    select,
+    input {
+      width: 100% !important;
+    }
     .input-group {
       position: relative;
     }
     .input-group input {
-      width: 100%;
       padding: 0.5rem;
       padding-right: 2.5rem;
       font-size: 1rem;
@@ -85,7 +92,7 @@
       visibility: hidden;
       pointer-events: none;
     }
-    select, button {
+    select {
       margin-top: 0.25rem;
       padding: 0.5rem;
       font-size: 1rem;
