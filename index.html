@@ -19,6 +19,7 @@
       --border-radius: 8px;
       --box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       --field-height: 3rem;
+      --logo-size: 80px;
     }
     * { box-sizing: border-box; }
     body {
@@ -28,10 +29,20 @@
       color: var(--color-text);
       font-family: 'Roboto', sans-serif;
     }
-    h1 {
+    header {
       text-align: center;
-      margin-top: 2rem;
+      padding: 2rem 1rem 0;
+    }
+    .logo {
+      width: var(--logo-size);
+      height: var(--logo-size);
+      object-fit: contain;
+      margin: 0 auto 1rem;
+    }
+    h1 {
+      margin: 0;
       font-weight: 500;
+      font-size: 2rem;
       color: var(--color-primary);
     }
     .card {
@@ -60,7 +71,6 @@
       font-size: 0.9rem;
       color: var(--color-primary);
     }
-    /* Centralizar ícone e texto do label */
     label > span {
       display: flex;
       align-items: center;
@@ -71,10 +81,9 @@
       font-size: 1.25rem;
       color: var(--color-primary);
     }
-    /* Campos, selects e grupos com altura uniforme */
     input, select {
       height: var(--field-height);
-      width: 100%;
+      width: 100% !important;
       padding: 0 0.75rem;
       font-size: 1rem;
       border: 1px solid var(--color-border);
@@ -137,7 +146,10 @@
   </style>
 </head>
 <body>
-  <h1>PagCerto</h1>
+  <header>
+    <img src="favicon.png" alt="Logo PagCerto" class="logo">
+    <h1>PagCerto</h1>
+  </header>
 
   <div class="card">
     <div class="form-row">
@@ -157,7 +169,7 @@
           <option value="4">4</option><option value="5">5</option><option value="6">6</option>
           <option value="7">7</option><option value="8">8</option><option value="9">9</option>
           <option value="10">10</option><option value="11">11</option><option value="12">12</option>
-          <option value="other">Outro</option>
+          <option value="other">Outra</option>
         </select>
       </label>
 
@@ -188,12 +200,10 @@
   </div>
 
   <script>
-    // Toggle campo "Outro" de parcelas
+    // Toggle campo "Outra" de parcelas
     const nSelect = document.getElementById('n_select');
     const labelNCustom = document.getElementById('label_n_custom');
-    function toggleNCustom() {
-      labelNCustom.classList.toggle('hidden', nSelect.value !== 'other');
-    }
+    function toggleNCustom() { labelNCustom.classList.toggle('hidden', nSelect.value !== 'other'); }
     nSelect.addEventListener('change', toggleNCustom);
     window.addEventListener('load', toggleNCustom);
 
@@ -201,9 +211,7 @@
     ['v0', 'p'].forEach(id => {
       const input = document.getElementById(id);
       const suffix = input.parentElement.querySelector('.suffix');
-      function toggleSuffix() {
-        suffix.style.visibility = input.value.trim() ? 'visible' : 'hidden';
-      }
+      function toggleSuffix() { suffix.style.visibility = input.value.trim() ? 'visible' : 'hidden'; }
       input.addEventListener('input', toggleSuffix);
       toggleSuffix();
     });
@@ -211,8 +219,7 @@
     // Buscar CDI
     let cdiMensal = NaN;
     async function fetchCDI() {
-      const el = document.getElementById('cdi_valor');
-      el.textContent = 'carregando…';
+      const el = document.getElementById('cdi_valor'); el.textContent = 'carregando…';
       try {
         const resp = await fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados/ultimos/1?formato=json');
         if (!resp.ok) throw new Error(resp.status);
@@ -220,34 +227,26 @@
         let diario = parseFloat(data[0].valor.replace(',', '.')) / 100;
         cdiMensal = Math.pow(1 + diario, 21) - 1;
         el.textContent = (cdiMensal * 100).toFixed(2) + '%';
-      } catch (err) {
-        el.textContent = 'não disponível';
-        console.error('Erro CDI:', err);
-      }
+      } catch (err) { el.textContent = 'não disponível'; console.error('Erro CDI:', err); }
     }
     window.addEventListener('load', fetchCDI);
 
     // Cálculo
-    document.getElementById('btnCalc').addEventListener('click', function() {
+    document.getElementById('btnCalc').addEventListener('click', () => {
       const rawV0 = document.getElementById('v0').value.replace(',', '.').trim();
       const rawP  = document.getElementById('p').value.replace(',', '.').trim();
-      const V0 = parseFloat(rawV0);
-      const P  = parseFloat(rawP);
+      const V0 = parseFloat(rawV0); const P = parseFloat(rawP);
       let n = nSelect.value === 'other' ? parseInt(document.getElementById('n_custom').value, 10) : parseInt(nSelect.value, 10);
       const pct = parseFloat(document.getElementById('cdipercent').value);
       const r = cdiMensal * (pct / 100);
-
       const resEl = document.getElementById('res');
       if (isNaN(V0) || !n || isNaN(P) || isNaN(r)) {
-        resEl.innerHTML = '<p class="error">Preencha todos os campos corretamente.</p>';
-        return;
+        resEl.innerHTML = '<p class="error">Preencha todos os campos corretamente.</p>'; return;
       }
-      const F = P * n;
-      let juros = 0, pago = 0;
+      const F = P * n; let juros = 0, pago = 0;
       for (let i = 0; i < n; i++) { pago += P; juros += Math.max(F - pago, 0) * r; }
       const CL = F - juros;
       const decisao = CL > V0 ? '👉 Melhor: Pagar à vista' : '👉 Melhor: Parcelar e investir';
-
       resEl.innerHTML =
         `<p><strong>Total parcelado:</strong> R$ ${F.toFixed(2)}</p>` +
         `<p><strong>Rendimento total:</strong> R$ ${juros.toFixed(2)}</p>` +
