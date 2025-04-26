@@ -126,6 +126,7 @@
       color: #e53935;
       font-weight: 500;
     }
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
@@ -180,19 +181,22 @@
   </div>
 
   <script>
-    // Toggle campo "Outro"
-    document.getElementById('n_select').addEventListener('change', function(e) {
-      document.getElementById('label_n_custom')
-        .classList.toggle('hidden', e.target.value !== 'other');
-    });
+    // Toggle campo "Outro" de parcelas
+    const nSelect = document.getElementById('n_select');
+    const labelNCustom = document.getElementById('label_n_custom');
+    function toggleNCustom() {
+      labelNCustom.classList.toggle('hidden', nSelect.value !== 'other');
+    }
+    nSelect.addEventListener('change', toggleNCustom);
+    window.addEventListener('load', toggleNCustom);
 
     // Mostrar sufixo R$ após preenchimento
     ['v0', 'p'].forEach(id => {
       const input = document.getElementById(id);
       const suffix = input.parentElement.querySelector('.suffix');
-      const toggleSuffix = () => {
+      function toggleSuffix() {
         suffix.style.visibility = input.value.trim() ? 'visible' : 'hidden';
-      };
+      }
       input.addEventListener('input', toggleSuffix);
       toggleSuffix();
     });
@@ -222,8 +226,7 @@
       const rawP  = document.getElementById('p').value.replace(',', '.').trim();
       const V0 = parseFloat(rawV0);
       const P  = parseFloat(rawP);
-      let n = document.getElementById('n_select').value;
-      n = n === 'other' ? parseInt(document.getElementById('n_custom').value, 10) : parseInt(n, 10);
+      let n = nSelect.value === 'other' ? parseInt(document.getElementById('n_custom').value, 10) : parseInt(nSelect.value, 10);
       const pct = parseFloat(document.getElementById('cdipercent').value);
       const r = cdiMensal * (pct / 100);
 
