@@ -73,7 +73,33 @@
     .result p { margin: 0.75rem 0; line-height: 1.4; }
     .error { color: #e53935; font-weight: 500; }
     .hidden { display: none !important; }
-  </style>
+    /* Override para prefix/suffix dentro do campo */
+  .input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    height: var(--field-height);
+    padding: 0 var(--input-padding);
+    background: var(--color-card);
+  }
+  .input-group input {
+    border: none !important;
+    outline: none;
+    height: 100%;
+    flex: 1;
+    padding: 0;
+    margin: 0;
+    font-size: 1rem;
+  }
+  .input-group .prefix,
+  .input-group .suffix {
+    position: static;
+    transform: none;
+    margin: 0 var(--input-padding);
+    visibility: visible;
+  }
+</style>
 </head>
 <body>
   <header>
