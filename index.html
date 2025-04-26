@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
-    /* Tema de cores e variáveis */
     :root {
       --color-bg: #f0f2f5;
       --color-card: #ffffff;
@@ -20,134 +19,40 @@
       --box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       --field-height: 3rem;
       --logo-size: 80px;
+      --input-padding: 0.75rem;
     }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      padding: 0;
-      background: var(--color-bg);
-      color: var(--color-text);
-      font-family: 'Roboto', sans-serif;
-    }
-    header {
-      text-align: center;
-      padding: 2rem 1rem 0;
-    }
-    .logo {
-      width: var(--logo-size);
-      height: var(--logo-size);
-      object-fit: contain;
-      margin: 0 auto 1rem;
-    }
-    h1 {
-      margin: 0;
-      font-weight: 500;
-      font-size: 2rem;
-      color: var(--color-primary);
-    }
-    .card {
-      background: var(--color-card);
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      padding: 1.5rem;
-      margin: 1rem;
-    }
-    .form-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    .form-row > label {
-      flex: 1 1 100%;
-    }
-    @media (min-width: 500px) {
-      .form-row > label {
-        flex: 1 1 48%;
-      }
-    }
-    label {
-      display: flex;
-      flex-direction: column;
-      font-size: 0.9rem;
-      color: var(--color-primary);
-    }
-    label > span {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.25rem;
-    }
-    label .material-icons {
-      font-size: 1.25rem;
-      color: var(--color-primary);
-    }
-    input, select {
-      height: var(--field-height);
-      width: 100% !important;
-      padding: 0 0.75rem;
-      font-size: 1rem;
-      border: 1px solid var(--color-border);
-      border-radius: var(--border-radius);
-      transition: border 0.2s ease;
-    }
-    input:focus, select:focus {
-      outline: none;
-      border-color: var(--color-primary);
-    }
-    .input-group {
-      position: relative;
-      width: 100%;
-      height: var(--field-height);
-    }
-    .input-group input {
-      padding-right: 2.5rem;
-      height: var(--field-height);
-    }
-    .suffix {
-      position: absolute;
-      right: 0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--color-text);
-      font-weight: 500;
-      visibility: hidden;
-      pointer-events: none;
-    }
-    button {
-      background: var(--color-primary);
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      font-weight: 500;
-      margin-top: 1rem;
-      width: 100%;
-      height: var(--field-height);
-      font-size: 1rem;
-      border-radius: var(--border-radius);
-      transition: background 0.2s ease;
-    }
-    button:hover {
-      background: var(--color-accent);
-    }
-    .small {
-      font-size: 0.85rem;
-      color: #555;
-      margin-top: 0.5rem;
-    }
-    .result p {
-      margin: 0.75rem 0;
-      line-height: 1.4;
-    }
-    .error {
-      color: #e53935;
-      font-weight: 500;
-    }
+    body { margin: 0; padding: 0; background: var(--color-bg); color: var(--color-text); font-family: 'Roboto', sans-serif; }
+    header { text-align: center; padding: 2rem 1rem 0; }
+    .logo { width: var(--logo-size); height: var(--logo-size); object-fit: contain; margin: 0 auto 1rem; }
+    h1 { margin: 0; font-weight: 500; font-size: 2rem; color: var(--color-primary); }
+    .card { background: var(--color-card); border-radius: var(--border-radius); box-shadow: var(--box-shadow); padding: 1.5rem; margin: 1rem; }
+    .form-row { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .form-row > label { flex: 1 1 100%; }
+    @media (min-width: 500px) { .form-row > label { flex: 1 1 48%; } }
+    label { display: flex; flex-direction: column; font-size: 0.9rem; color: var(--color-primary); }
+    label > span { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem; }
+    label .material-icons { font-size: 1.25rem; color: var(--color-primary); }
+    input, select, button { height: var(--field-height); width: 100%; font-size: 1rem; border: 1px solid var(--color-border); border-radius: var(--border-radius); transition: border 0.2s ease; }
+    input:focus, select:focus { outline: none; border-color: var(--color-primary); }
+    select { padding: 0 var(--input-padding); margin-top: 0.25rem; }
+    button { background: var(--color-primary); color: #fff; border: none; cursor: pointer; font-weight: 500; margin-top: 1rem; width: 100%; font-size: 1rem; border-radius: var(--border-radius); transition: background 0.2s ease; }
+    button:hover { background: var(--color-accent); }
+    .input-group { position: relative; }
+    .prefix, .suffix { position: absolute; top: 50%; transform: translateY(-50%); color: var(--color-text); font-weight: 500; pointer-events: none; }
+    .prefix { left: var(--input-padding); }
+    .suffix { right: var(--input-padding); }
+    input.with-prefix { padding-left: 2.5rem; }
+    input.with-suffix { padding-right: 2.5rem; }
+    .small { font-size: 0.85rem; color: #555; margin-top: 0.5rem; }
+    .result p { margin: 0.75rem 0; line-height: 1.4; }
+    .error { color: #e53935; font-weight: 500; }
     .hidden { display: none !important; }
   </style>
 </head>
 <body>
   <header>
-    <img src="favicon.png" alt="Logo PagCerto" class="logo">
+    <img src="favicon.png" alt="PagCerto Logo" class="logo">
     <h1>PagCerto</h1>
   </header>
 
@@ -156,8 +61,8 @@
       <label>
         <span><i class="material-icons">attach_money</i>Preço à vista:</span>
         <div class="input-group">
-          <input id="v0" type="text" placeholder="Ex: 469,90">
-          <span class="suffix">R$</span>
+          <span class="prefix">R$</span>
+          <input id="v0" type="text" class="with-prefix" placeholder="1.000,00" data-currency>
         </div>
       </label>
 
@@ -175,20 +80,23 @@
 
       <label id="label_n_custom" class="hidden">
         <span><i class="material-icons">edit</i>Digite o número de parcelas:</span>
-        <input id="n_custom" type="number" min="1" placeholder="Ex: 18">
+        <input id="n_custom" type="number" min="1">
       </label>
 
       <label>
         <span><i class="material-icons">view_module</i>Valor da parcela:</span>
         <div class="input-group">
-          <input id="p" type="text" placeholder="Ex: 73,42">
-          <span class="suffix">R$</span>
+          <span class="prefix">R$</span>
+          <input id="p" type="text" class="with-prefix" placeholder="73,42" data-currency>
         </div>
       </label>
 
       <label>
         <span><i class="material-icons">trending_up</i>Rendimento (% do CDI):</span>
-        <input id="cdipercent" type="number" step="0.1" value="100">
+        <div class="input-group">
+          <input id="cdipercent" type="number" step="0.1" class="with-suffix" value="100">
+          <span class="suffix">%</span>
+        </div>
       </label>
     </div>
     <div class="small">CDI mensal atual: <span id="cdi_valor">—</span></div>
@@ -200,20 +108,32 @@
   </div>
 
   <script>
-    // Toggle campo "Outra" de parcelas
+    // Toggle campo "Outra"
     const nSelect = document.getElementById('n_select');
     const labelNCustom = document.getElementById('label_n_custom');
     function toggleNCustom() { labelNCustom.classList.toggle('hidden', nSelect.value !== 'other'); }
     nSelect.addEventListener('change', toggleNCustom);
     window.addEventListener('load', toggleNCustom);
 
-    // Mostrar sufixo R$ após preenchimento
-    ['v0', 'p'].forEach(id => {
-      const input = document.getElementById(id);
-      const suffix = input.parentElement.querySelector('.suffix');
-      function toggleSuffix() { suffix.style.visibility = input.value.trim() ? 'visible' : 'hidden'; }
-      input.addEventListener('input', toggleSuffix);
-      toggleSuffix();
+    // Formatação de campos numéricos
+    document.querySelectorAll('[data-currency]').forEach(input => {
+      // Permitir apenas números, vírgula e ponto
+      input.setAttribute('inputmode','decimal');
+      input.addEventListener('input', () => {
+        input.value = input.value.replace(/[^0-9,\.]/g, '');
+      });
+      // Ao perder foco, formata para pt-BR
+      input.addEventListener('blur', () => {
+        const v = input.value.replace(/\./g,'').replace(',', '.');
+        const num = parseFloat(v);
+        if (!isNaN(num)) {
+          input.value = num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+      });
+      // Ao focar, remove formatação
+      input.addEventListener('focus', () => {
+        input.value = input.value.replace(/\./g,'').replace(',', '.');
+      });
     });
 
     // Buscar CDI
@@ -224,17 +144,17 @@
         const resp = await fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados/ultimos/1?formato=json');
         if (!resp.ok) throw new Error(resp.status);
         const data = await resp.json();
-        let diario = parseFloat(data[0].valor.replace(',', '.')) / 100;
+        const diario = parseFloat(data[0].valor.replace(',', '.')) / 100;
         cdiMensal = Math.pow(1 + diario, 21) - 1;
-        el.textContent = (cdiMensal * 100).toFixed(2) + '%';
+        el.textContent = (cdiMensal * 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) + '%';
       } catch (err) { el.textContent = 'não disponível'; console.error('Erro CDI:', err); }
     }
     window.addEventListener('load', fetchCDI);
 
     // Cálculo
     document.getElementById('btnCalc').addEventListener('click', () => {
-      const rawV0 = document.getElementById('v0').value.replace(',', '.').trim();
-      const rawP  = document.getElementById('p').value.replace(',', '.').trim();
+      const rawV0 = document.getElementById('v0').value.replace(/\./g,'').replace(',', '.').trim();
+      const rawP  = document.getElementById('p').value.replace(/\./g,'').replace(',', '.').trim();
       const V0 = parseFloat(rawV0); const P = parseFloat(rawP);
       let n = nSelect.value === 'other' ? parseInt(document.getElementById('n_custom').value, 10) : parseInt(nSelect.value, 10);
       const pct = parseFloat(document.getElementById('cdipercent').value);
@@ -248,9 +168,9 @@
       const CL = F - juros;
       const decisao = CL > V0 ? '👉 Melhor: Pagar à vista' : '👉 Melhor: Parcelar e investir';
       resEl.innerHTML =
-        `<p><strong>Total parcelado:</strong> R$ ${F.toFixed(2)}</p>` +
-        `<p><strong>Rendimento total:</strong> R$ ${juros.toFixed(2)}</p>` +
-        `<p><strong>Custo líquido:</strong> R$ ${CL.toFixed(2)}</p>` +
+        `<p><strong>Total parcelado:</strong> R$ ${F.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>` +
+        `<p><strong>Rendimento total:</strong> R$ ${juros.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>` +
+        `<p><strong>Custo líquido:</strong> R$ ${CL.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>` +
         `<p style="margin-top:1rem;"><strong>${decisao}</strong></p>`;
     });
   </script>
