@@ -5,17 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PagCerto</title>
   <!-- Google Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Poppins:wght@600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
     :root {
       --color-bg: #f0f2f5;
       --color-card: #ffffff;
       --color-primary: #142633;
+      --color-gradient-from: #142633;
+      --color-gradient-to: #1e3248;
       --color-accent: #FFB400;
       --color-text: #333333;
-      --color-border: #cccccc;
-      --border-radius: 8px;
+      --color-border: #d1d5db;
+      --border-radius: 12px;
       --box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       --field-height: 3rem;
       --logo-size: 80px;
@@ -27,27 +29,44 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: var(--color-primary);
-      padding: 1.5rem 1rem;
+      background: linear-gradient(135deg, var(--color-gradient-from), var(--color-gradient-to));
+      padding: 2.5rem 1rem;
       border-bottom-left-radius: var(--border-radius);
       border-bottom-right-radius: var(--border-radius);
     }
     .logo { width: var(--logo-size); height: var(--logo-size); object-fit: contain; }
-    .card { background: var(--color-card); border-radius: var(--border-radius); box-shadow: var(--box-shadow); padding: 1.5rem; margin: 1rem; }
+    .card {
+      background: var(--color-card);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 2rem;
+      margin: 1rem;
+    }
+    h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      color: var(--color-primary);
+    }
     .form-row { display: flex; flex-wrap: wrap; gap: 1rem; }
     .form-row > label { flex: 1 1 100%; }
     @media (min-width: 500px) { .form-row > label { flex: 1 1 48%; } }
-    label { display: flex; flex-direction: column; font-size: 0.9rem; color: var(--color-primary); }
-    label > span { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem; }
-    label .material-icons { font-size: 1.25rem; color: var(--color-primary); }
+    label { display: flex; flex-direction: column; font-size: 1rem; color: var(--color-primary); }
+    label > span { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+    label .material-icons { font-size: 1.5rem; }
     .input-group {
       display: flex;
       align-items: center;
       border: 1px solid var(--color-border);
       border-radius: var(--border-radius);
       height: var(--field-height);
-      padding: 0 0.5rem;
+      padding: 0 0.75rem;
       background: var(--color-card);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-group:focus-within {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px rgba(20, 38, 51, 0.2);
     }
     .input-group input {
       border: none;
@@ -57,9 +76,13 @@
       padding: 0;
       font-size: 1rem;
     }
+    .input-group input::placeholder {
+      color: #999;
+      font-style: italic;
+    }
     .input-group .prefix,
     .input-group .suffix {
-      margin: 0 0.25rem;
+      margin: 0 0.5rem;
       visibility: visible;
       color: var(--color-text);
       font-weight: 500;
@@ -70,22 +93,24 @@
       font-size: 1rem;
       border: 1px solid var(--color-border);
       border-radius: var(--border-radius);
-      transition: border 0.2s ease;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
+    select:focus, button:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 2px rgba(20, 38, 51, 0.2); }
     select { padding: 0 var(--input-padding); margin-top: 0.25rem; }
     button {
       background: var(--color-primary);
       color: #fff;
       border: none;
       cursor: pointer;
-      font-weight: 500;
+      font-weight: 600;
       margin-top: 1rem;
       border-radius: var(--border-radius);
-      transition: background 0.2s ease;
+      transition: background 0.2s, transform 0.1s;
     }
-    button:hover { background: var(--color-accent); }
-    .small { font-size: 0.85rem; color: #555; margin-top: 0.5rem; }
-    .result p { margin: 0.75rem 0; line-height: 1.4; }
+    button:hover { background: #0d1f3a; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    button:active { transform: scale(0.98); }
+    .small { font-size: 0.9rem; color: #555; margin-top: 0.5rem; }
+    .result p { margin: 0.75rem 0; line-height: 1.4; font-size: 1.125rem; font-weight: 500; }
     .error { color: #e53935; font-weight: 500; }
     .hidden { display: none !important; }
     /* Gráficos */
@@ -109,7 +134,7 @@
         <span><i class="material-icons">attach_money</i>Preço à vista:</span>
         <div class="input-group">
           <span class="prefix">R$</span>
-          <input id="v0" type="text" data-currency>
+          <input id="v0" type="text" placeholder="1.000,00" data-currency>
         </div>
       </label>
       <label>
@@ -125,19 +150,19 @@
       </label>
       <label id="label_n_custom" class="hidden">
         <span><i class="material-icons">edit</i>Digite o número de parcelas:</span>
-        <input id="n_custom" type="text" inputmode="numeric">
+        <input id="n_custom" type="text" inputmode="numeric" placeholder="Ex: 18">
       </label>
       <label>
         <span><i class="material-icons">view_module</i>Valor da parcela:</span>
         <div class="input-group">
           <span class="prefix">R$</span>
-          <input id="p" type="text" data-currency>
+          <input id="p" type="text" placeholder="73,42" data-currency>
         </div>
       </label>
       <label>
         <span><i class="material-icons">trending_up</i>Rendimento (% do CDI):</span>
         <div class="input-group">
-          <input id="cdipercent" type="text" inputmode="numeric">
+          <input id="cdipercent" type="text" placeholder="100" inputmode="numeric">
           <span class="suffix">%</span>
         </div>
       </label>
@@ -147,9 +172,9 @@
   </div>
 
   <div class="card"><div class="result" id="res"></div></div>
-  <div class="card"><div id="chart-line"></div></div>
-  <div class="card" style="margin-top:0;"><div id="chart-bar"></div></div>
-  <div class="card" style="margin-top:0;"><div id="chart-donut"></div></div>
+  <div class="card"><h2>Crescimento do Saldo</h2><div id="chart-line"></div></div>
+  <div class="card"><h2>Comparativo de Custos</h2><div id="chart-bar"></div></div>
+  <div class="card"><h2>Composição de Juros</h2><div id="chart-donut"></div></div>
 
   <!-- ApexCharts -->
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -233,13 +258,13 @@
       new ApexCharts(document.querySelector('#chart-bar'),{
         chart:{id:'bar-chart',type:'bar',toolbar:{show:false}},
         series:[{name:'À vista',data:[V0]},{name:'Parcelado (líquido)',data:[CL]}],
-        xaxis:{categories:['Custo']},plotOptions:{bar:{columnWidth:'50%',endingShape:'rounded'}},colors:['#00214D','#FFB400'],dataLabels:{enabled:false},grid:{borderColor:'#e0e0e0'},tooltip:{y:{formatter:v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}}
+        xaxis:{categories:['Custo']},plotOptions:{bar:{columnWidth:'50%',endingShape:'rounded'}},colors:['#00214D','#FFB400'],dataLabels:{enabled:true,position:'top',style:{fontSize:'0.9rem',fontWeight:'500'}},grid:{borderColor:'#e0e0e0'},tooltip:{y:{formatter:v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}}
       }).render();
       // Donut Chart
       ApexCharts.exec('donut-chart','destroy');
       new ApexCharts(document.querySelector('#chart-donut'),{
         chart:{id:'donut-chart',type:'donut',toolbar:{show:false}},
-        series:[CL,juros],labels:['Capital Líquido','Juros Totais'],colors:['#00214D','#FFB400'],legend:{position:'bottom'},dataLabels:{formatter:(val)=>val.toFixed(1)+'%'}
+        series:[CL,juros],labels:['Capital Líquido','Juros Totais'],colors:['#00214D','#FFB400'],legend:{position:'bottom'},dataLabels:{formatter:(val)=>val.toFixed(1)+'%'},plotOptions:{pie:{donut:{labels:{show:true,name:{show:true},value:{show:true,formatter:(val)=>val.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}}}}}
       }).render();
     });
   </script>
