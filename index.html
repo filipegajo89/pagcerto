@@ -33,17 +33,20 @@
     label { display: flex; flex-direction: column; font-size: 0.9rem; color: var(--color-primary); }
     label > span { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem; }
     label .material-icons { font-size: 1.25rem; color: var(--color-primary); }
-    input, select, button { height: var(--field-height); width: 100%; font-size: 1rem; border: 1px solid var(--color-border); border-radius: var(--border-radius); transition: border 0.2s ease; }
+    input, select, button { height: var(--field-height); width: 100% !important; font-size: 1rem; border: 1px solid var(--color-border); border-radius: var(--border-radius); transition: border 0.2s ease; }
     input:focus, select:focus { outline: none; border-color: var(--color-primary); }
     select { padding: 0 var(--input-padding); margin-top: 0.25rem; }
     button { background: var(--color-primary); color: #fff; border: none; cursor: pointer; font-weight: 500; margin-top: 1rem; width: 100%; font-size: 1rem; border-radius: var(--border-radius); transition: background 0.2s ease; }
     button:hover { background: var(--color-accent); }
     .input-group { position: relative; }
+    .input-group input { padding-left: var(--input-padding); padding-right: var(--input-padding); }
     .prefix, .suffix { position: absolute; top: 50%; transform: translateY(-50%); color: var(--color-text); font-weight: 500; pointer-events: none; }
     .prefix { left: var(--input-padding); }
     .suffix { right: var(--input-padding); }
-    input.with-prefix { padding-left: 2.5rem; }
-    input.with-suffix { padding-right: 2.5rem; }
+    /* Mostrar percent suffix sempre */
+    input.with-suffix + .suffix { visibility: visible; }
+    /* escondido por padrão, mostrado via JS para currency */
+    .suffix { visibility: hidden; }
     .small { font-size: 0.85rem; color: #555; margin-top: 0.5rem; }
     .result p { margin: 0.75rem 0; line-height: 1.4; }
     .error { color: #e53935; font-weight: 500; }
@@ -62,13 +65,13 @@
         <span><i class="material-icons">attach_money</i>Preço à vista:</span>
         <div class="input-group">
           <span class="prefix">R$</span>
-          <input id="v0" type="text" class="with-prefix" placeholder="1.000,00" data-currency>
+          <input id="v0" type="text" class="with-prefix" placeholder="1.000,00" data-currency inputmode="decimal">
         </div>
       </label>
 
       <label>
         <span><i class="material-icons">payment</i>Quantidade de parcelas:</span>
-        <select id="n_select">
+        <select id="n_select" inputmode="numeric">
           <option value="">— selecione —</option>
           <option value="1">1</option><option value="2">2</option><option value="3">3</option>
           <option value="4">4</option><option value="5">5</option><option value="6">6</option>
@@ -80,21 +83,21 @@
 
       <label id="label_n_custom" class="hidden">
         <span><i class="material-icons">edit</i>Digite o número de parcelas:</span>
-        <input id="n_custom" type="number" min="1">
+        <input id="n_custom" type="text" inputmode="numeric" pattern="\d*">
       </label>
 
       <label>
         <span><i class="material-icons">view_module</i>Valor da parcela:</span>
         <div class="input-group">
           <span class="prefix">R$</span>
-          <input id="p" type="text" class="with-prefix" placeholder="73,42" data-currency>
+          <input id="p" type="text" class="with-prefix" placeholder="1.000,00" data-currency inputmode="decimal">
         </div>
       </label>
 
       <label>
         <span><i class="material-icons">trending_up</i>Rendimento (% do CDI):</span>
         <div class="input-group">
-          <input id="cdipercent" type="number" step="0.1" class="with-suffix" value="100">
+          <input id="cdipercent" type="text" class="with-suffix" placeholder="100" inputmode="numeric">
           <span class="suffix">%</span>
         </div>
       </label>
@@ -108,7 +111,7 @@
   </div>
 
   <script>
-    // Toggle campo "Outra"
+    // Toggle campo "Outra" de parcelas
     const nSelect = document.getElementById('n_select');
     const labelNCustom = document.getElementById('label_n_custom');
     function toggleNCustom() { labelNCustom.classList.toggle('hidden', nSelect.value !== 'other'); }
@@ -118,22 +121,32 @@
     // Formatação de campos numéricos
     document.querySelectorAll('[data-currency]').forEach(input => {
       // Permitir apenas números, vírgula e ponto
-      input.setAttribute('inputmode','decimal');
       input.addEventListener('input', () => {
         input.value = input.value.replace(/[^0-9,\.]/g, '');
       });
-      // Ao perder foco, formata para pt-BR
+      // Ao perder foco, formata pt-BR
       input.addEventListener('blur', () => {
-        const v = input.value.replace(/\./g,'').replace(',', '.');
+        const v = input.value.replace(/\./g, '').replace(',', '.');
         const num = parseFloat(v);
-        if (!isNaN(num)) {
-          input.value = num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        }
+        if (!isNaN(num)) input.value = num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       });
       // Ao focar, remove formatação
       input.addEventListener('focus', () => {
-        input.value = input.value.replace(/\./g,'').replace(',', '.');
+        input.value = input.value.replace(/\./g, '').replace(',', '.');
       });
+      // Mostrar prefixo R$
+      input.addEventListener('input', () => {
+        const prefix = input.parentElement.querySelector('.prefix');
+        prefix.style.visibility = input.value.trim() ? 'visible' : 'hidden';
+      });
+    });
+
+    // Restrição de apenas números
+    document.getElementById('n_custom').addEventListener('input', e => {
+      e.target.value = e.target.value.replace(/\D/g, '');
+    });
+    document.getElementById('cdipercent').addEventListener('input', e => {
+      e.target.value = e.target.value.replace(/\D/g, '');
     });
 
     // Buscar CDI
@@ -147,22 +160,20 @@
         const diario = parseFloat(data[0].valor.replace(',', '.')) / 100;
         cdiMensal = Math.pow(1 + diario, 21) - 1;
         el.textContent = (cdiMensal * 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) + '%';
-      } catch (err) { el.textContent = 'não disponível'; console.error('Erro CDI:', err); }
+      } catch (err) { el.textContent = 'não disponível'; console.error(err); }
     }
     window.addEventListener('load', fetchCDI);
 
     // Cálculo
     document.getElementById('btnCalc').addEventListener('click', () => {
-      const rawV0 = document.getElementById('v0').value.replace(/\./g,'').replace(',', '.').trim();
-      const rawP  = document.getElementById('p').value.replace(/\./g,'').replace(',', '.').trim();
+      const rawV0 = document.getElementById('v0').value.replace(/\./g, '').replace(',', '.').trim();
+      const rawP  = document.getElementById('p').value.replace(/\./g, '').replace(',', '.').trim();
       const V0 = parseFloat(rawV0); const P = parseFloat(rawP);
       let n = nSelect.value === 'other' ? parseInt(document.getElementById('n_custom').value, 10) : parseInt(nSelect.value, 10);
       const pct = parseFloat(document.getElementById('cdipercent').value);
       const r = cdiMensal * (pct / 100);
       const resEl = document.getElementById('res');
-      if (isNaN(V0) || !n || isNaN(P) || isNaN(r)) {
-        resEl.innerHTML = '<p class="error">Preencha todos os campos corretamente.</p>'; return;
-      }
+      if (isNaN(V0) || !n || isNaN(P) || isNaN(r)) { resEl.innerHTML = '<p class="error">Preencha todos os campos corretamente.</p>'; return; }
       const F = P * n; let juros = 0, pago = 0;
       for (let i = 0; i < n; i++) { pago += P; juros += Math.max(F - pago, 0) * r; }
       const CL = F - juros;
