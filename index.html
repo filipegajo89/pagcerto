@@ -33,7 +33,7 @@
     label { display: flex; flex-direction: column; font-size: 0.9rem; color: var(--color-primary); }
     label > span { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem; }
     label .material-icons { font-size: 1.25rem; color: var(--color-primary); }
-    input, select, button { height: var(--field-height); width: 100%; font-size: 1rem; border: 1px solid var(--color-border); border-radius: var(--border-radius); transition: border 0.2s ease; }
+    input, select, button { height: var(--field-height); width: 100% !important; font-size: 1rem; border: 1px solid var(--color-border); border-radius: var(--border-radius); transition: border 0.2s ease; }
     input:focus, select:focus { outline: none; border-color: var(--color-primary); }
     select { padding: 0 var(--input-padding); margin-top: 0.25rem; }
     button { background: var(--color-primary); color: #fff; border: none; cursor: pointer; font-weight: 500; margin-top: 1rem; width: 100%; font-size: 1rem; border-radius: var(--border-radius); transition: background 0.2s ease; }
@@ -68,7 +68,7 @@
 
       <label>
         <span><i class="material-icons">payment</i>Quantidade de parcelas:</span>
-        <select id="n_select">
+        <select id="n_select" inputmode="numeric" pattern="\d*">
           <option value="">— selecione —</option>
           <option value="1">1</option><option value="2">2</option><option value="3">3</option>
           <option value="4">4</option><option value="5">5</option><option value="6">6</option>
@@ -80,7 +80,7 @@
 
       <label id="label_n_custom" class="hidden">
         <span><i class="material-icons">edit</i>Digite o número de parcelas:</span>
-        <input id="n_custom" type="number" min="1">
+        <input id="n_custom" type="text" inputmode="numeric" pattern="\d*">
       </label>
 
       <label>
@@ -94,7 +94,7 @@
       <label>
         <span><i class="material-icons">trending_up</i>Rendimento (% do CDI):</span>
         <div class="input-group">
-          <input id="cdipercent" type="number" step="0.1" class="with-suffix" value="100">
+          <input id="cdipercent" type="text" class="with-suffix" placeholder="100" inputmode="numeric" pattern="\d*">
           <span class="suffix">%</span>
         </div>
       </label>
@@ -117,23 +117,30 @@
 
     // Formatação de campos numéricos
     document.querySelectorAll('[data-currency]').forEach(input => {
-      // Permitir apenas números, vírgula e ponto
       input.setAttribute('inputmode','decimal');
       input.addEventListener('input', () => {
         input.value = input.value.replace(/[^0-9,\.]/g, '');
       });
-      // Ao perder foco, formata para pt-BR
       input.addEventListener('blur', () => {
         const v = input.value.replace(/\./g,'').replace(',', '.');
         const num = parseFloat(v);
-        if (!isNaN(num)) {
-          input.value = num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        }
+        if (!isNaN(num)) input.value = num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       });
-      // Ao focar, remove formatação
       input.addEventListener('focus', () => {
         input.value = input.value.replace(/\./g,'').replace(',', '.');
       });
+      input.addEventListener('input', () => {
+        const prefix = input.parentElement.querySelector('.prefix');
+        prefix.style.visibility = input.value.trim() ? 'visible' : 'hidden';
+      });
+    });
+
+    // Restringir apenas números no n_custom e cdipercent
+    document.getElementById('n_custom').addEventListener('input', e => {
+      e.target.value = e.target.value.replace(/\D/g, '');
+    });
+    document.getElementById('cdipercent').addEventListener('input', e => {
+      e.target.value = e.target.value.replace(/\D/g, '');
     });
 
     // Buscar CDI
@@ -160,9 +167,7 @@
       const pct = parseFloat(document.getElementById('cdipercent').value);
       const r = cdiMensal * (pct / 100);
       const resEl = document.getElementById('res');
-      if (isNaN(V0) || !n || isNaN(P) || isNaN(r)) {
-        resEl.innerHTML = '<p class="error">Preencha todos os campos corretamente.</p>'; return;
-      }
+      if (isNaN(V0) || !n || isNaN(P) || isNaN(r)) { resEl.innerHTML = '<p class="error">Preencha todos os campos corretamente.</p>'; return; }
       const F = P * n; let juros = 0, pago = 0;
       for (let i = 0; i < n; i++) { pago += P; juros += Math.max(F - pago, 0) * r; }
       const CL = F - juros;
@@ -171,7 +176,7 @@
         `<p><strong>Total parcelado:</strong> R$ ${F.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>` +
         `<p><strong>Rendimento total:</strong> R$ ${juros.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>` +
         `<p><strong>Custo líquido:</strong> R$ ${CL.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>` +
-        `<p style="margin-top:1rem;"><strong>${decisao}</strong></p>`;
+        `<p style=\"margin-top:1rem;\"><strong>${decisao}</strong></p>`;
     });
   </script>
 </body>
