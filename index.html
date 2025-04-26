@@ -25,21 +25,14 @@
     body { margin: 0; padding: 0; background: var(--color-bg); color: var(--color-text); font-family: 'Roboto', sans-serif; }
     header {
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       background: var(--color-primary);
-      padding: 2rem 1rem;
+      padding: 1.5rem 1rem;
       border-bottom-left-radius: var(--border-radius);
       border-bottom-right-radius: var(--border-radius);
     }
-    .logo {
-      width: calc(var(--logo-size) * 1.2);
-      height: calc(var(--logo-size) * 1.2);
-      object-fit: contain;
-      margin: 0 auto 0.5rem;
-    }
-    h1 { display: none; }
+    .logo { width: var(--logo-size); height: var(--logo-size); object-fit: contain; }
     .card { background: var(--color-card); border-radius: var(--border-radius); box-shadow: var(--box-shadow); padding: 1.5rem; margin: 1rem; }
     .form-row { display: flex; flex-wrap: wrap; gap: 1rem; }
     .form-row > label { flex: 1 1 100%; }
@@ -47,78 +40,67 @@
     label { display: flex; flex-direction: column; font-size: 0.9rem; color: var(--color-primary); }
     label > span { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem; }
     label .material-icons { font-size: 1.25rem; color: var(--color-primary); }
-    input, select, button {
+    .input-group {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius);
+      height: var(--field-height);
+      padding: 0 0.5rem;
+      background: var(--color-card);
+    }
+    .input-group input {
+      border: none;
+      outline: none;
+      height: 100%;
+      flex: 1;
+      padding: 0;
+      font-size: 1rem;
+    }
+    .input-group .prefix,
+    .input-group .suffix {
+      margin: 0 0.25rem;
+      visibility: visible;
+      color: var(--color-text);
+      font-weight: 500;
+    }
+    select, button {
       height: var(--field-height);
       width: 100%;
       font-size: 1rem;
       border: 1px solid var(--color-border);
       border-radius: var(--border-radius);
       transition: border 0.2s ease;
-    } height: var(--field-height); width: 100% !important; font-size: 1rem; border: 1px solid var(--color-border); border-radius: var(--border-radius); transition: border 0.2s ease; }
-    input:focus, select:focus { outline: none; border-color: var(--color-primary); }
+    }
     select { padding: 0 var(--input-padding); margin-top: 0.25rem; }
-    button { background: var(--color-primary); color: #fff; border: none; cursor: pointer; font-weight: 500; margin-top: 1rem; width: 100%; font-size: 1rem; border-radius: var(--border-radius); transition: background 0.2s ease; }
-    button:hover { background: var(--color-accent); }
-    .input-group {
-      position: relative;
-      width: 100%;
-      height: var(--field-height);
-    }
-    .input-group .prefix, .input-group .input-group .suffix { right: 0.25rem; }
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--color-text);
+    button {
+      background: var(--color-primary);
+      color: #fff;
+      border: none;
+      cursor: pointer;
       font-weight: 500;
-      pointer-events: none;
-    } right: 0.25rem; }
-    .input-group .prefix { left: var(--input-padding); } left: var(--input-padding); }
-    .suffix { right: 0.5rem; } }
-    input.with-prefix {
-      padding-left: 2.5rem;
-      padding-right: var(--input-padding);
+      margin-top: 1rem;
+      border-radius: var(--border-radius);
+      transition: background 0.2s ease;
     }
-    /* reduzir espaço à direita para % ficar mais próximo */
-    input.with-suffix {
-      padding-right: 2.5rem;
-      padding-left: var(--input-padding);
-    }
+    button:hover { background: var(--color-accent); }
     .small { font-size: 0.85rem; color: #555; margin-top: 0.5rem; }
     .result p { margin: 0.75rem 0; line-height: 1.4; }
     .error { color: #e53935; font-weight: 500; }
     .hidden { display: none !important; }
-    /* Override para prefix/suffix dentro do campo */
-  .input-group {
-    display: flex;
-    align-items: center;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
-    height: var(--field-height);
-    padding: 0 0.5rem;
-    background: var(--color-card);
-  }
-  .input-group input {
-    border: none !important;
-    outline: none;
-    height: 100%;
-    flex: 1;
-    padding: 0;
-    margin: 0;
-    font-size: 1rem;
-  }
-  .input-group .prefix,
-  .input-group .suffix {
-    position: static;
-    transform: none;
-    margin: 0 0.25rem;
-    visibility: visible;
-  }
-</style>
+    /* Gráficos */
+    #chart-line, #chart-bar, #chart-donut {
+      max-width: 100%;
+      height: 300px;
+      opacity: 0;
+      animation: fadeIn 0.6s forwards;
+    }
+    @keyframes fadeIn { to { opacity: 1; } }
+  </style>
 </head>
 <body>
   <header>
     <img src="favicon.png" alt="PagCerto Logo" class="logo">
-    
   </header>
 
   <div class="card">
@@ -127,13 +109,12 @@
         <span><i class="material-icons">attach_money</i>Preço à vista:</span>
         <div class="input-group">
           <span class="prefix">R$</span>
-          <input id="v0" type="text" class="with-prefix" placeholder="1.000,00" data-currency>
+          <input id="v0" type="text" data-currency>
         </div>
       </label>
-
       <label>
         <span><i class="material-icons">payment</i>Quantidade de parcelas:</span>
-        <select id="n_select" inputmode="numeric" pattern="\d*">
+        <select id="n_select">
           <option value="">— selecione —</option>
           <option value="1">1</option><option value="2">2</option><option value="3">3</option>
           <option value="4">4</option><option value="5">5</option><option value="6">6</option>
@@ -142,24 +123,21 @@
           <option value="other">Outra</option>
         </select>
       </label>
-
       <label id="label_n_custom" class="hidden">
         <span><i class="material-icons">edit</i>Digite o número de parcelas:</span>
-        <input id="n_custom" type="text" inputmode="numeric" pattern="\d*">
+        <input id="n_custom" type="text" inputmode="numeric">
       </label>
-
       <label>
         <span><i class="material-icons">view_module</i>Valor da parcela:</span>
         <div class="input-group">
           <span class="prefix">R$</span>
-          <input id="p" type="text" class="with-prefix" placeholder="73,42" data-currency>
+          <input id="p" type="text" data-currency>
         </div>
       </label>
-
       <label>
         <span><i class="material-icons">trending_up</i>Rendimento (% do CDI):</span>
         <div class="input-group">
-          <input id="cdipercent" type="text" class="with-suffix" placeholder="100" inputmode="numeric" pattern="\d*">
+          <input id="cdipercent" type="text" inputmode="numeric">
           <span class="suffix">%</span>
         </div>
       </label>
@@ -168,10 +146,13 @@
     <button id="btnCalc">Calcular</button>
   </div>
 
-  <div class="card">
-    <div class="result" id="res"></div>
-  </div>
+  <div class="card"><div class="result" id="res"></div></div>
+  <div class="card"><div id="chart-line"></div></div>
+  <div class="card" style="margin-top:0;"><div id="chart-bar"></div></div>
+  <div class="card" style="margin-top:0;"><div id="chart-donut"></div></div>
 
+  <!-- ApexCharts -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <script>
     // Toggle campo "Outra"
     const nSelect = document.getElementById('n_select');
@@ -194,15 +175,9 @@
       input.addEventListener('focus', () => {
         input.value = input.value.replace(/\./g,'').replace(',', '.');
       });
-      input.addEventListener('input', () => {
-        const prefix = input.parentElement.querySelector('.prefix');
-        prefix.style.visibility = input.value.trim() ? 'visible' : 'hidden';
-      });
     });
-
-    // Restringir apenas números no n_custom e cdipercent
-    document.getElementById('n_custom').addEventListener('input', e => { e.target.value = e.target.value.replace(/\D/g, ''); });
-    document.getElementById('cdipercent').addEventListener('input', e => { e.target.value = e.target.value.replace(/\D/g, ''); });
+    document.getElementById('n_custom').addEventListener('input', e => e.target.value = e.target.value.replace(/\D/g, ''));
+    document.getElementById('cdipercent').addEventListener('input', e => e.target.value = e.target.value.replace(/\D/g, ''));
 
     // Buscar CDI
     let cdiMensal = NaN;
@@ -215,29 +190,57 @@
         const diario = parseFloat(data[0].valor.replace(',', '.')) / 100;
         cdiMensal = Math.pow(1 + diario, 21) - 1;
         el.textContent = (cdiMensal * 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) + '%';
-      } catch (err) { el.textContent = 'não disponível'; console.error('Erro CDI:', err); }
+      } catch (err) { el.textContent = 'não disponível'; console.error(err); }
     }
     window.addEventListener('load', fetchCDI);
 
-    // Cálculo
+    // Cálculo e Gráficos
     document.getElementById('btnCalc').addEventListener('click', () => {
       const rawV0 = document.getElementById('v0').value.replace(/\./g,'').replace(',', '.').trim();
       const rawP  = document.getElementById('p').value.replace(/\./g,'').replace(',', '.').trim();
-      const V0 = parseFloat(rawV0); const P = parseFloat(rawP);
+      const V0 = parseFloat(rawV0), P = parseFloat(rawP);
       let n = nSelect.value === 'other' ? parseInt(document.getElementById('n_custom').value, 10) : parseInt(nSelect.value, 10);
       const pct = parseFloat(document.getElementById('cdipercent').value);
-      const r = cdiMensal * (pct / 100);
+      const r = cdiMensal * (pct/100);
       const resEl = document.getElementById('res');
-      if (isNaN(V0) || !n || isNaN(P) || isNaN(r)) { resEl.innerHTML = '<p class="error">Preencha todos os campos corretamente.</p>'; return; }
-      const F = P * n; let juros = 0, pago = 0;
-      for (let i = 0; i < n; i++) { pago += P; juros += Math.max(F - pago, 0) * r; }
-      const CL = F - juros;
-      const decisao = CL > V0 ? '👉 Melhor: Pagar à vista' : '👉 Melhor: Parcelar e investir';
+      if (isNaN(V0)||!n||isNaN(P)||isNaN(r)) { resEl.innerHTML = '<p class="error">Preencha todos os campos corretamente.</p>'; return; }
+      const F = P*n; let juros=0, pago=0;
+      for(let i=0;i<n;i++){ pago+=P; juros+=Math.max(F-pago,0)*r; }
+      const CL = F-juros;
       resEl.innerHTML =
-        `<p><strong>Total parcelado:</strong> R$ ${F.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>` +
-        `<p><strong>Rendimento total:</strong> R$ ${juros.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>` +
-        `<p><strong>Custo líquido:</strong> R$ ${CL.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>` +
-        `<p style=\"margin-top:1rem;\"><strong>${decisao}</strong></p>`;
+        `<p><strong>Total parcelado:</strong> R$ ${F.toLocaleString('pt-BR',{minimumFractionDigits:2})}</p>`+
+        `<p><strong>Rendimento total:</strong> R$ ${juros.toLocaleString('pt-BR',{minimumFractionDigits:2})}</p>`+
+        `<p><strong>Custo líquido:</strong> R$ ${CL.toLocaleString('pt-BR',{minimumFractionDigits:2})}</p>`+
+        `<p style="margin-top:1rem;"><strong>${CL>V0? '👉 Melhor: Pagar à vista':'👉 Melhor: Parcelar e investir'}</strong></p>`;
+
+      // Dados para gráficos
+      const saldos = [], meses = [];
+      let acumulado = 0;
+      for(let i=1;i<=n;i++){
+        acumulado +=Math.max(F-(P*i),0)*r;
+        saldos.push(parseFloat(acumulado.toFixed(2)));
+        meses.push(`Mês ${i}`);
+      }
+      // Line Chart
+      ApexCharts.exec('line-chart','destroy');
+      new ApexCharts(document.querySelector('#chart-line'),{
+        chart:{id:'line-chart',type:'line',toolbar:{show:false}},
+        series:[{name:'Saldo Investido',data:saldos}],
+        xaxis:{categories:meses},stroke:{curve:'smooth',width:2},markers:{size:4},colors:['#00214D'],grid:{borderColor:'#e0e0e0'},tooltip:{y:{formatter:v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}}
+      }).render();
+      // Bar Chart
+      ApexCharts.exec('bar-chart','destroy');
+      new ApexCharts(document.querySelector('#chart-bar'),{
+        chart:{id:'bar-chart',type:'bar',toolbar:{show:false}},
+        series:[{name:'À vista',data:[V0]},{name:'Parcelado (líquido)',data:[CL]}],
+        xaxis:{categories:['Custo']},plotOptions:{bar:{columnWidth:'50%',endingShape:'rounded'}},colors:['#00214D','#FFB400'],dataLabels:{enabled:false},grid:{borderColor:'#e0e0e0'},tooltip:{y:{formatter:v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}}
+      }).render();
+      // Donut Chart
+      ApexCharts.exec('donut-chart','destroy');
+      new ApexCharts(document.querySelector('#chart-donut'),{
+        chart:{id:'donut-chart',type:'donut',toolbar:{show:false}},
+        series:[CL,juros],labels:['Capital Líquido','Juros Totais'],colors:['#00214D','#FFB400'],legend:{position:'bottom'},dataLabels:{formatter:(val)=>val.toFixed(1)+'%'}
+      }).render();
     });
   </script>
 </body>
