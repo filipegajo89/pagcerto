@@ -23,9 +23,28 @@
     }
     * { box-sizing: border-box; }
     body { margin: 0; padding: 0; background: var(--color-bg); color: var(--color-text); font-family: 'Roboto', sans-serif; }
-    header { text-align: center; padding: 2rem 1rem 0; }
-    .logo { width: var(--logo-size); height: var(--logo-size); object-fit: contain; margin: 0 auto 1rem; }
-    h1 { margin: 0; font-weight: 500; font-size: 2rem; color: var(--color-primary); }
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-primary);
+      padding: 2rem 1rem;
+      border-bottom-left-radius: var(--border-radius);
+      border-bottom-right-radius: var(--border-radius);
+    }
+    .logo {
+      width: calc(var(--logo-size) * 1.2);
+      height: calc(var(--logo-size) * 1.2);
+      object-fit: contain;
+      margin: 0 auto 0.5rem;
+    }
+    h1 {
+      margin: 0;
+      font-weight: 500;
+      font-size: 2rem;
+      color: var(--color-card);
+    }
     .card { background: var(--color-card); border-radius: var(--border-radius); box-shadow: var(--box-shadow); padding: 1.5rem; margin: 1rem; }
     .form-row { display: flex; flex-wrap: wrap; gap: 1rem; }
     .form-row > label { flex: 1 1 100%; }
