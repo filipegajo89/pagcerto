@@ -187,23 +187,42 @@
     nSelect.addEventListener('change', toggleNCustom);
     window.addEventListener('load', toggleNCustom);
 
-    // Formatação de campos numéricos
+        // Formatação de campos numéricos
     document.querySelectorAll('[data-currency]').forEach(input => {
+      // Permitir apenas dígitos e vírgula
       input.setAttribute('inputmode','decimal');
       input.addEventListener('input', () => {
-        input.value = input.value.replace(/[^0-9,\.]/g, '');
+        input.value = input.value.replace(/[^0-9,]/g, '');
       });
+      // Ao perder foco, formata em pt-BR sem alterar o valor digitado
       input.addEventListener('blur', () => {
-        const v = input.value.replace(/\./g,'').replace(',', '.');
-        const num = parseFloat(v);
-        if (!isNaN(num)) input.value = num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        let val = input.value.trim().replace(/[^0-9,]/g, '');
+        if (!val.includes(',')) {
+          val = val + ',00';
+        } else {
+          let [intPart, dec] = val.split(',');
+          if (!dec) dec = '00';
+          else if (dec.length === 1) dec = dec + '0';
+          dec = dec.slice(0,2);
+          val = intPart + ',' + dec;
+        }
+        // Aplica separador de milhar
+        const [intPart, decPart] = val.split(',');
+        const formattedInt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        input.value = formattedInt + ',' + (decPart || '00');
       });
+      // Ao focar, remove a formatação
       input.addEventListener('focus', () => {
-        input.value = input.value.replace(/\./g,'').replace(',', '.');
+        input.value = input.value.replace(/\./g, '').replace(',', ',');
       });
     });
-    document.getElementById('n_custom').addEventListener('input', e => e.target.value = e.target.value.replace(/\D/g, ''));
-    document.getElementById('cdipercent').addEventListener('input', e => e.target.value = e.target.value.replace(/\D/g, ''));
+
+    // Apenas números no campo "outra parcela" e no % do CDI
+    document.getElementById('n_custom')
+      .addEventListener('input', e => e.target.value = e.target.value.replace(/\D/g, ''));
+    document.getElementById('cdipercent')
+      .addEventListener('input', e => e.target.value = e.target.value.replace(/\D/g, ''));
+
 
     // Buscar CDI
     let cdiMensal = NaN;
