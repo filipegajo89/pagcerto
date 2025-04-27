@@ -2,14 +2,12 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover">
-  <meta name="description" content="PagCerto - Calculadora financeira premium para comparar pagamento à vista versus parcelado com inteligência">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="PagCerto - Calculadora financeira para comparar pagamento à vista versus parcelado">
   <title>PagCerto | Calculadora Financeira Inteligente</title>
   <!-- Google Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-  <link rel="icon" href="favicon.png" type="image/png">
-  <meta name="theme-color" content="#1e40af">
   
   <style>
     :root {
@@ -57,37 +55,29 @@
       padding: 0 1rem;
     }
 
-    /* Cabeçalho premium */
+    /* Cabeçalho com banner */
     header {
       background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
-      padding: 3rem 1rem 6rem;
+      padding: 3rem 1rem 4rem;
+      border-bottom-left-radius: 30px;
+      border-bottom-right-radius: 30px;
       margin-bottom: -2rem;
       box-shadow: var(--box-shadow);
       position: relative;
       overflow: hidden;
     }
     
-    .header-wave {
+    header::before {
+      content: "";
       position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 100px;
-      overflow: hidden;
+      top: -50%;
+      left: -10%;
+      width: 120%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+      transform: rotate(15deg);
     }
-    
-    .header-wave svg {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-    
-    .header-wave path {
-      fill: var(--color-bg);
-    }
-    
+
     .header-content {
       display: flex;
       justify-content: space-between;
@@ -101,40 +91,19 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 1.5rem;
-    }
-    
-    .logo-wrapper {
-      position: relative;
-      width: var(--logo-size);
-      height: var(--logo-size);
+      gap: 1rem;
     }
     
     .logo {
-      width: 100%;
-      height: 100%;
+      width: var(--logo-size);
+      height: var(--logo-size);
       object-fit: contain;
-      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
-      position: relative;
-      z-index: 2;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+      transition: var(--transition);
     }
     
-    .logo-glow {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle, rgba(255,180,0,0.4) 0%, rgba(255,180,0,0) 70%);
-      border-radius: 50%;
-      animation: pulse 3s infinite;
-      z-index: 1;
-    }
-    
-    @keyframes pulse {
-      0% { transform: scale(0.95); opacity: 0.7; }
-      50% { transform: scale(1.05); opacity: 0.9; }
-      100% { transform: scale(0.95); opacity: 0.7; }
+    .logo:hover {
+      transform: scale(1.05);
     }
     
     .brand-text {
@@ -147,10 +116,6 @@
       font-weight: 700;
       margin: 0;
       letter-spacing: -0.02em;
-    }
-    
-    .brand-text h1 span {
-      color: var(--color-secondary);
     }
     
     .brand-text p {
@@ -169,16 +134,13 @@
       background: rgba(255,255,255,0.15);
       color: white;
       border: none;
-      padding: 0.75rem 1.5rem;
+      padding: 0.5rem 1.25rem;
       border-radius: 2rem;
       font-weight: 500;
       cursor: pointer;
       transition: var(--transition);
       backdrop-filter: blur(5px);
       border: 1px solid rgba(255,255,255,0.1);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
     }
     
     .header-btn:hover {
@@ -186,13 +148,7 @@
       transform: translateY(-2px);
     }
     
-    .premium-btn {
-      background: linear-gradient(135deg, #FFB400, #FF8C00) !important;
-      font-weight: 600 !important;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
-    }
-
-    /* Cartões premium */
+    /* Cartões e formulários */
     .card {
       background: var(--color-card);
       border-radius: var(--border-radius);
@@ -203,17 +159,6 @@
       max-width: 1200px;
       position: relative;
       border: 1px solid var(--color-border);
-      overflow: hidden;
-    }
-    
-    .card::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 30px;
-      height: 30px;
-      background: linear-gradient(135deg, transparent 0%, transparent 50%, var(--color-primary-light) 50%, var(--color-primary) 100%);
     }
     
     .card:hover {
@@ -445,7 +390,7 @@
       to { transform: rotate(360deg); }
     }
     
-    /* Resultados premium */
+    /* Resultados */
     .result {
       padding: 0.5rem 0;
     }
@@ -522,7 +467,7 @@
       display: none !important; 
     }
 
-    /* Gráficos premium */
+    /* Gráficos */
     .chart-container {
       min-height: 360px;
       padding: 1rem 0;
@@ -540,135 +485,39 @@
       to { opacity: 1; transform: translateY(0); } 
     }
     
-    /* Anúncios premium */
+    /* Ads slots */
     .ad-container {
       margin: 2rem auto;
-      padding: 1.5rem;
-      background: linear-gradient(135deg, #f7f9fc, #e6f0ff);
+      padding: 1rem;
+      background: #f9fafb;
       border-radius: var(--border-radius);
       text-align: center;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+      border: 1px dashed var(--color-border);
     }
     
     .ad-label {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
       font-size: 0.75rem;
       text-transform: uppercase;
-      color: var(--color-primary);
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.75rem;
-    }
-    
-    .ad-slot {
-      min-height: 90px;
-      background: white;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       color: var(--color-text-light);
-    }
-    
-    .ad-placeholder {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      width: 100%;
-      height: 100%;
-      color: var(--color-primary);
-      font-weight: 500;
-    }
-    
-    /* CTA de monetização */
-    .cta-card {
-      display: flex;
-      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
-      color: white;
-      border-radius: var(--border-radius);
-      overflow: hidden;
-      margin: 2rem auto;
-      max-width: 1200px;
-    }
-    
-    .cta-content {
-      flex: 1;
-      padding: 2rem;
-    }
-    
-    .cta-content h3 {
-      font-family: 'Poppins', sans-serif;
-      font-size: 1.5rem;
+      display: block;
       margin-bottom: 0.5rem;
     }
     
-    .cta-content p {
-      opacity: 0.9;
-    }
-    
-    .cta-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      background: rgba(255,255,255,0.1);
-      font-size: 3rem;
-    }
-    
-    .cta-btn {
-      background: white;
-      color: var(--color-primary);
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 50px;
-      font-weight: 600;
-      margin-top: 1rem;
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    .cta-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-    }
-
-    /* Footer premium */
+    /* Footer */
     footer {
       margin-top: 3rem;
-      padding: 3rem 0 2rem;
+      padding: 2rem 0;
       background: var(--color-primary-dark);
       color: white;
       text-align: center;
       border-top-left-radius: 30px;
       border-top-right-radius: 30px;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    footer::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at top right, rgba(255,180,0,0.1) 0%, transparent 70%);
     }
     
     .footer-content {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 1rem;
-      position: relative;
-      z-index: 1;
     }
     
     .footer-links {
@@ -684,26 +533,10 @@
       text-decoration: none;
       font-size: 0.9rem;
       transition: var(--transition);
-      position: relative;
     }
     
     .footer-links a:hover {
       color: white;
-    }
-    
-    .footer-links a::after {
-      content: "";
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 0;
-      height: 1px;
-      background: white;
-      transition: var(--transition);
-    }
-    
-    .footer-links a:hover::after {
-      width: 100%;
     }
     
     .copyright {
@@ -712,10 +545,10 @@
       margin-top: 2rem;
     }
     
-    /* Responsividade premium */
+    /* Responsividade */
     @media (max-width: 768px) {
       header {
-        padding: 2rem 1rem 4rem;
+        padding: 2rem 1rem 3rem;
       }
       
       .brand-text h1 {
@@ -730,14 +563,6 @@
         flex-direction: column;
         text-align: center;
         padding: 1.5rem;
-      }
-      
-      .cta-card {
-        flex-direction: column;
-      }
-      
-      .cta-icon {
-        display: none;
       }
     }
     
@@ -769,84 +594,37 @@
         flex: 1 1 100%;
       }
     }
-    
-    @media (max-width: 480px) {
-      .card {
-        padding: 1.25rem;
-        margin: 1rem 0;
-      }
-      
-      .brand-text h1 {
-        font-size: 1.5rem;
-      }
-      
-      .logo-wrapper {
-        width: 60px;
-        height: 60px;
-      }
-      
-      .footer-links {
-        gap: 1.5rem;
-      }
-    }
-    
-    @media (hover: none) {
-      button, .header-btn {
-        padding: 0.75rem 1.5rem !important;
-      }
-      
-      .input-group, select {
-        min-height: 3.5rem !important;
-      }
-    }
   </style>
 </head>
 <body>
-  <!-- Cabeçalho Premium -->
+  <!-- Cabeçalho -->
   <header>
     <div class="header-content">
       <div class="brand">
-        <div class="logo-wrapper">
-          <img src="favicon.png" alt="PagCerto" class="logo">
-          <span class="logo-glow"></span>
-        </div>
+        <img src="favicon.png" alt="PagCerto Logo" class="logo">
         <div class="brand-text">
-          <h1>Pag<span>Certo</span></h1>
-          <p>Sua análise financeira inteligente</p>
+          <h1>PagCerto</h1>
+          <p>Calcule a melhor forma de pagamento</p>
         </div>
       </div>
       <div class="header-actions">
-        <button class="header-btn premium-btn">
-          <i class="material-icons-round">workspace_premium</i>
-          Premium
-        </button>
+        <button class="header-btn" id="btnAbout">Sobre</button>
+        <button class="header-btn" id="btnContact">Contato</button>
       </div>
-    </div>
-    <div class="header-wave">
-      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="#f7f9fc"></path>
-        <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="#f7f9fc"></path>
-        <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="#f7f9fc"></path>
-      </svg>
     </div>
   </header>
   
   <div class="container">
-    <!-- Ad slot superior premium -->
-    <div class="ad-container">
-      <div class="ad-label">
-        <i class="material-icons-round">spa</i>
-        PATROCINADO
-      </div>
-      <div class="ad-slot" id="adSlotTop">
-        <div class="ad-placeholder">
-          <i class="material-icons-round">ads_click</i>
-          <span>Anúncio de parceiro</span>
-        </div>
+    <!-- Ad slot superior -->
+    <div class="ad-container" id="adTop">
+      <span class="ad-label">Publicidade</span>
+      <!-- Espaço para adsense -->
+      <div id="adSlotTop" style="min-height:90px;background:#eee;border-radius:8px;display:flex;align-items:center;justify-content:center;">
+        Espaço para anúncio
       </div>
     </div>
     
-    <!-- Formulário de entrada premium -->
+    <!-- Formulário de entrada -->
     <div class="card">
       <div class="card-title">
         <i class="material-icons-round">calculate</i>
@@ -897,11 +675,7 @@
 
         <!-- Rendimento CDI -->
         <label>
-          <span>
-            <i class="material-icons-round">trending_up</i>
-            Rendimento (% do CDI):
-            <i class="material-icons-round" style="font-size:16px;cursor:help" title="Percentual do CDI que seu investimento rende. 100% significa que rende igual ao CDI.">help_outline</i>
-          </span>
+          <span><i class="material-icons-round">trending_up</i>Rendimento (% do CDI):</span>
           <div class="input-group">
             <input id="cdipercent" type="text" placeholder="100">
             <span class="suffix">%</span>
@@ -939,17 +713,12 @@
       </div>
     </div>
     
-    <!-- Ad slot meio premium -->
+    <!-- Ad slot meio -->
     <div class="ad-container hidden" id="adMiddle">
-      <div class="ad-label">
-        <i class="material-icons-round">campaign</i>
-        RECOMENDAÇÃO
-      </div>
-      <div class="ad-slot" id="adSlotMiddle">
-        <div class="ad-placeholder">
-          <i class="material-icons-round">paid</i>
-          <span>Anúncio relevante</span>
-        </div>
+      <span class="ad-label">Publicidade</span>
+      <!-- Espaço para adsense -->
+      <div id="adSlotMiddle" style="min-height:90px;background:#eee;border-radius:8px;display:flex;align-items:center;justify-content:center;">
+        Espaço para anúncio
       </div>
     </div>
     
@@ -983,40 +752,20 @@
       </div>
     </div>
     
-    <!-- CTA de Monetização -->
-    <div class="cta-card">
-      <div class="cta-content">
-        <h3>Gostou da ferramenta?</h3>
-        <p>Nosso conteúdo é gratuito graças aos nossos anunciantes</p>
-        <button class="cta-btn">
-          <i class="material-icons-round">volunteer_activism</i>
-          Apoie desativando seu adblock
-        </button>
-      </div>
-      <div class="cta-icon">
-        <i class="material-icons-round">ads_click</i>
-      </div>
-    </div>
-    
-    <!-- Ad slot inferior premium -->
+    <!-- Ad slot inferior -->
     <div class="ad-container hidden" id="adBottom">
-      <div class="ad-label">
-        <i class="material-icons-round">recommend</i>
-        OFERTA ESPECIAL
-      </div>
-      <div class="ad-slot" id="adSlotBottom">
-        <div class="ad-placeholder">
-          <i class="material-icons-round">savings</i>
-          <span>Oportunidade exclusiva</span>
-        </div>
+      <span class="ad-label">Publicidade</span>
+      <!-- Espaço para adsense -->
+      <div id="adSlotBottom" style="min-height:90px;background:#eee;border-radius:8px;display:flex;align-items:center;justify-content:center;">
+        Espaço para anúncio
       </div>
     </div>
   </div>
   
-  <!-- Footer Premium -->
+  <!-- Footer -->
   <footer>
     <div class="footer-content">
-      <img src="favicon.png" alt="PagCerto Logo" style="width:60px;height:60px;margin-bottom:1rem;filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">
+      <img src="favicon.png" alt="PagCerto Logo" style="width:60px;height:60px;margin-bottom:1rem;">
       
       <div class="footer-links">
         <a href="#sobre">Sobre</a>
@@ -1032,6 +781,8 @@
     </div>
   </footer>
 
+  <!-- Modal para About e Contact (implementar se necessário) -->
+  
   <!-- Bibliotecas JS -->
   <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -1067,12 +818,7 @@
     new Cleave('#cdipercent', { 
       numeral: true, 
       numeralDecimalScale: 0, 
-      numeralThousandsGroupStyle: 'none',
-      onValueChanged: (e) => {
-        if (e.target.value && !e.target.value.endsWith('%')) {
-          e.target.value = e.target.value + '%';
-        }
-      }
+      numeralThousandsGroupStyle: 'none' 
     });
     
     new Cleave('#n_custom', { 
@@ -1081,50 +827,21 @@
       numeralThousandsGroupStyle: 'none' 
     });
 
-    // Buscar CDI atual com cache
-    let cdiMensal = 0.012; // Valor padrão (1.2% ao mês)
-    
-    function loadCDICache() {
-      const cache = localStorage.getItem('cdiCache');
-      if (cache) {
-        const { value, timestamp } = JSON.parse(cache);
-        // Se o cache tiver menos de 24 horas
-        if (Date.now() - timestamp < 86400000) {
-          return value;
-        }
-      }
-      return null;
-    }
-    
+    // Buscar CDI atual
+    let cdiMensal = NaN;
     async function fetchCDI() {
       const el = document.getElementById('cdi_valor');
-      const cachedValue = loadCDICache();
-      
-      if (cachedValue) {
-        cdiMensal = cachedValue;
-        el.textContent = (cdiMensal * 100).toLocaleString('pt-BR',{ minimumFractionDigits:2 }) + '%';
-        return;
-      }
-      
       el.innerHTML = '<span class="loading"></span>carregando…';
-      
       try {
         const resp = await fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados/ultimos/1?formato=json');
         if (!resp.ok) throw new Error(resp.status);
         const data = await resp.json();
         const diario = parseFloat(data[0].valor.replace(',', '.')) / 100;
         cdiMensal = Math.pow(1 + diario, 21) - 1;
-        
-        // Armazenar no localStorage com validade de 1 dia
-        localStorage.setItem('cdiCache', JSON.stringify({
-          value: cdiMensal,
-          timestamp: Date.now()
-        }));
-        
         el.textContent = (cdiMensal * 100).toLocaleString('pt-BR',{ minimumFractionDigits:2 }) + '%';
       } catch (err) {
-        console.error('Erro ao buscar CDI:', err);
-        el.textContent = (cdiMensal * 100).toLocaleString('pt-BR',{ minimumFractionDigits:2 }) + '% (padrão)';
+        el.textContent = 'não disponível';
+        console.error('Erro CDI:', err);
       }
     }
     
@@ -1153,7 +870,11 @@
       
       // Inicializar botões do header
       document.getElementById('btnAbout').addEventListener('click', () => {
-        alert('PagCerto é uma calculadora financeira premium que ajuda você a decidir entre pagar à vista ou parcelar uma compra, considerando o rendimento do seu dinheiro investido.');
+        alert('PagCerto é uma calculadora financeira que ajuda você a decidir entre pagar à vista ou parcelar uma compra, considerando o rendimento do seu dinheiro investido.');
+      });
+      
+      document.getElementById('btnContact').addEventListener('click', () => {
+        alert('Para entrar em contato, envie um email para contato@pagcerto.com.br');
       });
     });
 
@@ -1172,12 +893,8 @@
       document.getElementById('adMiddle').classList.remove('hidden');
       document.getElementById('adBottom').classList.remove('hidden');
       
-      // Simular carregamento de anúncios
-      setTimeout(() => {
-        document.querySelectorAll('.ad-placeholder').forEach(el => {
-          el.innerHTML = '<span style="color:#6b7280">Anúncio carregado</span>';
-        });
-      }, 1500);
+      // Aqui você incluiria o código do AdSense quando for implementar
+      console.log('Carregando anúncios...');
     }
 
     // Cálculo e geração de gráficos
@@ -1192,26 +909,17 @@
       setTimeout(() => {
         const rawV0 = document.getElementById('v0').value.replace(/\./g,'').replace(',', '.').trim();
         const rawP  = document.getElementById('p').value.replace(/\./g,'').replace(',', '.').trim();
-        const rawCDI = document.getElementById('cdipercent').value.replace('%','').trim();
-        
         const V0 = parseFloat(rawV0), P = parseFloat(rawP);
         let n = nSelect.value === 'other'
           ? parseInt(document.getElementById('n_custom').value, 10)
           : parseInt(nSelect.value, 10);
-        const pct = parseFloat(rawCDI || '100');
+        const pct = parseFloat(document.getElementById('cdipercent').value || '100');
         const r = cdiMensal * (pct / 100);
         const resEl = document.getElementById('res');
         
         // Validação dos campos
-        if (isNaN(V0) {
+        if (isNaN(V0) || V0 <= 0) {
           resEl.innerHTML = '<div class="error"><i class="material-icons-round">error_outline</i>Por favor, informe um preço à vista válido.</div>';
-          showResults(false);
-          resetButton();
-          return;
-        }
-        
-        if (V0 <= 0) {
-          resEl.innerHTML = '<div class="error"><i class="material-icons-round">error_outline</i>O preço à vista deve ser maior que zero.</div>';
           showResults(false);
           resetButton();
           return;
@@ -1224,29 +932,15 @@
           return;
         }
         
-        if (isNaN(P)) {
+        if (isNaN(P) || P <= 0) {
           resEl.innerHTML = '<div class="error"><i class="material-icons-round">error_outline</i>Por favor, informe um valor de parcela válido.</div>';
           showResults(false);
           resetButton();
           return;
         }
         
-        if (P <= 0) {
-          resEl.innerHTML = '<div class="error"><i class="material-icons-round">error_outline</i>O valor da parcela deve ser maior que zero.</div>';
-          showResults(false);
-          resetButton();
-          return;
-        }
-        
-        if (isNaN(pct)) {
-          resEl.innerHTML = '<div class="error"><i class="material-icons-round">error_outline</i>Por favor, informe um percentual de rendimento válido.</div>';
-          showResults(false);
-          resetButton();
-          return;
-        }
-        
-        if (pct <= 0) {
-          resEl.innerHTML = '<div class="error"><i class="material-icons-round">error_outline</i>O percentual de rendimento deve ser maior que zero.</div>';
+        if (isNaN(r) || r <= 0) {
+          resEl.innerHTML = '<div class="error"><i class="material-icons-round">error_outline</i>Por favor, verifique o percentual de rendimento.</div>';
           showResults(false);
           resetButton();
           return;
@@ -1377,7 +1071,8 @@
         };
 
         // Renderizar gráficos
-        let lineChart = new ApexCharts(document.querySelector('#chart-line'), {
+        ApexCharts.exec('line-chart','destroy');
+        new ApexCharts(document.querySelector('#chart-line'), {
           ...commonOptions,
           chart: {
             ...commonOptions.chart,
@@ -1443,10 +1138,10 @@
             }
           },
           colors: [colors[1]]
-        });
-        lineChart.render();
+        }).render();
 
-        let barChart = new ApexCharts(document.querySelector('#chart-bar'), {
+        ApexCharts.exec('bar-chart','destroy');
+        new ApexCharts(document.querySelector('#chart-bar'), {
           ...commonOptions,
           chart: {
             ...commonOptions.chart,
@@ -1493,10 +1188,10 @@
               }
             }
           }
-        });
-        barChart.render();
+        }).render();
 
-        let donutChart = new ApexCharts(document.querySelector('#chart-donut'), {
+        ApexCharts.exec('donut-chart','destroy');
+        new ApexCharts(document.querySelector('#chart-donut'), {
           ...commonOptions,
           chart: {
             ...commonOptions.chart,
@@ -1555,8 +1250,7 @@
               }
             }
           }
-        });
-        donutChart.render();
+        }).render();
 
         // Mostrar resultados e anúncios
         showResults(true);
