@@ -11,14 +11,16 @@
   
   <style>
     :root {
+      /* Cores atualizadas baseadas na logo */
       --color-bg: #f7f9fc;
       --color-card: #ffffff;
-      --color-primary: #1e40af;
-      --color-primary-light: #3b82f6;
-      --color-primary-dark: #1e3a8a;
-      --color-secondary: #FFB400;
+      --color-primary: #15212d; /* Azul escuro da logo */
+      --color-primary-light: #3b7bea; /* Azul claro da logo */
+      --color-primary-dark: #0e1921; /* Versão mais escura do azul principal */
+      --color-secondary: #ffb400; /* Amarelo do check na logo */
       --color-secondary-dark: #e09600;
-      --color-text: #1f2937;
+      --color-accent: #39b3c3; /* Verde-azulado da cédula na logo */
+      --color-text: #15212d;
       --color-text-light: #6b7280;
       --color-border: #e5e7eb;
       --color-success: #10b981;
@@ -59,8 +61,8 @@
     header {
       background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
       padding: 3rem 1rem 4rem;
-      border-bottom-left-radius: 30px;
-      border-bottom-right-radius: 30px;
+      border-bottom-left-radius: 0; /* Removidos os cantos arredondados */
+      border-bottom-right-radius: 0; /* Removidos os cantos arredondados */
       margin-bottom: -2rem;
       box-shadow: var(--box-shadow);
       position: relative;
@@ -91,7 +93,8 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      justify-content: center; /* Centraliza a logo quando o texto é removido */
+      width: 100%; /* Ocupa todo o espaço disponível */
     }
     
     .logo {
@@ -107,22 +110,7 @@
     }
     
     .brand-text {
-      color: white;
-    }
-    
-    .brand-text h1 {
-      font-family: 'Poppins', sans-serif;
-      font-size: 2.2rem;
-      font-weight: 700;
-      margin: 0;
-      letter-spacing: -0.02em;
-    }
-    
-    .brand-text p {
-      font-size: 1rem;
-      font-weight: 300;
-      opacity: 0.9;
-      margin: 0;
+      display: none; /* Oculta o texto PagCerto conforme solicitado */
     }
     
     .header-actions {
@@ -189,7 +177,7 @@
       font-family: 'Poppins', sans-serif;
       font-size: 1.35rem;
       margin: 0;
-      color: var(--color-primary-dark);
+      color: var(--color-primary);
       font-weight: 600;
     }
     
@@ -220,7 +208,7 @@
       display: flex;
       flex-direction: column;
       font-size: 0.95rem;
-      color: var(--color-primary-dark);
+      color: var(--color-primary);
       font-weight: 500;
     }
     
@@ -252,7 +240,7 @@
     
     .input-group:focus-within {
       border-color: var(--color-primary-light);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      box-shadow: 0 0 0 3px rgba(59, 123, 234, 0.2);
     }
     
     .input-group input {
@@ -300,7 +288,7 @@
     select:focus {
       outline: none;
       border-color: var(--color-primary-light);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      box-shadow: 0 0 0 3px rgba(59, 123, 234, 0.2);
     }
     
     button {
@@ -368,7 +356,7 @@
     }
     
     .small .badge {
-      background: rgba(59, 130, 246, 0.1);
+      background: rgba(59, 123, 234, 0.1);
       color: var(--color-primary-light);
       padding: 0.25rem 0.75rem;
       border-radius: 2rem;
@@ -417,7 +405,7 @@
     .result-value {
       font-weight: 700;
       font-size: 1.1rem;
-      color: var(--color-primary-dark);
+      color: var(--color-primary);
     }
     
     .recommendation {
@@ -507,7 +495,7 @@
     footer {
       margin-top: 3rem;
       padding: 2rem 0;
-      background: var(--color-primary-dark);
+      background: var(--color-primary);
       color: white;
       text-align: center;
       border-top-left-radius: 30px;
@@ -551,10 +539,6 @@
         padding: 2rem 1rem 3rem;
       }
       
-      .brand-text h1 {
-        font-size: 1.8rem;
-      }
-      
       .header-actions {
         display: none;
       }
@@ -567,11 +551,6 @@
     }
     
     @media (max-width: 640px) {
-      .brand {
-        flex-direction: column;
-        text-align: center;
-      }
-      
       .card {
         padding: 1.5rem;
       }
@@ -602,10 +581,7 @@
     <div class="header-content">
       <div class="brand">
         <img src="favicon.png" alt="PagCerto Logo" class="logo">
-        <div class="brand-text">
-          <h1>PagCerto</h1>
-          <p>Calcule a melhor forma de pagamento</p>
-        </div>
+        <!-- Texto removido conforme solicitado -->
       </div>
       <div class="header-actions">
         <button class="header-btn" id="btnAbout">Sobre</button>
@@ -781,8 +757,6 @@
     </div>
   </footer>
 
-  <!-- Modal para About e Contact (implementar se necessário) -->
-  
   <!-- Bibliotecas JS -->
   <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -860,8 +834,8 @@
       
       // Foco
       document.getElementById('v0').focus();
-    });
-    
+    });    
+
     // Inicializar ao carregar
     window.addEventListener('load', () => {
       fetchCDI();
