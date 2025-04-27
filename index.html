@@ -42,17 +42,12 @@
       padding: 2rem;
       margin: 1rem;
     }
-    h2 {
-      font-family: 'Poppins', sans-serif;
-      font-size: 1.25rem;
-      margin-bottom: 0.75rem;
-      color: var(--color-primary);
-    }
+    label > span { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+    h2 { display: none; }
     .form-row { display: flex; flex-wrap: wrap; gap: 1rem; }
     .form-row > label { flex: 1 1 100%; }
     @media (min-width: 500px) { .form-row > label { flex: 1 1 48%; } }
     label { display: flex; flex-direction: column; font-size: 1rem; color: var(--color-primary); }
-    label > span { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
     label .material-icons { font-size: 1.5rem; }
     .input-group {
       display: flex;
@@ -60,6 +55,7 @@
       border: 1px solid var(--color-border);
       border-radius: var(--border-radius);
       height: var(--field-height);
+      width: 100%;
       padding: 0 0.75rem;
       background: var(--color-card);
       transition: border-color 0.2s, box-shadow 0.2s;
@@ -113,7 +109,6 @@
     .result p { margin: 0.75rem 0; line-height: 1.4; font-size: 1.125rem; font-weight: 500; }
     .error { color: #e53935; font-weight: 500; }
     .hidden { display: none !important; }
-    /* Gráficos */
     #chart-line, #chart-bar, #chart-donut {
       max-width: 100%;
       height: 300px;
@@ -142,136 +137,4 @@
         <select id="n_select">
           <option value="">— selecione —</option>
           <option value="1">1</option><option value="2">2</option><option value="3">3</option>
-          <option value="4">4</option><option value="5">5</option><option value="6">6</option>
-          <option value="7">7</option><option value="8">8</option><option value="9">9</option>
-          <option value="10">10</option><option value="11">11</option><option value="12">12</option>
-          <option value="other">Outra</option>
-        </select>
-      </label>
-      <label id="label_n_custom" class="hidden">
-        <span><i class="material-icons">edit</i>Digite o número de parcelas:</span>
-        <input id="n_custom" type="text" inputmode="numeric" placeholder="Ex: 18">
-      </label>
-      <label>
-        <span><i class="material-icons">view_module</i>Valor da parcela:</span>
-        <div class="input-group">
-          <span class="prefix">R$</span>
-          <input id="p" type="text" placeholder="73,42" data-currency>
-        </div>
-      </label>
-      <label>
-        <span><i class="material-icons">trending_up</i>Rendimento (% do CDI):</span>
-        <div class="input-group">
-          <input id="cdipercent" type="text" placeholder="100" inputmode="numeric">
-          <span class="suffix">%</span>
-        </div>
-      </label>
-    </div>
-    <div class="small">CDI mensal atual: <span id="cdi_valor">—</span></div>
-    <button id="btnCalc">Calcular</button>
-  </div>
-
-  <div class=\"card hidden\" id=\"resCard\"><div class=\"result\" id=\"res\"></div></div>
-  <div class=\"card hidden\" id=\"lineCard\"><h2>Crescimento do Saldo</h2><div id="chart-line"></div></div>
-  <div class=\"card hidden\" id=\"barCard\"><h2>Comparativo de Custos</h2><div id="chart-bar"></div></div>
-  <div class=\"card hidden\" id=\"donutCard\"><h2>Composição de Juros</h2><div id="chart-donut"></div></div>
-
-  <!-- ApexCharts -->
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-  <script>
-    // Toggle campo "Outra"
-    const nSelect = document.getElementById('n_select');
-    const labelNCustom = document.getElementById('label_n_custom');
-    function toggleNCustom() { labelNCustom.classList.toggle('hidden', nSelect.value !== 'other'); }
-    nSelect.addEventListener('change', toggleNCustom);
-    window.addEventListener('load', toggleNCustom);
-
-    // Formatação de campos numéricos
-    document.querySelectorAll('[data-currency]').forEach(input => {
-      input.setAttribute('inputmode','decimal');
-      input.addEventListener('input', () => {
-        input.value = input.value.replace(/[^0-9,\.]/g, '');
-      });
-      input.addEventListener('blur', () => {
-        const v = input.value.replace(/\./g,'').replace(',', '.');
-        const num = parseFloat(v);
-        if (!isNaN(num)) input.value = num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      });
-      input.addEventListener('focus', () => {
-        input.value = input.value.replace(/\./g,'').replace(',', '.');
-      });
-    });
-    document.getElementById('n_custom').addEventListener('input', e => e.target.value = e.target.value.replace(/\D/g, ''));
-    document.getElementById('cdipercent').addEventListener('input', e => e.target.value = e.target.value.replace(/\D/g, ''));
-
-    // Buscar CDI
-    let cdiMensal = NaN;
-    async function fetchCDI() {
-      const el = document.getElementById('cdi_valor'); el.textContent = 'carregando…';
-      try {
-        const resp = await fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados/ultimos/1?formato=json');
-        if (!resp.ok) throw new Error(resp.status);
-        const data = await resp.json();
-        const diario = parseFloat(data[0].valor.replace(',', '.')) / 100;
-        cdiMensal = Math.pow(1 + diario, 21) - 1;
-        el.textContent = (cdiMensal * 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) + '%';
-      } catch (err) { el.textContent = 'não disponível'; console.error(err); }
-    }
-    window.addEventListener('load', fetchCDI);
-
-    // Cálculo e Gráficos
-    document.getElementById('btnCalc').addEventListener('click', () => {
-      const rawV0 = document.getElementById('v0').value.replace(/\./g,'').replace(',', '.').trim();
-      const rawP  = document.getElementById('p').value.replace(/\./g,'').replace(',', '.').trim();
-      const V0 = parseFloat(rawV0), P = parseFloat(rawP);
-      let n = nSelect.value === 'other' ? parseInt(document.getElementById('n_custom').value, 10) : parseInt(nSelect.value, 10);
-      const pct = parseFloat(document.getElementById('cdipercent').value);
-      const r = cdiMensal * (pct/100);
-      const resEl = document.getElementById('res');
-      if (isNaN(V0)||!n||isNaN(P)||isNaN(r)) { resEl.innerHTML = '<p class="error">Preencha todos os campos corretamente.</p>'; return; }
-      const F = P*n; let juros=0, pago=0;
-      for(let i=0;i<n;i++){ pago+=P; juros+=Math.max(F-pago,0)*r; }
-      const CL = F-juros;
-      resEl.innerHTML =
-        `<p><strong>Total parcelado:</strong> R$ ${F.toLocaleString('pt-BR',{minimumFractionDigits:2})}</p>`+
-        `<p><strong>Rendimento total:</strong> R$ ${juros.toLocaleString('pt-BR',{minimumFractionDigits:2})}</p>`+
-        `<p><strong>Custo líquido:</strong> R$ ${CL.toLocaleString('pt-BR',{minimumFractionDigits:2})}</p>`+
-        `<p style="margin-top:1rem;"><strong>${CL>V0? '👉 Melhor: Pagar à vista':'👉 Melhor: Parcelar e investir'}</strong></p>`;
-
-      // Dados para gráficos
-      const saldos = [], meses = [];
-      let acumulado = 0;
-      for(let i=1;i<=n;i++){
-        acumulado +=Math.max(F-(P*i),0)*r;
-        saldos.push(parseFloat(acumulado.toFixed(2)));
-        meses.push(`Mês ${i}`);
-      }
-      // Line Chart
-      ApexCharts.exec('line-chart','destroy');
-      new ApexCharts(document.querySelector('#chart-line'),{
-        chart:{id:'line-chart',type:'line',toolbar:{show:false}},
-        series:[{name:'Saldo Investido',data:saldos}],
-        xaxis:{categories:meses},stroke:{curve:'smooth',width:2},markers:{size:4},colors:['#00214D'],grid:{borderColor:'#e0e0e0'},tooltip:{y:{formatter:v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}}
-      }).render();
-      // Bar Chart
-      ApexCharts.exec('bar-chart','destroy');
-      new ApexCharts(document.querySelector('#chart-bar'),{
-        chart:{id:'bar-chart',type:'bar',toolbar:{show:false}},
-        series:[{name:'À vista',data:[V0]},{name:'Parcelado (líquido)',data:[CL]}],
-        xaxis:{categories:['Custo']},plotOptions:{bar:{columnWidth:'50%',endingShape:'rounded'}},colors:['#00214D','#FFB400'],dataLabels:{enabled:true,position:'top',style:{fontSize:'0.9rem',fontWeight:'500'}},grid:{borderColor:'#e0e0e0'},tooltip:{y:{formatter:v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}}
-      }).render();
-      // Donut Chart
-      ApexCharts.exec('donut-chart','destroy');
-      new ApexCharts(document.querySelector('#chart-donut'),{
-        chart:{id:'donut-chart',type:'donut',toolbar:{show:false}},
-        series:[CL,juros],labels:['Capital Líquido','Juros Totais'],colors:['#00214D','#FFB400'],legend:{position:'bottom'},dataLabels:{formatter:(val)=>val.toFixed(1)+'%'},plotOptions:{pie:{donut:{labels:{show:true,name:{show:true},value:{show:true,formatter:(val)=>val.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}}}}}
-      }).render();
-      // Mostrar resultados e gráficos
-      document.getElementById('resCard').classList.remove('hidden');
-      document.getElementById('lineCard').classList.remove('hidden');
-      document.getElementById('barCard').classList.remove('hidden');
-      document.getElementById('donutCard').classList.remove('hidden');
-    });
-  </script>
-</body>
-</html>
+          <option value="4">4</option><option value="5">5
