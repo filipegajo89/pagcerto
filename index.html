@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <!-- Cabeçalho mantido igual -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PagCerto</title>
@@ -9,48 +8,140 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Poppins:wght@600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
-    :root { /* Variáveis */
-      --color-bg: #f0f2f5; --color-card: #ffffff; --color-primary: #142633; --color-gradient-from: #142633;
-      --color-gradient-to: #1e3248; --color-accent: #FFB400; --color-text: #333333; --color-border: #d1d5db;
-      --border-radius: 12px; --box-shadow: 0 2px 8px rgba(0,0,0,0.1); --field-height: 3rem; --logo-size: 80px;
+    :root {
+      --color-bg: #f0f2f5;
+      --color-card: #ffffff;
+      --color-primary: #142633;
+      --color-gradient-from: #142633;
+      --color-gradient-to: #1e3248;
+      --color-accent: #FFB400;
+      --color-text: #333333;
+      --color-border: #d1d5db;
+      --border-radius: 12px;
+      --box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      --field-height: 3rem;
+      --logo-size: 80px;
       --input-padding: 0.75rem;
     }
     * { box-sizing: border-box; }
     body { margin: 0; padding: 0; background: var(--color-bg); color: var(--color-text); font-family: 'Roboto', sans-serif; }
-    header { display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, var(--color-gradient-from), var(--color-gradient-to)); padding: 2.5rem 1rem; border-bottom-left-radius: var(--border-radius); border-bottom-right-radius: var(--border-radius); }
+    header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, var(--color-gradient-from), var(--color-gradient-to));
+      padding: 2.5rem 1rem;
+      border-bottom-left-radius: var(--border-radius);
+      border-bottom-right-radius: var(--border-radius);
+    }
     .logo { width: var(--logo-size); height: var(--logo-size); object-fit: contain; }
-    .card { background: var(--color-card); border-radius: var(--border-radius); box-shadow: var(--box-shadow); padding: 2rem; margin: 1rem; }
-    h2 { font-family: 'Poppins', sans-serif; font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--color-primary); }
+    .card {
+      background: var(--color-card);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 2rem;
+      margin: 1rem;
+    }
+    h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      color: var(--color-primary);
+    }
     .form-row { display: flex; flex-wrap: wrap; gap: 1rem; }
     .form-row > label { flex: 1 1 100%; }
     @media (min-width: 500px) { .form-row > label { flex: 1 1 48%; } }
     label { display: flex; flex-direction: column; font-size: 1rem; color: var(--color-primary); }
     label > span { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
     label .material-icons { font-size: 1.5rem; }
-    .input-group { display: flex; align-items: center; border: 1px solid var(--color-border); border-radius: var(--border-radius); height: var(--field-height); width: 100%; padding: 0 0.75rem; background: var(--color-card); transition: border-color 0.2s, box-shadow 0.2s; }
-    .input-group:focus-within { border-color: var(--color-primary); box-shadow: 0 0 0 2px rgba(20, 38, 51, 0.2); }
-    .input-group input { border: none; outline: none; height: 100%; flex: 1; padding: 0; font-size: 1rem; }
-    .input-group input::placeholder { color: #999; font-style: italic; }
-    .input-group .prefix, .input-group .suffix { margin: 0 0.5rem; visibility: visible; color: var(--color-text); font-weight: 500; }
-    select, button { height: var(--field-height); width: 100%; font-size: 1rem; border: 1px solid var(--color-border); border-radius: var(--border-radius); transition: border-color 0.2s, box-shadow 0.2s; }
+    .input-group {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius);
+      height: var(--field-height);
+      width: 100%;
+      padding: 0 0.75rem;
+      background: var(--color-card);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-group:focus-within {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px rgba(20, 38, 51, 0.2);
+    }
+    .input-group input {
+      border: none;
+      outline: none;
+      height: 100%;
+      flex: 1;
+      padding: 0;
+      font-size: 1rem;
+    }
+    .input-group input::placeholder {
+      color: #999;
+      font-style: italic;
+    }
+    .input-group .prefix,
+    .input-group .suffix {
+      margin: 0 0.5rem;
+      visibility: visible;
+      color: var(--color-text);
+      font-weight: 500;
+    }
+    select, button {
+      height: var(--field-height);
+      width: 100%;
+      font-size: 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
     select:focus, button:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 2px rgba(20, 38, 51, 0.2); }
     select { padding: 0 var(--input-padding); margin-top: 0.25rem; }
-    button { background: var(--color-primary); color: #fff; border: none; cursor: pointer; font-weight: 600; margin-top: 1rem; border-radius: var(--border-radius); transition: background 0.2s, transform 0.1s; }
+    button {
+      background: var(--color-primary);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 1rem;
+      border-radius: var(--border-radius);
+      transition: background 0.2s, transform 0.1s;
+    }
     button:hover { background: #0d1f3a; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
     button:active { transform: scale(0.98); }
     .small { font-size: 0.9rem; color: #555; margin-top: 0.5rem; }
     .result p { margin: 0.75rem 0; line-height: 1.4; font-size: 1.125rem; font-weight: 500; }
     .error { color: #e53935; font-weight: 500; }
     .hidden { display: none !important; }
-    #lineCard h2, #barCard h2, #donutCard h2 { display: none; }
-    #chart-line, #chart-bar, #chart-donut { max-width: 100%; height: 300px; opacity: 0; animation: fadeIn 0.6s forwards; }
+    /* Gráficos */
+    #chart-line, #chart-bar, #chart-donut {
+      max-width: 100%;
+      height: 300px;
+      opacity: 0;
+      animation: fadeIn 0.6s forwards;
+    }
     @keyframes fadeIn { to { opacity: 1; } }
   </style>
 </head>
 <body>
-  <header><img src="favicon.png" alt="PagCerto Logo" class="logo"></header>
+  <header>
+    <img src="favicon.png" alt="PagCerto Logo" class="logo">
+  </header>
 
-  <!-- Conteúdo mantido -->
-  <!-- Restante do HTML e JavaScript igual ao atual -->
-</body>
-</html>
+  <div class="card">
+    <div class="form-row">
+      <label>
+        <span><i class="material-icons">attach_money</i>Preço à vista:</span>
+        <div class="input-group">
+          <span class="prefix">R$</span>
+          <input id="v0" type="text" placeholder="1.000,00" data-currency>
+        </div>
+      </label>
+      <label>
+        <span><i class="material-icons">payment</i>Quantidade de parcelas:</span>
+        <select id="n_select">
+          <option value="">— selecione —</option>
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+          <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+          <option value="7">7
