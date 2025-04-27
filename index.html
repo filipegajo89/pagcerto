@@ -3,98 +3,258 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PagCerto</title>
+  <meta name="description" content="PagCerto - Calculadora financeira para comparar pagamento à vista versus parcelado">
+  <title>PagCerto | Calculadora Financeira Inteligente</title>
   <!-- Google Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Poppins:wght@600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  
   <style>
     :root {
-      --color-bg: #f0f2f5;
+      --color-bg: #f7f9fc;
       --color-card: #ffffff;
-      --color-primary: #142633;
-      --color-gradient-from: #142633;
-      --color-gradient-to: #1e3248;
-      --color-accent: #FFB400;
-      --color-text: #333333;
-      --color-border: #d1d5db;
-      --border-radius: 12px;
-      --box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      --field-height: 3rem;
-      --logo-size: 80px;
-      --input-padding: 0.75rem;
+      --color-primary: #1e40af;
+      --color-primary-light: #3b82f6;
+      --color-primary-dark: #1e3a8a;
+      --color-secondary: #FFB400;
+      --color-secondary-dark: #e09600;
+      --color-text: #1f2937;
+      --color-text-light: #6b7280;
+      --color-border: #e5e7eb;
+      --color-success: #10b981;
+      --color-error: #ef4444;
+      --border-radius: 14px;
+      --box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.01);
+      --box-shadow-hover: 0 20px 35px -10px rgba(0,0,0,0.08), 0 10px 20px -10px rgba(0,0,0,0.04);
+      --field-height: 3.25rem;
+      --logo-size: 90px;
+      --input-padding: 0.875rem;
+      --transition: all 0.3s ease;
     }
-    * { box-sizing: border-box; }
-    body { margin: 0; padding: 0; background: var(--color-bg); color: var(--color-text); font-family: 'Roboto', sans-serif; }
+    
+    * { 
+      box-sizing: border-box; 
+      margin: 0;
+      padding: 0;
+    }
+    
+    body { 
+      margin: 0; 
+      padding: 0; 
+      background: var(--color-bg); 
+      color: var(--color-text); 
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-bottom: 3rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
 
     /* Cabeçalho com banner */
     header {
-      /* cor sólida de fundo para todo o header */
-      background-color: #15212d;
-
-      /* removemos o gradient anterior */
-      /* background: linear-gradient(135deg, var(--color-gradient-from), var(--color-gradient-to)); */
-
-      /* padding e cantos conforme já tínhamos ajustado */
-      padding: 1rem;
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-
-      /* centraliza o banner */
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+      padding: 3rem 1rem 4rem;
+      border-bottom-left-radius: 30px;
+      border-bottom-right-radius: 30px;
+      margin-bottom: -2rem;
+      box-shadow: var(--box-shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -10%;
+      width: 120%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+      transform: rotate(15deg);
     }
 
-     /* Cartões e formulários */
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .logo {
+      width: var(--logo-size);
+      height: var(--logo-size);
+      object-fit: contain;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+      transition: var(--transition);
+    }
+    
+    .logo:hover {
+      transform: scale(1.05);
+    }
+    
+    .brand-text {
+      color: white;
+    }
+    
+    .brand-text h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+    
+    .brand-text p {
+      font-size: 1rem;
+      font-weight: 300;
+      opacity: 0.9;
+      margin: 0;
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .header-btn {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      border: none;
+      padding: 0.5rem 1.25rem;
+      border-radius: 2rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .header-btn:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-2px);
+    }
+    
+    /* Cartões e formulários */
     .card {
       background: var(--color-card);
       border-radius: var(--border-radius);
       box-shadow: var(--box-shadow);
       padding: 2rem;
-      margin: 1rem;
+      margin: 1.5rem auto;
+      transition: var(--transition);
+      max-width: 1200px;
+      position: relative;
+      border: 1px solid var(--color-border);
     }
+    
+    .card:hover {
+      box-shadow: var(--box-shadow-hover);
+    }
+    
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+    
+    .card-title i {
+      background: var(--color-primary-light);
+      color: white;
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    
     h2 {
       font-family: 'Poppins', sans-serif;
-      font-size: 1.25rem;
-      margin-bottom: 0.75rem;
-      color: var(--color-primary);
+      font-size: 1.35rem;
+      margin: 0;
+      color: var(--color-primary-dark);
+      font-weight: 600;
     }
-    .form-row { display: flex; flex-wrap: wrap; gap: 1rem; }
-    .form-row > label { flex: 1 1 100%; }
-    @media (min-width: 500px) {
-      .form-row > label { flex: 1 1 48%; }
+    
+    .form-row { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 1.25rem; 
+      margin-bottom: 1rem;
     }
+    
+    .form-row > label { 
+      flex: 1 1 100%; 
+    }
+    
+    @media (min-width: 640px) {
+      .form-row > label { 
+        flex: 1 1 calc(50% - 0.625rem); 
+      }
+    }
+    
+    @media (min-width: 992px) {
+      .form-row > label { 
+        flex: 1 1 calc(33.333% - 0.835rem); 
+      }
+    }
+    
     label {
       display: flex;
       flex-direction: column;
-      font-size: 1rem;
-      color: var(--color-primary);
+      font-size: 0.95rem;
+      color: var(--color-primary-dark);
+      font-weight: 500;
     }
+    
     label > span {
       display: flex;
       align-items: center;
       gap: 0.75rem;
       margin-bottom: 0.5rem;
     }
-    label .material-icons { font-size: 1.5rem; }
+    
+    label .material-icons-round { 
+      font-size: 1.25rem;
+      color: var(--color-primary-light);
+    }
 
     /* Input group com prefix/suffix */
     .input-group {
       display: flex;
       align-items: center;
       border: 1px solid var(--color-border);
-      border-radius: var(--border-radius);
+      border-radius: 12px;
       height: var(--field-height);
       width: 100%;
-      padding: 0 0.75rem;
+      padding: 0 1rem;
       background: var(--color-card);
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: all 0.2s ease;
+      overflow: hidden;
     }
+    
     .input-group:focus-within {
-      border-color: var(--color-primary);
-      box-shadow: 0 0 0 2px rgba(20, 38, 51, 0.2);
+      border-color: var(--color-primary-light);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
     }
+    
     .input-group input {
       border: none;
       outline: none;
@@ -102,147 +262,534 @@
       flex: 1;
       padding: 0;
       font-size: 1rem;
+      font-family: 'Roboto', sans-serif;
+      color: var(--color-text);
     }
+    
     .input-group input::placeholder {
-      color: #999;
-      font-style: italic;
+      color: #a0aec0;
+      font-weight: 300;
     }
+    
     .input-group .prefix,
     .input-group .suffix {
-      margin: 0 0.5rem;
-      color: var(--color-text);
       font-weight: 500;
+      color: var(--color-text-light);
+      padding: 0 0.5rem;
     }
 
     /* Select e botão */
-    select, button {
+    select {
       height: var(--field-height);
       width: 100%;
       font-size: 1rem;
       border: 1px solid var(--color-border);
-      border-radius: var(--border-radius);
-      transition: border-color 0.2s, box-shadow 0.2s;
+      border-radius: 12px;
+      padding: 0 1rem;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1rem;
+      color: var(--color-text);
+      transition: all 0.2s ease;
+      cursor: pointer;
+      font-family: 'Roboto', sans-serif;
     }
-    select { padding: 0 var(--input-padding); margin-top: 0.25rem; }
-    select:focus, button:focus {
+    
+    select:focus {
       outline: none;
-      border-color: var(--color-primary);
-      box-shadow: 0 0 0 2px rgba(20, 38, 51, 0.2);
+      border-color: var(--color-primary-light);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
     }
+    
     button {
-      background: var(--color-primary);
-      color: #fff;
-      border: none;
+      height: var(--field-height);
+      width: 100%;
+      font-size: 1rem;
+      border-radius: 12px;
       cursor: pointer;
       font-weight: 600;
-      margin-top: 1rem;
-      border-radius: var(--border-radius);
-      transition: background 0.2s, transform 0.1s;
+      transition: all 0.2s ease;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      letter-spacing: 0.02em;
     }
-    button:hover {
-      background: #0d1f3a;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
-    button:active { transform: scale(0.98); }
-
-    .small { font-size: 0.9rem; color: #555; margin-top: 0.5rem; }
-    .result p { margin: 0.75rem 0; line-height: 1.4; font-size: 1.125rem; font-weight: 500; }
-    .error { color: #e53935; font-weight: 500; }
-    .hidden { display: none !important; }
+    
+    .btn-primary:hover {
+      background: var(--color-primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .btn-primary:active {
+      transform: translateY(1px);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary-light);
+    }
+    
+    .btn-outline:hover {
+      background: var(--color-primary-light);
+      color: white;
+    }
+    
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .action-row button {
+      flex: 1;
+    }
+    
+    .small { 
+      font-size: 0.85rem; 
+      color: var(--color-text-light); 
+      margin: 0.75rem 0 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .small .badge {
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--color-primary-light);
+      padding: 0.25rem 0.75rem;
+      border-radius: 2rem;
+      font-weight: 500;
+    }
+    
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.8s linear infinite;
+      margin-right: 0.5rem;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Resultados */
+    .result {
+      padding: 0.5rem 0;
+    }
+    
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    
+    .result-row:last-child {
+      border-bottom: none;
+    }
+    
+    .result-label {
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .result-value {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--color-primary-dark);
+    }
+    
+    .recommendation {
+      background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+      color: white;
+      padding: 1.25rem;
+      border-radius: 12px;
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .recommendation i {
+      font-size: 2rem;
+    }
+    
+    .recommendation-text {
+      flex: 1;
+    }
+    
+    .recommendation-text h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.2rem;
+      margin: 0 0 0.25rem;
+    }
+    
+    .recommendation-text p {
+      margin: 0;
+      opacity: 0.9;
+      font-size: 0.95rem;
+    }
+    
+    .error { 
+      color: var(--color-error); 
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: rgba(239, 68, 68, 0.1);
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+    
+    .hidden { 
+      display: none !important; 
+    }
 
     /* Gráficos */
+    .chart-container {
+      min-height: 360px;
+      padding: 1rem 0;
+      position: relative;
+    }
+    
     #chart-line, #chart-bar, #chart-donut {
       max-width: 100%;
-      height: 300px;
       opacity: 0;
-      animation: fadeIn 0.6s forwards;
+      animation: fadeIn 0.8s 0.2s forwards;
     }
-    @keyframes fadeIn { to { opacity: 1; } }
+    
+    @keyframes fadeIn { 
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); } 
+    }
+    
+    /* Ads slots */
+    .ad-container {
+      margin: 2rem auto;
+      padding: 1rem;
+      background: #f9fafb;
+      border-radius: var(--border-radius);
+      text-align: center;
+      border: 1px dashed var(--color-border);
+    }
+    
+    .ad-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--color-text-light);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    
+    /* Footer */
+    footer {
+      margin-top: 3rem;
+      padding: 2rem 0;
+      background: var(--color-primary-dark);
+      color: white;
+      text-align: center;
+      border-top-left-radius: 30px;
+      border-top-right-radius: 30px;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+    
+    .footer-links a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    .copyright {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      margin-top: 2rem;
+    }
+    
+    /* Responsividade */
+    @media (max-width: 768px) {
+      header {
+        padding: 2rem 1rem 3rem;
+      }
+      
+      .brand-text h1 {
+        font-size: 1.8rem;
+      }
+      
+      .header-actions {
+        display: none;
+      }
+      
+      .recommendation {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .brand {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .card {
+        padding: 1.5rem;
+      }
+      
+      .form-row {
+        gap: 1rem;
+      }
+      
+      .result-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      
+      .result-value {
+        align-self: flex-end;
+      }
+      
+      .action-row button {
+        flex: 1 1 100%;
+      }
+    }
   </style>
 </head>
 <body>
+  <!-- Cabeçalho -->
   <header>
-    <img src="favicon.png" alt="PagCerto Logo" class="logo">
+    <div class="header-content">
+      <div class="brand">
+        <img src="favicon.png" alt="PagCerto Logo" class="logo">
+        <div class="brand-text">
+          <h1>PagCerto</h1>
+          <p>Calcule a melhor forma de pagamento</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="header-btn" id="btnAbout">Sobre</button>
+        <button class="header-btn" id="btnContact">Contato</button>
+      </div>
+    </div>
   </header>
+  
+  <div class="container">
+    <!-- Ad slot superior -->
+    <div class="ad-container" id="adTop">
+      <span class="ad-label">Publicidade</span>
+      <!-- Espaço para adsense -->
+      <div id="adSlotTop" style="min-height:90px;background:#eee;border-radius:8px;display:flex;align-items:center;justify-content:center;">
+        Espaço para anúncio
+      </div>
+    </div>
+    
+    <!-- Formulário de entrada -->
+    <div class="card">
+      <div class="card-title">
+        <i class="material-icons-round">calculate</i>
+        <h2>Calculadora de Parcelas</h2>
+      </div>
+      
+      <div class="form-row">
+        <!-- Preço à vista -->
+        <label>
+          <span><i class="material-icons-round">payments</i>Preço à vista:</span>
+          <div class="input-group">
+            <span class="prefix">R$</span>
+            <input id="v0" type="text" placeholder="1.000,00">
+          </div>
+        </label>
 
-  <!-- Formulário de entrada -->
-  <div class="card">
-    <div class="form-row">
-      <!-- Preço à vista -->
-      <label>
-        <span><i class="material-icons">attach_money</i>Preço à vista:</span>
-        <div class="input-group">
-          <span class="prefix">R$</span>
-          <input id="v0" type="text" placeholder="1.000,00">
-        </div>
-      </label>
+        <!-- Quantidade de parcelas -->
+        <label>
+          <span><i class="material-icons-round">date_range</i>Quantidade de parcelas:</span>
+          <select id="n_select">
+            <option value="">— selecione —</option>
+            <option value="1">1x</option><option value="2">2x</option><option value="3">3x</option>
+            <option value="4">4x</option><option value="5">5x</option><option value="6">6x</option>
+            <option value="7">7x</option><option value="8">8x</option><option value="9">9x</option>
+            <option value="10">10x</option><option value="11">11x</option><option value="12">12x</option>
+            <option value="other">Outra quantidade</option>
+          </select>
+        </label>
 
-      <!-- Quantidade de parcelas -->
-      <label>
-        <span><i class="material-icons">payment</i>Quantidade de parcelas:</span>
-        <select id="n_select">
-          <option value="">— selecione —</option>
-          <option value="1">1</option><option value="2">2</option><option value="3">3</option>
-          <option value="4">4</option><option value="5">5</option><option value="6">6</option>
-          <option value="7">7</option><option value="8">8</option><option value="9">9</option>
-          <option value="10">10</option><option value="11">11</option><option value="12">12</option>
-          <option value="other">Outra</option>
-        </select>
-      </label>
+        <!-- Campo custom para "Outra" -->
+        <label id="label_n_custom" class="hidden">
+          <span><i class="material-icons-round">edit</i>Digite o número de parcelas:</span>
+          <div class="input-group">
+            <input id="n_custom" type="text" placeholder="Ex: 18">
+          </div>
+        </label>
+      </div>
+      
+      <div class="form-row">
+        <!-- Valor da parcela -->
+        <label>
+          <span><i class="material-icons-round">receipt_long</i>Valor da parcela:</span>
+          <div class="input-group">
+            <span class="prefix">R$</span>
+            <input id="p" type="text" placeholder="73,42">
+          </div>
+        </label>
 
-      <!-- Campo custom para "Outra" -->
-      <label id="label_n_custom" class="hidden">
-        <span><i class="material-icons">edit</i>Digite o número de parcelas:</span>
-        <div class="input-group">
-          <input id="n_custom" type="text" placeholder="Ex: 18">
-        </div>
-      </label>
+        <!-- Rendimento CDI -->
+        <label>
+          <span><i class="material-icons-round">trending_up</i>Rendimento (% do CDI):</span>
+          <div class="input-group">
+            <input id="cdipercent" type="text" placeholder="100">
+            <span class="suffix">%</span>
+          </div>
+        </label>
+      </div>
 
-      <!-- Valor da parcela -->
-      <label>
-        <span><i class="material-icons">view_module</i>Valor da parcela:</span>
-        <div class="input-group">
-          <span class="prefix">R$</span>
-          <input id="p" type="text" placeholder="73,42">
-        </div>
-      </label>
-
-      <!-- Rendimento CDI -->
-      <label>
-        <span><i class="material-icons">trending_up</i>Rendimento (% do CDI):</span>
-        <div class="input-group">
-          <input id="cdipercent" type="text" placeholder="100">
-          <span class="suffix">%</span>
-        </div>
-      </label>
+      <!-- CDI atual -->
+      <div class="small">
+        <i class="material-icons-round" style="font-size:1.1rem">info</i>
+        CDI mensal atual: <span class="badge" id="cdi_valor">—</span>
+      </div>
+      
+      <div class="action-row">
+        <button id="btnCalc" class="btn-primary">
+          <i class="material-icons-round">calculate</i>
+          Calcular
+        </button>
+        <button id="btnReset" class="btn-outline">
+          <i class="material-icons-round">refresh</i>
+          Limpar
+        </button>
+      </div>
     </div>
 
-    <!-- CDI atual -->
-    <div class="small">CDI mensal atual: <span id="cdi_valor">—</span></div>
-    <button id="btnCalc">Calcular</button>
+    <!-- Resultados ocultos inicialmente -->
+    <div class="card hidden" id="resCard">
+      <div class="card-title">
+        <i class="material-icons-round">analytics</i>
+        <h2>Resultado da Análise</h2>
+      </div>
+      
+      <div class="result" id="res">
+        <!-- Preenchido via JavaScript -->
+      </div>
+    </div>
+    
+    <!-- Ad slot meio -->
+    <div class="ad-container hidden" id="adMiddle">
+      <span class="ad-label">Publicidade</span>
+      <!-- Espaço para adsense -->
+      <div id="adSlotMiddle" style="min-height:90px;background:#eee;border-radius:8px;display:flex;align-items:center;justify-content:center;">
+        Espaço para anúncio
+      </div>
+    </div>
+    
+    <div class="card hidden" id="lineCard">
+      <div class="card-title">
+        <i class="material-icons-round">show_chart</i>
+        <h2>Crescimento do Saldo</h2>
+      </div>
+      <div class="chart-container">
+        <div id="chart-line"></div>
+      </div>
+    </div>
+    
+    <div class="card hidden" id="barCard">
+      <div class="card-title">
+        <i class="material-icons-round">bar_chart</i>
+        <h2>Comparativo de Custos</h2>
+      </div>
+      <div class="chart-container">
+        <div id="chart-bar"></div>
+      </div>
+    </div>
+    
+    <div class="card hidden" id="donutCard">
+      <div class="card-title">
+        <i class="material-icons-round">pie_chart</i>
+        <h2>Composição de Juros</h2>
+      </div>
+      <div class="chart-container">
+        <div id="chart-donut"></div>
+      </div>
+    </div>
+    
+    <!-- Ad slot inferior -->
+    <div class="ad-container hidden" id="adBottom">
+      <span class="ad-label">Publicidade</span>
+      <!-- Espaço para adsense -->
+      <div id="adSlotBottom" style="min-height:90px;background:#eee;border-radius:8px;display:flex;align-items:center;justify-content:center;">
+        Espaço para anúncio
+      </div>
+    </div>
   </div>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <img src="favicon.png" alt="PagCerto Logo" style="width:60px;height:60px;margin-bottom:1rem;">
+      
+      <div class="footer-links">
+        <a href="#sobre">Sobre</a>
+        <a href="#como-funciona">Como Funciona</a>
+        <a href="#termos">Termos de Uso</a>
+        <a href="#privacidade">Política de Privacidade</a>
+        <a href="#contato">Contato</a>
+      </div>
+      
+      <div class="copyright">
+        &copy; <span id="currentYear">2025</span> PagCerto - Todos os direitos reservados
+      </div>
+    </div>
+  </footer>
 
-  <!-- Resultados ocultos inicialmente -->
-  <div class="card hidden" id="resCard">
-    <div class="result" id="res"></div>
-  </div>
-  <div class="card hidden" id="lineCard">
-    <h2>Crescimento do Saldo</h2>
-    <div id="chart-line"></div>
-  </div>
-  <div class="card hidden" id="barCard">
-    <h2>Comparativo de Custos</h2>
-    <div id="chart-bar"></div>
-  </div>
-  <div class="card hidden" id="donutCard">
-    <h2>Composição de Juros</h2>
-    <div id="chart-donut"></div>
-  </div>
-
+  <!-- Modal para About e Contact (implementar se necessário) -->
+  
   <!-- Bibliotecas JS -->
   <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <script>
+    // Atualizar ano no footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    
     // Toggle campo "Outra"
     const nSelect = document.getElementById('n_select');
     const labelNCustom = document.getElementById('label_n_custom');
@@ -250,19 +797,41 @@
       labelNCustom.classList.toggle('hidden', nSelect.value !== 'other');
     }
     nSelect.addEventListener('change', toggleNCustom);
-    window.addEventListener('load', toggleNCustom);
-
+    
     // Formatação com Cleave.js
-    new Cleave('#v0', { numeral: true, numeralDecimalMark: ',', delimiter: '.', numeralDecimalScale: 2, numeralThousandsGroupStyle: 'thousand' });
-    new Cleave('#p',  { numeral: true, numeralDecimalMark: ',', delimiter: '.', numeralDecimalScale: 2, numeralThousandsGroupStyle: 'thousand' });
-    new Cleave('#cdipercent', { numeral: true, numeralDecimalScale: 0, numeralThousandsGroupStyle: 'none' });
-    new Cleave('#n_custom',    { numeral: true, numeralDecimalScale: 0, numeralThousandsGroupStyle: 'none' });
+    new Cleave('#v0', { 
+      numeral: true, 
+      numeralDecimalMark: ',', 
+      delimiter: '.', 
+      numeralDecimalScale: 2, 
+      numeralThousandsGroupStyle: 'thousand' 
+    });
+    
+    new Cleave('#p', { 
+      numeral: true, 
+      numeralDecimalMark: ',', 
+      delimiter: '.', 
+      numeralDecimalScale: 2, 
+      numeralThousandsGroupStyle: 'thousand' 
+    });
+    
+    new Cleave('#cdipercent', { 
+      numeral: true, 
+      numeralDecimalScale: 0, 
+      numeralThousandsGroupStyle: 'none' 
+    });
+    
+    new Cleave('#n_custom', { 
+      numeral: true, 
+      numeralDecimalScale: 0, 
+      numeralThousandsGroupStyle: 'none' 
+    });
 
     // Buscar CDI atual
     let cdiMensal = NaN;
     async function fetchCDI() {
       const el = document.getElementById('cdi_valor');
-      el.textContent = 'carregando…';
+      el.innerHTML = '<span class="loading"></span>carregando…';
       try {
         const resp = await fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados/ultimos/1?formato=json');
         if (!resp.ok) throw new Error(resp.status);
@@ -275,89 +844,438 @@
         console.error('Erro CDI:', err);
       }
     }
-    window.addEventListener('load', fetchCDI);
+    
+    // Botão de limpar
+    document.getElementById('btnReset').addEventListener('click', () => {
+      document.getElementById('v0').value = '';
+      document.getElementById('p').value = '';
+      document.getElementById('cdipercent').value = '';
+      document.getElementById('n_select').value = '';
+      document.getElementById('n_custom').value = '';
+      
+      // Esconder resultados
+      ['resCard', 'lineCard', 'barCard', 'donutCard', 'adMiddle', 'adBottom'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      
+      // Foco
+      document.getElementById('v0').focus();
+    });
+    
+    // Inicializar ao carregar
+    window.addEventListener('load', () => {
+      fetchCDI();
+      toggleNCustom();
+      document.getElementById('v0').focus();
+      
+      // Inicializar botões do header
+      document.getElementById('btnAbout').addEventListener('click', () => {
+        alert('PagCerto é uma calculadora financeira que ajuda você a decidir entre pagar à vista ou parcelar uma compra, considerando o rendimento do seu dinheiro investido.');
+      });
+      
+      document.getElementById('btnContact').addEventListener('click', () => {
+        alert('Para entrar em contato, envie um email para contato@pagcerto.com.br');
+      });
+    });
+
+    // Função para formatar valores monetários
+    function formatMoney(value) {
+      return value.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
+    
+    // Função para mostrar os anúncios
+    function showAds() {
+      document.getElementById('adMiddle').classList.remove('hidden');
+      document.getElementById('adBottom').classList.remove('hidden');
+      
+      // Aqui você incluiria o código do AdSense quando for implementar
+      console.log('Carregando anúncios...');
+    }
 
     // Cálculo e geração de gráficos
     document.getElementById('btnCalc').addEventListener('click', () => {
-      const rawV0 = document.getElementById('v0').value.replace(/\./g,'').replace(',', '.').trim();
-      const rawP  = document.getElementById('p').value.replace(/\./g,'').replace(',', '.').trim();
-      const V0 = parseFloat(rawV0), P = parseFloat(rawP);
-      let n = nSelect.value === 'other'
-        ? parseInt(document.getElementById('n_custom').value, 10)
-        : parseInt(nSelect.value, 10);
-      const pct = parseFloat(document.getElementById('cdipercent').value);
-      const r = cdiMensal * (pct / 100);
-      const resEl = document.getElementById('res');
-      if (isNaN(V0) || !n || isNaN(P) || isNaN(r)) {
-        resEl.innerHTML = '<p class="error">Preencha todos os campos corretamente.</p>';
-        return;
+      // Mostrar botão de loading
+      const btnCalc = document.getElementById('btnCalc');
+      const originalText = btnCalc.innerHTML;
+      btnCalc.innerHTML = '<span class="loading"></span>Calculando...';
+      btnCalc.disabled = true;
+      
+      // Atraso intencional para simular processamento
+      setTimeout(() => {
+        const rawV0 = document.getElementById('v0').value.replace(/\./g,'').replace(',', '.').trim();
+        const rawP  = document.getElementById('p').value.replace(/\./g,'').replace(',', '.').trim();
+        const V0 = parseFloat(rawV0), P = parseFloat(rawP);
+        let n = nSelect.value === 'other'
+          ? parseInt(document.getElementById('n_custom').value, 10)
+          : parseInt(nSelect.value, 10);
+        const pct = parseFloat(document.getElementById('cdipercent').value || '100');
+        const r = cdiMensal * (pct / 100);
+        const resEl = document.getElementById('res');
+        
+        // Validação dos campos
+        if (isNaN(V0) || V0 <= 0) {
+          resEl.innerHTML = '<div class="error"><i class="material-icons-round">error_outline</i>Por favor, informe um preço à vista válido.</div>';
+          showResults(false);
+          resetButton();
+          return;
+        }
+        
+        if (!n || n <= 0) {
+          resEl.innerHTML = '<div class="error"><i class="material-icons-round">error_outline</i>Por favor, selecione a quantidade de parcelas.</div>';
+          showResults(false);
+          resetButton();
+          return;
+        }
+        
+        if (isNaN(P) || P <= 0) {
+          resEl.innerHTML = '<div class="error"><i class="material-icons-round">error_outline</i>Por favor, informe um valor de parcela válido.</div>';
+          showResults(false);
+          resetButton();
+          return;
+        }
+        
+        if (isNaN(r) || r <= 0) {
+          resEl.innerHTML = '<div class="error"><i class="material-icons-round">error_outline</i>Por favor, verifique o percentual de rendimento.</div>';
+          showResults(false);
+          resetButton();
+          return;
+        }
+
+        // Cálculos principais
+        const F = P * n;
+        let juros = 0, pago = 0;
+        for (let i = 0; i < n; i++) {
+          pago += P;
+          juros += Math.max(F - pago, 0) * r;
+        }
+        const CL = F - juros;
+        
+        // Diferença percentual
+        const difValue = Math.abs(CL - V0);
+        const difPercent = (difValue / V0) * 100;
+        
+        // Exibir resultados
+        let resultHTML = '';
+        
+        // Total parcelado
+        resultHTML += `
+        <div class="result-row">
+          <div class="result-label"><i class="material-icons-round">credit_card</i>Total parcelado</div>
+          <div class="result-value">${formatMoney(F)}</div>
+        </div>`;
+        
+        // Rendimento total
+        resultHTML += `
+        <div class="result-row">
+          <div class="result-label"><i class="material-icons-round">savings</i>Rendimento</div>
+          <div class="result-value">${formatMoney(juros)}</div>
+        </div>`;
+        
+        // Custo líquido
+        resultHTML += `
+        <div class="result-row">
+          <div class="result-label"><i class="material-icons-round">account_balance_wallet</i>Custo líquido</div>
+          <div class="result-value">${formatMoney(CL)}</div>
+        </div>`;
+        
+        // Diferença
+        resultHTML += `
+        <div class="result-row">
+          <div class="result-label"><i class="material-icons-round">compare_arrows</i>Diferença</div>
+          <div class="result-value">${formatMoney(difValue)} (${difPercent.toFixed(2)}%)</div>
+        </div>`;
+        
+        // Recomendação
+        const isBetterParcelado = CL < V0;
+        const savings = isBetterParcelado ? V0 - CL : CL - V0;
+        
+        resultHTML += `
+        <div class="recommendation" style="background:linear-gradient(135deg, ${isBetterParcelado ? '#10b981, #059669' : '#3b82f6, #1e40af'})">
+          <i class="material-icons-round">${isBetterParcelado ? 'credit_card' : 'payments'}</i>
+          <div class="recommendation-text">
+            <h3>${isBetterParcelado ? 'Melhor Parcelar e Investir' : 'Melhor Pagar à Vista'}</h3>
+            <p>Você ${isBetterParcelado ? 'economiza' : 'economizaria'} ${formatMoney(savings)} se ${isBetterParcelado ? 'parcelar' : 'pagar à vista'}.</p>
+          </div>
+        </div>`;
+        
+        resEl.innerHTML = resultHTML;
+        
+        // Gerar dados para gráficos
+        const saldos = [];
+        const meses = [];
+        let acumulado = 0;
+        for (let i = 1; i <= n; i++) {
+          acumulado += Math.max(F - (P * i), 0) * r;
+          saldos.push(parseFloat(acumulado.toFixed(2)));
+          meses.push(`Mês ${i}`);
+        }
+
+        // Configurações comuns dos gráficos
+        const fontFamily = "'Roboto', sans-serif";
+        const colors = ['#1e40af', '#3b82f6', '#10b981', '#FFB400'];
+        const commonOptions = {
+          chart: {
+            fontFamily: fontFamily,
+            toolbar: {
+              show: false
+            },
+            animations: {
+              enabled: true,
+              easing: 'easeinout',
+              speed: 800
+            },
+            dropShadow: {
+              enabled: true,
+              opacity: 0.1,
+              blur: 3,
+              left: 0,
+              top: 0
+            }
+          },
+          grid: {
+            borderColor: '#e5e7eb',
+            strokeDashArray: 4,
+            padding: {
+              top: 10,
+              right: 10,
+              bottom: 10,
+              left: 10
+            },
+          },
+          tooltip: {
+            theme: 'light',
+            style: {
+              fontFamily: fontFamily
+            },
+            y: {
+              formatter: formatMoney
+            }
+          },
+          legend: {
+            fontFamily: fontFamily,
+            itemMargin: {
+              horizontal: 12,
+              vertical: 5
+            },
+            markers: {
+              width: 12,
+              height: 12,
+              radius: 4
+            }
+          }
+        };
+
+        // Renderizar gráficos
+        ApexCharts.exec('line-chart','destroy');
+        new ApexCharts(document.querySelector('#chart-line'), {
+          ...commonOptions,
+          chart: {
+            ...commonOptions.chart,
+            id: 'line-chart',
+            type: 'area',
+            height: 350
+          },
+          series: [{
+            name: 'Rendimento Acumulado',
+            data: saldos
+          }],
+          xaxis: {
+            categories: meses,
+            labels: {
+              style: {
+                fontFamily: fontFamily
+              }
+            }
+          },
+          yaxis: {
+            labels: {
+              formatter: formatMoney,
+              style: {
+                fontFamily: fontFamily
+              }
+            }
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            curve: 'smooth',
+            width: 3
+          },
+          fill: {
+            type: 'gradient',
+            gradient: {
+              shadeIntensity: 1,
+              opacityFrom: 0.7,
+              opacityTo: 0.2,
+              stops: [0, 90, 100],
+              colorStops: [
+                {
+                  offset: 0,
+                  color: colors[1],
+                  opacity: 0.8
+                },
+                {
+                  offset: 100,
+                  color: colors[1],
+                  opacity: 0.2
+                }
+              ]
+            }
+          },
+          markers: {
+            size: 5,
+            colors: [colors[1]],
+            strokeColors: '#fff',
+            strokeWidth: 2,
+            hover: {
+              size: 7
+            }
+          },
+          colors: [colors[1]]
+        }).render();
+
+        ApexCharts.exec('bar-chart','destroy');
+        new ApexCharts(document.querySelector('#chart-bar'), {
+          ...commonOptions,
+          chart: {
+            ...commonOptions.chart,
+            id: 'bar-chart',
+            type: 'bar',
+            height: 350
+          },
+          series: [
+            { name: 'À vista', data: [V0] },
+            { name: 'Parcelado (custo líquido)', data: [CL] }
+          ],
+          xaxis: {
+            categories: ['Comparativo'],
+            labels: {
+              style: {
+                fontFamily: fontFamily
+              }
+            }
+          },
+          plotOptions: {
+            bar: {
+              columnWidth: '50%',
+              borderRadius: 6,
+              dataLabels: {
+                position: 'top'
+              }
+            }
+          },
+          dataLabels: {
+            enabled: true,
+            formatter: formatMoney,
+            style: {
+              fontFamily: fontFamily,
+              fontWeight: 500
+            },
+            offsetY: -20,
+          },
+          colors: [colors[0], colors[3]],
+          states: {
+            hover: {
+              filter: {
+                type: 'darken',
+                value: 0.9
+              }
+            }
+          }
+        }).render();
+
+        ApexCharts.exec('donut-chart','destroy');
+        new ApexCharts(document.querySelector('#chart-donut'), {
+          ...commonOptions,
+          chart: {
+            ...commonOptions.chart,
+            id: 'donut-chart',
+            type: 'donut',
+            height: 350
+          },
+          series: [CL, juros],
+          labels: ['Capital Líquido', 'Juros Economizados'],
+          colors: [colors[0], colors[3]],
+          legend: {
+            ...commonOptions.legend,
+            position: 'bottom'
+          },
+          dataLabels: {
+            enabled: true,
+            formatter: function(val) {
+              return val.toFixed(1) + '%';
+            },
+            style: {
+              fontFamily: fontFamily,
+              fontWeight: 500
+            }
+          },
+          plotOptions: {
+            pie: {
+              donut: {
+                labels: {
+                  show: true,
+                  name: {
+                    show: true,
+                    fontFamily: fontFamily,
+                    fontSize: '16px',
+                    fontWeight: 500
+                  },
+                  value: {
+                    show: true,
+                    fontFamily: fontFamily,
+                    fontSize: '22px',
+                    fontWeight: 600,
+                    formatter: formatMoney
+                  },
+                  total: {
+                    show: true,
+                    showAlways: true,
+                    label: 'Total',
+                    fontFamily: fontFamily,
+                    fontSize: '16px',
+                    fontWeight: 500,
+                    formatter: function (w) {
+                      const total = w.globals.seriesTotals.reduce((a, b) => a + b, 0);
+                      return formatMoney(total);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }).render();
+
+        // Mostrar resultados e anúncios
+        showResults(true);
+        showAds();
+        resetButton();
+        
+        // Scroll para os resultados
+        document.getElementById('resCard').scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 800); // Tempo do delay para simulação
+      
+      function resetButton() {
+        btnCalc.innerHTML = originalText;
+        btnCalc.disabled = false;
       }
-
-      // Cálculos principais
-      const F = P * n;
-      let juros = 0, pago = 0;
-      for (let i = 0; i < n; i++) {
-        pago += P;
-        juros += Math.max(F - pago, 0) * r;
-      }
-      const CL = F - juros;
-
-      // Exibir resultados
-      resEl.innerHTML =
-        `<p><strong>Total parcelado:</strong> R$ ${F.toLocaleString('pt-BR',{minimumFractionDigits:2})}</p>` +
-        `<p><strong>Rendimento total:</strong> R$ ${juros.toLocaleString('pt-BR',{minimumFractionDigits:2})}</p>` +
-        `<p><strong>Custo líquido:</strong> R$ ${CL.toLocaleString('pt-BR',{minimumFractionDigits:2})}</p>` +
-        `<p style="margin-top:1rem;"><strong>${CL > V0 ? '👉 Melhor: Pagar à vista' : '👉 Melhor: Parcelar e investir'}</strong></p>`;
-
-      // Gerar dados linha
-      const saldos = [];
-      const meses = [];
-      let acumulado = 0;
-      for (let i = 1; i <= n; i++) {
-        acumulado += Math.max(F - (P * i), 0) * r;
-        saldos.push(parseFloat(acumulado.toFixed(2)));
-        meses.push(`Mês ${i}`);
-      }
-
-      // Renderizar gráficos
-      ApexCharts.exec('line-chart','destroy');
-      new ApexCharts(document.querySelector('#chart-line'), {
-        chart:{ id:'line-chart', type:'line', toolbar:{ show:false } },
-        series:[{ name:'Saldo Investido', data:saldos }],
-        xaxis:{ categories:meses },
-        stroke:{ curve:'smooth', width:2 },
-        markers:{ size:4 },
-        colors:['#00214D'],
-        grid:{ borderColor:'#e0e0e0' },
-        tooltip:{ y:{ formatter:v=>v.toLocaleString('pt-BR',{ style:'currency', currency:'BRL' }) }}
-      }).render();
-
-      ApexCharts.exec('bar-chart','destroy');
-      new ApexCharts(document.querySelector('#chart-bar'), {
-        chart:{ id:'bar-chart', type:'bar', toolbar:{ show:false } },
-        series:[ { name:'À vista', data:[V0] }, { name:'Parcelado (líquido)', data:[CL] } ],
-        xaxis:{ categories:['Custo'] },
-        plotOptions:{ bar:{ columnWidth:'50%', endingShape:'rounded' } },
-        colors:['#00214D','#FFB400'],
-        dataLabels:{ enabled:true, position:'top', style:{ fontSize:'0.9rem', fontWeight:'500' } },
-        grid:{ borderColor:'#e0e0e0' },
-        tooltip:{ y:{ formatter:v=>v.toLocaleString('pt-BR',{ style:'currency', currency:'BRL' }) }}
-      }).render();
-
-      ApexCharts.exec('donut-chart','destroy');
-      new ApexCharts(document.querySelector('#chart-donut'), {
-        chart:{ id:'donut-chart', type:'donut', toolbar:{ show:false } },
-        series:[CL, juros],
-        labels:['Capital Líquido','Juros Totais'],
-        colors:['#00214D','#FFB400'],
-        legend:{ position:'bottom' },
-        dataLabels:{ formatter:(val)=>val.toFixed(1)+'%' },
-        plotOptions:{ pie:{ donut:{ labels:{ show:true, name:{ show:true }, value:{ show:true, formatter:(val)=>val.toLocaleString('pt-BR',{ style:'currency', currency:'BRL' }) } } } } }
-      }).render();
-
-      // Mostrar seções ocultas
-      ['resCard','lineCard','barCard','donutCard'].forEach(id => document.getElementById(id).classList.remove('hidden'));
     });
+    
+    // Controla a exibição dos resultados
+    function showResults(show) {
+      ['resCard', 'lineCard', 'barCard', 'donutCard'].forEach(id => {
+        document.getElementById(id).classList.toggle('hidden', !show);
+      });
+    }
   </script>
 </body>
 </html>
