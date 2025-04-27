@@ -29,20 +29,24 @@
 
     /* Cabeçalho com banner */
     header {
+      /* cor sólida de fundo para todo o header */
+      background-color: #15212d;
+
+      /* removemos o gradient anterior */
+      /* background: linear-gradient(135deg, var(--color-gradient-from), var(--color-gradient-to)); */
+
+      /* padding e cantos conforme já tínhamos ajustado */
+      padding: 1rem;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+
+      /* centraliza o banner */
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 200px;   
-      background: linear-gradient(135deg, var(--color-gradient-from), var(--color-gradient-to));
-      border-radius: 0 0 0 0;       
-    }
-    .logo {
-      width: var(--logo-size);
-      height: var(--logo-size);
-      object-fit: contain;
     }
 
-    /* Cartões e formulários */
+     /* Cartões e formulários */
     .card {
       background: var(--color-card);
       border-radius: var(--border-radius);
@@ -357,11 +361,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-   
-
-  
