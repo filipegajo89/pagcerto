@@ -47,6 +47,7 @@
       font-size: 1.25rem;
       margin-bottom: 0.75rem;
       color: var(--color-primary);
+      display: none;
     }
     .form-row { display: flex; flex-wrap: wrap; gap: 1rem; }
     .form-row > label { flex: 1 1 100%; }
@@ -144,4 +145,53 @@
           <option value="">— selecione —</option>
           <option value="1">1</option><option value="2">2</option><option value="3">3</option>
           <option value="4">4</option><option value="5">5</option><option value="6">6</option>
-          <option value="7">7
+          <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+          <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+          <option value="other">Outra</option>
+        </select>
+      </label>
+      <label id="label_n_custom" class="hidden">
+        <span><i class="material-icons">edit</i>Digite o número de parcelas:</span>
+        <div class="input-group">
+          <input id="n_custom" type="text" inputmode="numeric" placeholder="Ex: 18">
+        </div>
+      </label>
+      <label>
+        <span><i class="material-icons">view_module</i>Valor da parcela:</span>
+        <div class="input-group">
+          <span class="prefix">R$</span>
+          <input id="p" type="text" placeholder="73,42" data-currency>
+        </div>
+      </label>
+      <label>
+        <span><i class="material-icons">trending_up</i>Rendimento (% do CDI):</span>
+        <div class="input-group">
+          <input id="cdipercent" type="text" placeholder="100" inputmode="numeric">
+          <span class="suffix">%</span>
+        </div>
+      </label>
+    </div>
+    <div class="small">CDI mensal atual: <span id="cdi_valor">—</span></div>
+    <button id="btnCalc">Calcular</button>
+  </div>
+
+  <!-- Result and Charts hidden until calculation -->
+  <div class="card hidden" id="resCard"><div class="result" id="res"></div></div>
+  <div class="card hidden" id="lineCard"><h2>Crescimento do Saldo</h2><div id="chart-line"></div></div>
+  <div class="card hidden" id="barCard"><h2>Comparativo de Custos</h2><div id="chart-bar"></div></div>
+  <div class="card hidden" id="donutCard"><h2>Composição de Juros</h2><div id="chart-donut"></div></div>
+
+  <!-- ApexCharts -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script>
+    // Toggle campo "Outra"
+    const nSelect = document.getElementById('n_select');
+    const labelNCustom = document.getElementById('label_n_custom');
+    function toggleNCustom() { labelNCustom.classList.toggle('hidden', nSelect.value !== 'other'); }
+    nSelect.addEventListener('change', toggleNCustom);
+    window.addEventListener('load', toggleNCustom);
+
+    // Formatação de campos numéricos
+    document.querySelectorAll('[data-currency]').forEach(input => {
+      input.setAttribute('inputmode','decimal');
+      input.addEventListener('input', () => { input.value = input.value.replace(/[^0-9,\.]/
