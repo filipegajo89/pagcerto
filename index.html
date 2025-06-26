@@ -3,39 +3,55 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="PagCerto - Calculadora financeira para comparar pagamento à vista versus parcelado">
-  <title>PagCerto | Calculadora Financeira Inteligente</title>
+  <meta name="description" content="PagCerto - Calculadora financeira inteligente para comparar pagamento à vista versus parcelado. Economize dinheiro com análises precisas.">
+  <meta name="keywords" content="calculadora financeira, parcelamento, pagamento à vista, CDI, investimento, economia">
+  <meta name="author" content="PagCerto">
+  <meta property="og:title" content="PagCerto | Calculadora Financeira Inteligente">
+  <meta property="og:description" content="Descubra se vale mais a pena pagar à vista ou parcelado. Análise completa com gráficos e recomendações personalizadas.">
+  <meta property="og:image" content="favicon.png">
+  <meta property="og:url" content="https://pagcerto.com.br">
+  <title>PagCerto | Calculadora Financeira Inteligente - À Vista ou Parcelado?</title>
 
-  <!-- Favicon padrão -->
+  <!-- Favicon -->
   <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  
+  <!-- Preconnect para performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
   
   <!-- Google Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   
   <style>
     :root {
-      /* Cores atualizadas baseadas na logo */
-      --color-bg: #f7f9fc;
+      /* Cores refinadas baseadas na logo */
+      --color-bg: #f8fafc;
       --color-card: #ffffff;
-      --color-primary: #15212d; /* Azul escuro da logo */
-      --color-primary-light: #3b7bea; /* Azul claro da logo */
-      --color-primary-dark: #0e1921; /* Versão mais escura do azul principal */
-      --color-secondary: #ffb400; /* Amarelo do check na logo */
+      --color-primary: #15212d;
+      --color-primary-light: #3b7bea;
+      --color-primary-dark: #0e1921;
+      --color-secondary: #ffb400;
       --color-secondary-dark: #e09600;
-      --color-accent: #39b3c3; /* Verde-azulado da cédula na logo */
+      --color-accent: #39b3c3;
       --color-text: #15212d;
-      --color-text-light: #6b7280;
-      --color-border: #e5e7eb;
+      --color-text-light: #64748b;
+      --color-border: #e2e8f0;
       --color-success: #10b981;
       --color-error: #ef4444;
-      --border-radius: 14px;
-      --box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.01);
-      --box-shadow-hover: 0 20px 35px -10px rgba(0,0,0,0.08), 0 10px 20px -10px rgba(0,0,0,0.04);
+      --color-toggle-bg: #f1f5f9;
+      --color-toggle-active: var(--color-primary);
+      --border-radius: 16px;
+      --border-radius-sm: 8px;
+      --box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+      --box-shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.03);
+      --box-shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
       --field-height: 3.25rem;
-      --logo-size: 90px;
-      --input-padding: 0.875rem;
-      --transition: all 0.3s ease;
+      --logo-size: 80px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-fast: all 0.15s ease;
     }
     
     * { 
@@ -44,15 +60,18 @@
       padding: 0;
     }
     
+    html {
+      scroll-behavior: smooth;
+    }
+    
     body { 
-      margin: 0; 
-      padding: 0; 
       background: var(--color-bg); 
       color: var(--color-text); 
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       line-height: 1.6;
       min-height: 100vh;
-      padding-bottom: 3rem;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .container {
@@ -61,14 +80,11 @@
       padding: 0 1rem;
     }
 
-    /* Cabeçalho com banner */
+    /* Header aprimorado */
     header {
-      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
-      padding: 3rem 1rem 4rem;
-      border-bottom-left-radius: 0; /* Removidos os cantos arredondados */
-      border-bottom-right-radius: 0; /* Removidos os cantos arredondados */
-      margin-bottom: -2rem;
-      box-shadow: var(--box-shadow);
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+      padding: 2.5rem 1rem 3.5rem;
+      box-shadow: var(--box-shadow-lg);
       position: relative;
       overflow: hidden;
     }
@@ -77,16 +93,29 @@
       content: "";
       position: absolute;
       top: -50%;
-      left: -10%;
-      width: 120%;
+      right: -10%;
+      width: 60%;
       height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+      background: radial-gradient(circle, rgba(59,123,234,0.1) 0%, transparent 70%);
+      transform: rotate(-15deg);
+      pointer-events: none;
+    }
+    
+    header::after {
+      content: "";
+      position: absolute;
+      bottom: -50%;
+      left: -10%;
+      width: 60%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,180,0,0.05) 0%, transparent 70%);
       transform: rotate(15deg);
+      pointer-events: none;
     }
 
     .header-content {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
       position: relative;
       z-index: 1;
@@ -94,53 +123,124 @@
       margin: 0 auto;
     }
     
-    .brand {
-      display: flex;
-      align-items: center;
-      justify-content: center; /* Centraliza a logo quando o texto é removido */
-      width: 100%; /* Ocupa todo o espaço disponível */
-    }
-    
     .logo {
       width: var(--logo-size);
       height: var(--logo-size);
       object-fit: contain;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
       transition: var(--transition);
+      animation: logoEntry 0.8s ease-out;
+    }
+    
+    @keyframes logoEntry {
+      from {
+        opacity: 0;
+        transform: scale(0.8) translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
     }
     
     .logo:hover {
-      transform: scale(1.05);
+      transform: scale(1.05) rotate(5deg);
     }
     
-    .brand-text {
-      display: none; /* Oculta o texto PagCerto conforme solicitado */
+    /* Toggle de Modo - Design Premium */
+    .mode-selector {
+      background: var(--color-card);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 1.5rem;
+      margin: -2.5rem auto 1.5rem;
+      max-width: 1200px;
+      position: relative;
+      z-index: 10;
+      border: 1px solid var(--color-border);
     }
     
-    .header-actions {
+    .mode-selector-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--color-text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
       display: flex;
-      gap: 1rem;
+      align-items: center;
+      gap: 0.5rem;
     }
     
-    .header-btn {
-      background: rgba(255,255,255,0.15);
-      color: white;
-      border: none;
-      padding: 0.5rem 1.25rem;
-      border-radius: 2rem;
-      font-weight: 500;
-      cursor: pointer;
+    .mode-selector-title i {
+      font-size: 1.25rem;
+      color: var(--color-primary-light);
+    }
+    
+    .mode-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      background: var(--color-toggle-bg);
+      padding: 0.375rem;
+      border-radius: 12px;
+      position: relative;
+    }
+    
+    .mode-toggle-slider {
+      position: absolute;
+      top: 0.375rem;
+      left: 0.375rem;
+      width: calc(50% - 0.375rem);
+      height: calc(100% - 0.75rem);
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       transition: var(--transition);
-      backdrop-filter: blur(5px);
-      border: 1px solid rgba(255,255,255,0.1);
+      z-index: 1;
     }
     
-    .header-btn:hover {
-      background: rgba(255,255,255,0.25);
-      transform: translateY(-2px);
+    .mode-toggle-slider.right {
+      left: calc(50% + 0.125rem);
     }
     
-    /* Cartões e formulários */
+    .mode-option {
+      padding: 0.875rem 1.25rem;
+      border: none;
+      background: none;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--color-text-light);
+      cursor: pointer;
+      border-radius: 8px;
+      transition: var(--transition-fast);
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    
+    .mode-option i {
+      font-size: 1.25rem;
+      transition: var(--transition-fast);
+    }
+    
+    .mode-option.active {
+      color: var(--color-primary);
+    }
+    
+    .mode-option.active i {
+      color: var(--color-primary-light);
+    }
+    
+    .mode-option:hover:not(.active) {
+      color: var(--color-text);
+    }
+    
+    /* Cards com animação de entrada */
     .card {
       background: var(--color-card);
       border-radius: var(--border-radius);
@@ -151,50 +251,103 @@
       max-width: 1200px;
       position: relative;
       border: 1px solid var(--color-border);
+      animation: cardEntry 0.6s ease-out backwards;
     }
     
+    @keyframes cardEntry {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .card:nth-child(2) { animation-delay: 0.1s; }
+    .card:nth-child(3) { animation-delay: 0.2s; }
+    .card:nth-child(4) { animation-delay: 0.3s; }
+    
     .card:hover {
-      box-shadow: var(--box-shadow-hover);
+      box-shadow: var(--box-shadow-xl);
+      transform: translateY(-2px);
     }
     
     .card-title {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.75rem;
       padding-bottom: 1rem;
-      border-bottom: 1px solid var(--color-border);
+      border-bottom: 2px solid var(--color-border);
+      position: relative;
+    }
+    
+    .card-title::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(to right, var(--color-primary-light), var(--color-secondary));
+      border-radius: 2px;
     }
     
     .card-title i {
-      background: var(--color-primary-light);
+      background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
       color: white;
-      width: 2.5rem;
-      height: 2.5rem;
+      width: 2.75rem;
+      height: 2.75rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 50%;
+      border-radius: 12px;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 6px rgba(59,123,234,0.2);
     }
     
     h2 {
       font-family: 'Poppins', sans-serif;
-      font-size: 1.35rem;
+      font-size: 1.5rem;
       margin: 0;
       color: var(--color-primary);
       font-weight: 600;
+      letter-spacing: -0.02em;
     }
     
+    /* Form styling aprimorado */
     .form-row { 
       display: flex; 
       flex-wrap: wrap; 
       gap: 1.25rem; 
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    
+    .form-row.hidden {
+      display: none;
     }
     
     .form-row > label { 
       flex: 1 1 100%; 
+      animation: fieldEntry 0.4s ease-out backwards;
     }
+    
+    @keyframes fieldEntry {
+      from {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    .form-row > label:nth-child(1) { animation-delay: 0.1s; }
+    .form-row > label:nth-child(2) { animation-delay: 0.2s; }
+    .form-row > label:nth-child(3) { animation-delay: 0.3s; }
     
     @media (min-width: 640px) {
       .form-row > label { 
@@ -226,25 +379,48 @@
     label .material-icons-round { 
       font-size: 1.25rem;
       color: var(--color-primary-light);
+      transition: var(--transition-fast);
+    }
+    
+    label:hover .material-icons-round {
+      transform: translateY(-2px);
     }
 
-    /* Input group com prefix/suffix */
+    /* Input group melhorado */
     .input-group {
       display: flex;
       align-items: center;
-      border: 1px solid var(--color-border);
+      border: 2px solid var(--color-border);
       border-radius: 12px;
       height: var(--field-height);
       width: 100%;
       padding: 0 1rem;
       background: var(--color-card);
-      transition: all 0.2s ease;
+      transition: var(--transition-fast);
       overflow: hidden;
+      position: relative;
+    }
+    
+    .input-group::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, var(--color-primary-light), var(--color-secondary));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
     }
     
     .input-group:focus-within {
       border-color: var(--color-primary-light);
-      box-shadow: 0 0 0 3px rgba(59, 123, 234, 0.2);
+      box-shadow: 0 0 0 3px rgba(59, 123, 234, 0.1);
+    }
+    
+    .input-group:focus-within::before {
+      opacity: 0.03;
     }
     
     .input-group input {
@@ -254,13 +430,16 @@
       flex: 1;
       padding: 0;
       font-size: 1rem;
-      font-family: 'Roboto', sans-serif;
+      font-family: inherit;
       color: var(--color-text);
+      background: transparent;
+      position: relative;
+      z-index: 1;
     }
     
     .input-group input::placeholder {
-      color: #a0aec0;
-      font-weight: 300;
+      color: #94a3b8;
+      font-weight: 400;
     }
     
     .input-group .prefix,
@@ -268,33 +447,37 @@
       font-weight: 500;
       color: var(--color-text-light);
       padding: 0 0.5rem;
+      position: relative;
+      z-index: 1;
     }
 
-    /* Select e botão */
+    /* Select melhorado */
     select {
       height: var(--field-height);
       width: 100%;
       font-size: 1rem;
-      border: 1px solid var(--color-border);
+      border: 2px solid var(--color-border);
       border-radius: 12px;
-      padding: 0 1rem;
+      padding: 0 3rem 0 1rem;
       appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 1rem center;
-      background-size: 1rem;
+      background-size: 1.25rem;
       color: var(--color-text);
-      transition: all 0.2s ease;
+      transition: var(--transition-fast);
       cursor: pointer;
-      font-family: 'Roboto', sans-serif;
+      font-family: inherit;
+      font-weight: 500;
     }
     
     select:focus {
       outline: none;
       border-color: var(--color-primary-light);
-      box-shadow: 0 0 0 3px rgba(59, 123, 234, 0.2);
+      box-shadow: 0 0 0 3px rgba(59, 123, 234, 0.1);
     }
     
+    /* Botões aprimorados */
     button {
       height: var(--field-height);
       width: 100%;
@@ -302,30 +485,49 @@
       border-radius: 12px;
       cursor: pointer;
       font-weight: 600;
-      transition: all 0.2s ease;
+      transition: var(--transition-fast);
       font-family: 'Poppins', sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.75rem;
       letter-spacing: 0.02em;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease, height 0.6s ease;
+    }
+    
+    button:active::before {
+      width: 300px;
+      height: 300px;
     }
     
     .btn-primary {
-      background: var(--color-primary);
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
       color: white;
       border: none;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 14px 0 rgba(21,33,45,0.2);
     }
     
     .btn-primary:hover {
-      background: var(--color-primary-dark);
       transform: translateY(-2px);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 6px 20px 0 rgba(21,33,45,0.3);
     }
     
     .btn-primary:active {
-      transform: translateY(1px);
+      transform: translateY(0);
     }
     
     .btn-outline {
@@ -337,52 +539,67 @@
     .btn-outline:hover {
       background: var(--color-primary-light);
       color: white;
+      border-color: var(--color-primary-light);
+      box-shadow: 0 4px 14px 0 rgba(59,123,234,0.2);
     }
     
     .action-row {
       display: flex;
       flex-wrap: wrap;
       gap: 1rem;
-      margin-top: 1.5rem;
+      margin-top: 1.75rem;
     }
     
     .action-row button {
       flex: 1;
     }
     
-    .small { 
-      font-size: 0.85rem; 
+    /* Badge CDI aprimorado */
+    .cdi-info { 
+      font-size: 0.875rem; 
       color: var(--color-text-light); 
-      margin: 0.75rem 0 1.25rem;
+      margin: 0.75rem 0 1.5rem;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
     }
     
-    .small .badge {
-      background: rgba(59, 123, 234, 0.1);
+    .cdi-info i {
       color: var(--color-primary-light);
-      padding: 0.25rem 0.75rem;
-      border-radius: 2rem;
-      font-weight: 500;
+      font-size: 1.25rem;
     }
     
+    .cdi-info .badge {
+      background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+      color: white;
+      padding: 0.375rem 0.875rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: 0.875rem;
+      margin-left: auto;
+      box-shadow: 0 2px 4px rgba(59,123,234,0.2);
+    }
+    
+    /* Loading aprimorado */
     .loading {
       display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255,255,255,0.2);
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
       border-radius: 50%;
       border-top-color: white;
-      animation: spin 0.8s linear infinite;
-      margin-right: 0.5rem;
+      animation: spin 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
     }
     
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
     
-    /* Resultados */
+    /* Resultados com visual premium */
     .result {
       padding: 0.5rem 0;
     }
@@ -391,8 +608,15 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.75rem 0;
+      padding: 1rem 0;
       border-bottom: 1px solid var(--color-border);
+      transition: var(--transition-fast);
+    }
+    
+    .result-row:hover {
+      background: linear-gradient(to right, transparent, rgba(59,123,234,0.02), transparent);
+      margin: 0 -1rem;
+      padding: 1rem;
     }
     
     .result-row:last-child {
@@ -404,87 +628,166 @@
       display: flex;
       align-items: center;
       gap: 0.75rem;
+      color: var(--color-text-light);
+    }
+    
+    .result-label i {
+      color: var(--color-primary-light);
+      font-size: 1.25rem;
     }
     
     .result-value {
       font-weight: 700;
-      font-size: 1.1rem;
+      font-size: 1.25rem;
       color: var(--color-primary);
+      font-family: 'Poppins', sans-serif;
     }
     
+    /* Recomendação com gradiente animado */
     .recommendation {
       background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
       color: white;
-      padding: 1.25rem;
-      border-radius: 12px;
-      margin-top: 1.5rem;
+      padding: 1.5rem;
+      border-radius: 16px;
+      margin-top: 1.75rem;
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 1.25rem;
+      box-shadow: 0 10px 25px -5px rgba(59,123,234,0.3);
+      position: relative;
+      overflow: hidden;
+      animation: recommendationPulse 2s ease-in-out;
+    }
+    
+    @keyframes recommendationPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+    
+    .recommendation::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+    }
+    
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
     
     .recommendation i {
-      font-size: 2rem;
+      font-size: 2.5rem;
+      position: relative;
+      z-index: 1;
     }
     
     .recommendation-text {
       flex: 1;
+      position: relative;
+      z-index: 1;
     }
     
     .recommendation-text h3 {
       font-family: 'Poppins', sans-serif;
-      font-size: 1.2rem;
-      margin: 0 0 0.25rem;
+      font-size: 1.35rem;
+      margin: 0 0 0.5rem;
+      font-weight: 600;
     }
     
     .recommendation-text p {
       margin: 0;
-      opacity: 0.9;
-      font-size: 0.95rem;
+      opacity: 0.95;
+      font-size: 1rem;
+      line-height: 1.5;
     }
     
+    /* Mensagem de erro melhorada */
     .error { 
       color: var(--color-error); 
       font-weight: 500;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 1rem;
-      background: rgba(239, 68, 68, 0.1);
-      border-radius: 8px;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+      border-radius: 12px;
       margin: 1rem 0;
+      border: 1px solid #fecaca;
+      animation: shake 0.5s ease-in-out;
     }
     
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+    
+    .error i {
+      font-size: 1.5rem;
+    }
+    
+    /* Estados ocultos */
     .hidden { 
       display: none !important; 
     }
 
-    /* Gráficos */
+    /* Gráficos com animações suaves */
     .chart-container {
-      min-height: 360px;
-      padding: 1rem 0;
+      min-height: 380px;
+      padding: 1.5rem 0;
       position: relative;
     }
     
     #chart-line, #chart-bar, #chart-donut {
       max-width: 100%;
       opacity: 0;
-      animation: fadeIn 0.8s 0.2s forwards;
+      animation: fadeInUp 0.8s 0.2s ease-out forwards;
     }
     
-    @keyframes fadeIn { 
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); } 
+    @keyframes fadeInUp { 
+      from { 
+        opacity: 0; 
+        transform: translateY(20px); 
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0); 
+      } 
     }
     
-    /* Ads slots */
+    /* Slots de anúncios otimizados */
     .ad-container {
-      margin: 2rem auto;
-      padding: 1rem;
-      background: #f9fafb;
+      margin: 2.5rem auto;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #fafbfc, #f3f4f6);
       border-radius: var(--border-radius);
       text-align: center;
-      border: 1px dashed var(--color-border);
+      border: 2px dashed var(--color-border);
+      position: relative;
+      overflow: hidden;
+      max-width: 1200px;
+    }
+    
+    .ad-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(59,123,234,0.02) 10px,
+        rgba(59,123,234,0.02) 20px
+      );
+      pointer-events: none;
     }
     
     .ad-label {
@@ -492,64 +795,284 @@
       text-transform: uppercase;
       color: var(--color-text-light);
       display: block;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
     }
     
-    /* Footer */
+    .ad-slot {
+      min-height: 100px;
+      background: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-light);
+      font-size: 0.875rem;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    /* Footer refinado */
     footer {
-      margin-top: 3rem;
-      padding: 2rem 0;
-      background: var(--color-primary);
-      color: white;
-      text-align: center;
-      border-top-left-radius: 30px;
-      border-top-right-radius: 30px;
+      margin-top: 4rem;
+      padding: 3rem 0 2rem;
+      background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+      color: #e2e8f0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    footer::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: var(--color-bg);
+      border-radius: 0 0 50% 50% / 0 0 100% 100%;
     }
     
     .footer-content {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 1rem;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .footer-logo {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 2rem;
+      display: block;
+      opacity: 0.9;
+      transition: var(--transition);
+    }
+    
+    .footer-logo:hover {
+      opacity: 1;
+      transform: scale(1.1);
     }
     
     .footer-links {
       display: flex;
       justify-content: center;
       gap: 2rem;
-      margin: 1.5rem 0;
+      margin: 2rem 0;
       flex-wrap: wrap;
     }
     
     .footer-links a {
       color: rgba(255,255,255,0.8);
       text-decoration: none;
-      font-size: 0.9rem;
-      transition: var(--transition);
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      transition: var(--transition-fast);
+      position: relative;
+    }
+    
+    .footer-links a::before {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--color-secondary);
+      transition: var(--transition-fast);
+      transform: translateX(-50%);
     }
     
     .footer-links a:hover {
       color: white;
     }
     
-    .copyright {
-      font-size: 0.85rem;
-      opacity: 0.7;
-      margin-top: 2rem;
+    .footer-links a:hover::before {
+      width: 80%;
     }
     
-    /* Responsividade */
+    .footer-links a.active {
+      color: white;
+      background: rgba(255,255,255,0.1);
+    }
+    
+    .copyright {
+      font-size: 0.875rem;
+      opacity: 0.7;
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+    }
+    
+    /* Seções do footer */
+    .footer-sections {
+      margin-top: 2.5rem;
+    }
+    
+    .footer-section {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 1.75rem;
+      display: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .footer-section.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    
+    .footer-section h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+      color: white;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      position: relative;
+      padding-bottom: 0.75rem;
+    }
+    
+    .footer-section h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(to right, var(--color-primary-light), var(--color-secondary));
+      border-radius: 2px;
+    }
+    
+    .footer-section p {
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 1.25rem;
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+    
+    .content-list {
+      margin-bottom: 1.25rem;
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .content-list li {
+      position: relative;
+      margin-bottom: 0.875rem;
+      padding-left: 2rem;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6;
+    }
+    
+    ol.content-list {
+      counter-reset: item;
+    }
+    
+    ol.content-list li {
+      counter-increment: item;
+    }
+    
+    ol.content-list li::before {
+      content: counter(item);
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-weight: 600;
+      color: var(--color-primary-light);
+      background: rgba(59,123,234,0.2);
+      width: 1.5rem;
+      height: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 0.875rem;
+    }
+    
+    ul.content-list li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-weight: 600;
+      color: var(--color-secondary);
+      font-size: 1.25rem;
+    }
+    
+    ul.content-list.highlight li::before {
+      color: var(--color-primary-light);
+    }
+    
+    .footer-section a {
+      color: var(--color-primary-light);
+      text-decoration: none;
+      transition: var(--transition-fast);
+      font-weight: 500;
+    }
+    
+    .footer-section a:hover {
+      color: var(--color-secondary);
+      text-decoration: underline;
+    }
+    
+    .footer-section strong {
+      color: white;
+      font-weight: 600;
+    }
+    
+    /* Responsividade aprimorada */
     @media (max-width: 768px) {
+      :root {
+        --logo-size: 70px;
+      }
+      
       header {
         padding: 2rem 1rem 3rem;
       }
       
-      .header-actions {
+      .mode-toggle {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+      
+      .mode-toggle-slider {
         display: none;
+      }
+      
+      .mode-option {
+        background: var(--color-toggle-bg);
+        justify-content: flex-start;
+      }
+      
+      .mode-option.active {
+        background: white;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       }
       
       .recommendation {
         flex-direction: column;
         text-align: center;
+        padding: 1.75rem;
+      }
+      
+      .recommendation i {
+        font-size: 3rem;
+      }
+      
+      .footer-links {
+        gap: 1rem;
+      }
+      
+      .footer-section {
         padding: 1.5rem;
       }
     }
@@ -567,14 +1090,60 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
+        padding: 1rem 0;
+      }
+      
+      .result-row:hover {
+        margin: 0;
+        padding: 1rem 0;
       }
       
       .result-value {
         align-self: flex-end;
+        font-size: 1.125rem;
       }
       
       .action-row button {
         flex: 1 1 100%;
+      }
+      
+      .cdi-info {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+      }
+      
+      .cdi-info .badge {
+        margin-left: 0;
+      }
+    }
+    
+    /* Utilitários de animação */
+    .fade-in {
+      animation: fadeIn 0.6s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    /* Melhorias de acessibilidade */
+    :focus-visible {
+      outline: 2px solid var(--color-primary-light);
+      outline-offset: 2px;
+    }
+    
+    /* Print styles */
+    @media print {
+      header, footer, .ad-container {
+        display: none;
+      }
+      
+      .card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+        page-break-inside: avoid;
       }
     }
   </style>
@@ -584,19 +1153,39 @@
   <header>
     <div class="header-content">
       <div class="brand">
-        <img src="favicon.png" alt="PagCerto Logo" class="logo">
-        <!-- Texto removido conforme solicitado -->
+        <img src="favicon.png" alt="PagCerto - Calculadora Financeira" class="logo">
       </div>
     </div>
   </header>
+  
+  <!-- Seletor de Modo -->
+  <div class="container">
+    <div class="mode-selector">
+      <div class="mode-selector-title">
+        <i class="material-icons-round">tune</i>
+        Escolha como deseja calcular
+      </div>
+      <div class="mode-toggle">
+        <div class="mode-toggle-slider" id="modeSlider"></div>
+        <button class="mode-option active" id="modeByInstallment" data-mode="installment">
+          <i class="material-icons-round">receipt_long</i>
+          Por Parcela
+        </button>
+        <button class="mode-option" id="modeByTotal" data-mode="total">
+          <i class="material-icons-round">account_balance</i>
+          Por Valor Total
+        </button>
+      </div>
+    </div>
+  </div>
   
   <div class="container">
     <!-- Ad slot superior -->
     <div class="ad-container" id="adTop">
       <span class="ad-label">Publicidade</span>
-      <!-- Espaço para adsense -->
-      <div id="adSlotTop" style="min-height:90px;background:#eee;border-radius:8px;display:flex;align-items:center;justify-content:center;">
-        Espaço para anúncio
+      <div class="ad-slot" id="adSlotTop">
+        <!-- Espaço reservado para Google AdSense -->
+        <span style="color: #94a3b8;">Espaço para anúncio</span>
       </div>
     </div>
     
@@ -610,59 +1199,91 @@
       <div class="form-row">
         <!-- Preço à vista -->
         <label>
-          <span><i class="material-icons-round">payments</i>Preço à vista:</span>
+          <span><i class="material-icons-round">payments</i>Preço à vista</span>
           <div class="input-group">
             <span class="prefix">R$</span>
-            <input id="v0" type="text" placeholder="1.000,00">
+            <input id="v0" type="text" placeholder="1.000,00" autocomplete="off">
           </div>
         </label>
 
         <!-- Quantidade de parcelas -->
         <label>
-          <span><i class="material-icons-round">date_range</i>Quantidade de parcelas:</span>
+          <span><i class="material-icons-round">date_range</i>Quantidade de parcelas</span>
           <select id="n_select">
-            <option value="">— selecione —</option>
-            <option value="1">1x</option><option value="2">2x</option><option value="3">3x</option>
-            <option value="4">4x</option><option value="5">5x</option><option value="6">6x</option>
-            <option value="7">7x</option><option value="8">8x</option><option value="9">9x</option>
-            <option value="10">10x</option><option value="11">11x</option><option value="12">12x</option>
-            <option value="other">Outra quantidade</option>
+            <option value="">Selecione...</option>
+            <option value="1">À vista</option>
+            <option value="2">2x</option>
+            <option value="3">3x</option>
+            <option value="4">4x</option>
+            <option value="5">5x</option>
+            <option value="6">6x</option>
+            <option value="7">7x</option>
+            <option value="8">8x</option>
+            <option value="9">9x</option>
+            <option value="10">10x</option>
+            <option value="11">11x</option>
+            <option value="12">12x</option>
+            <option value="other">Outra quantidade...</option>
           </select>
         </label>
 
         <!-- Campo custom para "Outra" -->
         <label id="label_n_custom" class="hidden">
-          <span><i class="material-icons-round">edit</i>Digite o número de parcelas:</span>
+          <span><i class="material-icons-round">edit</i>Digite o número de parcelas</span>
           <div class="input-group">
-            <input id="n_custom" type="text" placeholder="Ex: 18">
+            <input id="n_custom" type="text" placeholder="Ex: 18" autocomplete="off">
+            <span class="suffix">parcelas</span>
           </div>
         </label>
       </div>
       
-      <div class="form-row">
+      <!-- Campos modo "Por Parcela" -->
+      <div class="form-row" id="installmentFields">
         <!-- Valor da parcela -->
         <label>
-          <span><i class="material-icons-round">receipt_long</i>Valor da parcela:</span>
+          <span><i class="material-icons-round">receipt_long</i>Valor da parcela</span>
           <div class="input-group">
             <span class="prefix">R$</span>
-            <input id="p" type="text" placeholder="73,42">
+            <input id="p" type="text" placeholder="73,42" autocomplete="off">
           </div>
         </label>
 
         <!-- Rendimento CDI -->
         <label>
-          <span><i class="material-icons-round">trending_up</i>Rendimento (% do CDI):</span>
+          <span><i class="material-icons-round">trending_up</i>Rendimento (% do CDI)</span>
           <div class="input-group">
-            <input id="cdipercent" type="text" placeholder="100">
+            <input id="cdipercent" type="text" placeholder="100" autocomplete="off">
+            <span class="suffix">%</span>
+          </div>
+        </label>
+      </div>
+      
+      <!-- Campos modo "Por Valor Total" -->
+      <div class="form-row hidden" id="totalFields">
+        <!-- Valor total parcelado -->
+        <label>
+          <span><i class="material-icons-round">account_balance</i>Valor total parcelado</span>
+          <div class="input-group">
+            <span class="prefix">R$</span>
+            <input id="totalValue" type="text" placeholder="880,00" autocomplete="off">
+          </div>
+        </label>
+
+        <!-- Rendimento CDI (duplicado para este modo) -->
+        <label>
+          <span><i class="material-icons-round">trending_up</i>Rendimento (% do CDI)</span>
+          <div class="input-group">
+            <input id="cdipercent2" type="text" placeholder="100" autocomplete="off">
             <span class="suffix">%</span>
           </div>
         </label>
       </div>
 
       <!-- CDI atual -->
-      <div class="small">
-        <i class="material-icons-round" style="font-size:1.1rem">info</i>
-        CDI mensal atual: <span class="badge" id="cdi_valor">—</span>
+      <div class="cdi-info">
+        <i class="material-icons-round">info</i>
+        <span>Taxa CDI mensal atual</span>
+        <span class="badge" id="cdi_valor">carregando...</span>
       </div>
       
       <div class="action-row">
@@ -677,7 +1298,7 @@
       </div>
     </div>
 
-    <!-- Resultados ocultos inicialmente -->
+    <!-- Resultados -->
     <div class="card hidden" id="resCard">
       <div class="card-title">
         <i class="material-icons-round">analytics</i>
@@ -692,12 +1313,12 @@
     <!-- Ad slot meio -->
     <div class="ad-container hidden" id="adMiddle">
       <span class="ad-label">Publicidade</span>
-      <!-- Espaço para adsense -->
-      <div id="adSlotMiddle" style="min-height:90px;background:#eee;border-radius:8px;display:flex;align-items:center;justify-content:center;">
-        Espaço para anúncio
+      <div class="ad-slot" id="adSlotMiddle">
+        <span style="color: #94a3b8;">Espaço para anúncio</span>
       </div>
     </div>
     
+    <!-- Gráficos -->
     <div class="card hidden" id="lineCard">
       <div class="card-title">
         <i class="material-icons-round">show_chart</i>
@@ -731,438 +1352,273 @@
     <!-- Ad slot inferior -->
     <div class="ad-container hidden" id="adBottom">
       <span class="ad-label">Publicidade</span>
-      <!-- Espaço para adsense -->
-      <div id="adSlotBottom" style="min-height:90px;background:#eee;border-radius:8px;display:flex;align-items:center;justify-content:center;">
-        Espaço para anúncio
+      <div class="ad-slot" id="adSlotBottom">
+        <span style="color: #94a3b8;">Espaço para anúncio</span>
       </div>
     </div>
   </div>
   
-  <!-- Footer com seções expansíveis em dispositivos móveis -->
-<footer>
-  <div class="footer-content">
-    <img src="favicon.png" alt="PagCerto Logo" class="footer-logo">
-    
-    <div class="footer-links">
-      <a href="#sobre" data-section="sobre">Sobre</a>
-      <a href="#como-funciona" data-section="como-funciona">Como Funciona</a>
-      <a href="#termos" data-section="termos">Termos de Uso</a>
-      <a href="#privacidade" data-section="privacidade">Política de Privacidade</a>
-      <a href="#cookies" data-section="cookies">Política de Cookies</a>
-      <a href="#contato" data-section="contato">Contato</a>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <img src="favicon.png" alt="PagCerto" class="footer-logo">
+      
+      <div class="footer-links">
+        <a href="#sobre" data-section="sobre">Sobre</a>
+        <a href="#como-funciona" data-section="como-funciona">Como Funciona</a>
+        <a href="#termos" data-section="termos">Termos de Uso</a>
+        <a href="#privacidade" data-section="privacidade">Política de Privacidade</a>
+        <a href="#cookies" data-section="cookies">Política de Cookies</a>
+        <a href="#contato" data-section="contato">Contato</a>
+      </div>
+      
+      <!-- Seções de conteúdo -->
+      <div class="footer-sections">
+        <!-- Sobre -->
+        <div id="sobre" class="footer-section">
+          <h3>Sobre o PagCerto</h3>
+          <p>O PagCerto é uma calculadora financeira inteligente desenvolvida para auxiliar consumidores na tomada de decisões financeiras informadas, comparando o valor real entre pagamentos à vista e parcelados.</p>
+          <p>Nossa missão é disponibilizar uma ferramenta acessível e precisa que permita aos usuários economizar recursos financeiros através da análise personalizada das melhores oportunidades de compra, considerando o potencial rendimento de seus investimentos.</p>
+        </div>
+        
+        <!-- Como Funciona -->
+        <div id="como-funciona" class="footer-section">
+          <h3>Como Funciona</h3>
+          <p>Nossa calculadora aplica conceitos financeiros avançados de valor presente líquido e custo de oportunidade para oferecer uma análise comparativa precisa:</p>
+          <ol class="content-list">
+            <li>Insira o valor à vista do produto ou serviço desejado</li>
+            <li>Escolha como deseja calcular: por valor da parcela ou valor total parcelado</li>
+            <li>Informe a quantidade de parcelas disponíveis</li>
+            <li>Adicione a taxa de rendimento esperada para seu capital (% do CDI)</li>
+            <li>Receba instantaneamente uma análise detalhada com visualizações gráficas</li>
+          </ol>
+          <p>Nosso algoritmo considera a valorização temporal do dinheiro, calculando o potencial ganho financeiro caso você investisse o valor das parcelas futuras durante o período do parcelamento.</p>
+        </div>
+        
+        <!-- Termos de Uso -->
+        <div id="termos" class="footer-section">
+          <h3>Termos de Uso</h3>
+          <p>Ao utilizar os serviços do PagCerto, você concorda com os seguintes termos:</p>
+          <ul class="content-list">
+            <li>O PagCerto é uma ferramenta informativa e educacional, não constituindo aconselhamento financeiro profissional</li>
+            <li>Os cálculos são realizados com base nas informações fornecidas pelo usuário e taxas aproximadas de mercado</li>
+            <li>Não nos responsabilizamos por decisões financeiras tomadas com base exclusivamente nos resultados apresentados</li>
+            <li>Os dados informados são processados apenas localmente no dispositivo do usuário</li>
+            <li>O serviço é disponibilizado gratuitamente para uso pessoal e não comercial</li>
+            <li>A reprodução, distribuição ou modificação do código-fonte sem autorização prévia é expressamente proibida</li>
+            <li>Este site pode exibir anúncios contextuais fornecidos pelo Google AdSense</li>
+          </ul>
+        </div>
+        
+        <!-- Política de Privacidade -->
+        <div id="privacidade" class="footer-section">
+          <h3>Política de Privacidade</h3>
+          <p>No PagCerto, valorizamos e protegemos sua privacidade. Nossas práticas incluem:</p>
+          <ul class="content-list">
+            <li>Não coletamos dados pessoais identificáveis dos usuários</li>
+            <li>Todas as informações financeiras inseridas são processadas exclusivamente no navegador do usuário</li>
+            <li>Podemos coletar dados anônimos de utilização para melhorar a funcionalidade da ferramenta</li>
+            <li>Utilizamos o Google Analytics para estatísticas de acesso agregadas</li>
+            <li>O site pode exibir anúncios personalizados do Google AdSense</li>
+            <li>Não compartilhamos, vendemos ou alugamos informações com terceiros</li>
+            <li>Implementamos medidas técnicas apropriadas para proteger as informações</li>
+          </ul>
+          <p>Esta política pode ser atualizada periodicamente. Recomendamos consultar esta página regularmente.</p>
+        </div>
+        
+        <!-- Política de Cookies -->
+        <div id="cookies" class="footer-section">
+          <h3>Política de Cookies</h3>
+          <p>O PagCerto utiliza cookies e tecnologias semelhantes para melhorar sua experiência:</p>
+          <ul class="content-list highlight">
+            <li><strong>Cookies essenciais:</strong> Necessários para o funcionamento básico do site</li>
+            <li><strong>Cookies de desempenho:</strong> Coletam informações anônimas sobre o uso do site</li>
+            <li><strong>Cookies de funcionalidade:</strong> Permitem personalização da experiência</li>
+            <li><strong>Cookies de publicidade:</strong> Utilizados para exibir anúncios relevantes via Google AdSense</li>
+          </ul>
+          <p>Você pode gerenciar suas preferências de cookies através das configurações do seu navegador.</p>
+          <p>Ao continuar navegando, você consente com o uso de cookies conforme descrito nesta política.</p>
+        </div>
+        
+        <!-- Contato -->
+        <div id="contato" class="footer-section">
+          <h3>Entre em Contato</h3>
+          <p>Estamos à disposição para esclarecer dúvidas, receber sugestões ou solucionar problemas técnicos:</p>
+          <ul class="content-list">
+            <li>Email: <a href="mailto:contato@pagcerto.com.br">contato@pagcerto.com.br</a></li>
+            <li>Horário de atendimento: Segunda a sexta, das 9h às 18h (horário de Brasília)</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        &copy; <span id="currentYear">2025</span> PagCerto - Todos os direitos reservados | Este site utiliza cookies e pode conter conteúdo publicitário
+      </div>
     </div>
-    
-    <!-- Seções de conteúdo expandidas -->
-    <div class="footer-sections">
-      <!-- Sobre -->
-      <div id="sobre" class="footer-section">
-        <h3>Sobre o PagCerto</h3>
-        <p>O PagCerto é uma calculadora financeira inteligente desenvolvida para auxiliar consumidores na tomada de decisões financeiras informadas, comparando o valor real entre pagamentos à vista e parcelados.</p>
-        <p>Nossa missão é disponibilizar uma ferramenta acessível e precisa que permita aos usuários economizar recursos financeiros através da análise personalizada das melhores oportunidades de compra, considerando o potencial rendimento de seus investimentos.</p>
-      </div>
-      
-      <!-- Como Funciona -->
-      <div id="como-funciona" class="footer-section">
-        <h3>Como Funciona</h3>
-        <p>Nossa calculadora aplica conceitos financeiros avançados de valor presente líquido e custo de oportunidade para oferecer uma análise comparativa precisa:</p>
-        <ol class="content-list">
-          <li><span>Insira o valor à vista do produto ou serviço desejado</span></li>
-          <li><span>Informe a quantidade e o valor das parcelas disponíveis</span></li>
-          <li><span>Adicione a taxa de rendimento esperada para seu capital (% do CDI)</span></li>
-          <li><span>Receba instantaneamente uma análise detalhada com visualizações gráficas e recomendações personalizadas</span></li>
-        </ol>
-        <p>Nosso algoritmo proprietário considera a valorização temporal do dinheiro, calculando o potencial ganho financeiro caso você investisse o valor das parcelas futuras durante o período do parcelamento.</p>
-      </div>
-      
-      <!-- Termos de Uso -->
-      <div id="termos" class="footer-section">
-        <h3>Termos de Uso</h3>
-        <p>Ao utilizar os serviços do PagCerto, você concorda com os seguintes termos:</p>
-        <ul class="content-list">
-          <li><span>O PagCerto é uma ferramenta informativa e educacional, não constituindo aconselhamento financeiro profissional.</span></li>
-          <li><span>Os cálculos são realizados com base nas informações fornecidas pelo usuário e taxas aproximadas de mercado.</span></li>
-          <li><span>Não nos responsabilizamos por decisões financeiras tomadas com base exclusivamente nos resultados apresentados pela ferramenta.</span></li>
-          <li><span>Os dados informados são processados apenas localmente no dispositivo do usuário, conforme detalhado em nossa Política de Privacidade.</span></li>
-          <li><span>O serviço é disponibilizado gratuitamente para uso pessoal e não comercial.</span></li>
-          <li><span>A reprodução, distribuição ou modificação do código-fonte sem autorização prévia é expressamente proibida.</span></li>
-          <li><span>Este site pode exibir anúncios contextuais fornecidos pelo Google AdSense e outros parceiros publicitários.</span></li>
-        </ul>
-      </div>
-      
-      <!-- Política de Privacidade -->
-      <div id="privacidade" class="footer-section">
-        <h3>Política de Privacidade</h3>
-        <p>No PagCerto, valorizamos e protegemos sua privacidade. Nossas práticas incluem:</p>
-        <ul class="content-list">
-          <li><span>Não coletamos dados pessoais identificáveis dos usuários.</span></li>
-          <li><span>Todas as informações financeiras inseridas são processadas exclusivamente no navegador do usuário, sem armazenamento em nossos servidores.</span></li>
-          <li><span>Podemos coletar dados anônimos de utilização com o objetivo exclusivo de melhorar a funcionalidade e usabilidade da ferramenta.</span></li>
-          <li><span>Utilizamos o Google Analytics para estatísticas de acesso agregadas, sem qualquer identificação pessoal dos visitantes.</span></li>
-          <li><span>O site pode exibir anúncios personalizados do Google AdSense, que utiliza cookies para fornecer publicidade relevante aos interesses do usuário.</span></li>
-          <li><span>Não compartilhamos, vendemos ou alugamos informações com terceiros para fins de marketing direto.</span></li>
-          <li><span>Implementamos medidas técnicas apropriadas para proteger as informações contra acesso não autorizado.</span></li>
-        </ul>
-        <p>Esta política pode ser atualizada periodicamente. Recomendamos consultar esta página regularmente para verificar eventuais alterações.</p>
-      </div>
-      
-      <!-- Política de Cookies -->
-      <div id="cookies" class="footer-section">
-        <h3>Política de Cookies</h3>
-        <p>O PagCerto utiliza cookies e tecnologias semelhantes para melhorar sua experiência em nosso site:</p>
-        <ul class="content-list highlight">
-          <li><span><strong>Cookies essenciais:</strong> Necessários para o funcionamento básico do site.</span></li>
-          <li><span><strong>Cookies de desempenho:</strong> Coletam informações anônimas sobre como os visitantes utilizam nosso site.</span></li>
-          <li><span><strong>Cookies de funcionalidade:</strong> Permitem que o site lembre de escolhas que você faz para proporcionar uma experiência personalizada.</span></li>
-          <li><span><strong>Cookies de publicidade:</strong> Utilizados para exibir anúncios relevantes com base em seus interesses. Nossos parceiros de publicidade, incluindo o Google AdSense, podem instalar cookies para personalização de anúncios.</span></li>
-        </ul>
-        <p>Você pode gerenciar suas preferências de cookies através das configurações do seu navegador. Observe que a desativação de certos cookies pode afetar a funcionalidade do site.</p>
-        <p>Ao continuar navegando em nosso site, você consente com o uso de cookies conforme descrito nesta política.</p>
-      </div>
-      
-      <!-- Contato -->
-      <div id="contato" class="footer-section">
-        <h3>Entre em Contato</h3>
-        <p>Estamos à disposição para esclarecer dúvidas, receber sugestões ou solucionar problemas técnicos:</p>
-        <ul class="content-list contact">
-          <li><span>Email: <a href="mailto:contato@pagcerto.com.br">contato@pagcerto.com.br</a></span></li>
-          <li><span>Formulário: <a href="#formulario-contato">Acesse nosso formulário de contato</a></span></li>
-          <li><span>Redes sociais: Siga-nos em nossas plataformas oficiais (@pagcerto) para novidades e dicas financeiras</span></li>
-        </ul>
-        <p>Horário de atendimento: Segunda a sexta-feira, das 9h às 18h (horário de Brasília), exceto feriados nacionais.</p>
-      </div>
-    </div>
-    
-    <div class="copyright">
-      &copy; <span id="currentYear">2025</span> PagCerto - Todos os direitos reservados | Este site utiliza cookies e pode conter conteúdo publicitário
-    </div>
-  </div>
-</footer>
+  </footer>
 
-<!-- CSS complementar para o rodapé -->
-<style>
-  footer {
-    background-color: #0f172a;
-    padding: 3rem 0 2rem;
-    color: #e2e8f0;
-    font-family: 'Inter', 'Segoe UI', sans-serif;
-    line-height: 1.6;
-  }
+  <!-- Bibliotecas JS -->
+  <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.min.js"></script>
   
-  .footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-  }
-  
-  .footer-logo {
-    width: 60px;
-    height: 60px;
-    margin: 0 auto 1.5rem;
-    display: block;
-  }
-  
-  .footer-links {
-    display: flex;
-    justify-content: center;
-    gap: 1.75rem;
-    margin: 2rem 0;
-    flex-wrap: wrap;
-  }
-  
-  .footer-links a {
-    color: rgba(255,255,255,0.85);
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: 500;
-    padding: 0.5rem 0.75rem;
-    border-radius: 2rem;
-    transition: all 0.2s ease;
-  }
-  
-  .footer-links a:hover, .footer-links a.active {
-    color: white;
-    background: rgba(255,255,255,0.12);
-    transform: translateY(-2px);
-  }
-  
-  .copyright {
-    font-size: 0.85rem;
-    opacity: 0.75;
-    margin-top: 2.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255,255,255,0.12);
-    text-align: center;
-  }
-  
-  /* Seções de conteúdo */
-  .footer-sections {
-    margin-top: 2.5rem;
-  }
-  
-  .footer-section {
-    background: rgba(255,255,255,0.06);
-    border-radius: 14px;
-    padding: 2rem;
-    margin-bottom: 1.75rem;
-    display: none; /* Inicialmente ocultas */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-    border: 1px solid rgba(255,255,255,0.08);
-  }
-  
-  .footer-section.active {
-    display: block;
-    animation: fadeIn 0.3s ease-in-out;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  .footer-section h3 {
-    font-family: 'Poppins', 'Segoe UI', sans-serif;
-    font-size: 1.4rem;
-    margin-bottom: 1.25rem;
-    color: white;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    position: relative;
-    padding-bottom: 0.75rem;
-  }
-  
-  .footer-section h3::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 40px;
-    height: 3px;
-    background: linear-gradient(to right, #60a5fa, #818cf8);
-    border-radius: 2px;
-  }
-  
-  .footer-section p {
-    color: rgba(255,255,255,0.9);
-    margin-bottom: 1.25rem;
-    font-size: 0.98rem;
-    line-height: 1.7;
-  }
-  
-  /* Estilo melhorado para listas, reduzindo o espaço entre marcador e texto */
-  .content-list {
-    margin-bottom: 1.25rem;
-    list-style: none;
-    padding-left: 0;
-  }
-  
-  .content-list li {
-    position: relative;
-    margin-bottom: 0.75rem;
-    padding-left: 1.75rem;
-    font-size: 0.98rem;
-    color: rgba(255,255,255,0.9);
-  }
-  
-  /* Estilo para listas ordenadas */
-  ol.content-list li {
-    counter-increment: item;
-  }
-  
-  ol.content-list li::before {
-    content: counter(item) ".";
-    position: absolute;
-    left: 0;
-    top: 0;
-    font-weight: 600;
-    color: #60a5fa;
-  }
-  
-  /* Estilo para listas não ordenadas */
-  ul.content-list li::before {
-    content: "•";
-    position: absolute;
-    left: 0;
-    top: 0;
-    font-weight: 600;
-    color: #60a5fa;
-    font-size: 1.2rem;
-  }
-  
-  /* Estilo especial para a lista de cookies - destacando melhor os tópicos */
-  ul.content-list.highlight li::before {
-    color: #818cf8;
-  }
-  
-  /* Estilo para a lista de contato */
-  ul.content-list.contact li::before {
-    content: "→";
-    font-size: 1rem;
-  }
-  
-  .footer-section a {
-    color: #60a5fa;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    font-weight: 500;
-  }
-  
-  .footer-section a:hover {
-    color: #93c5fd;
-    text-decoration: underline;
-  }
-  
-  .footer-section strong {
-    color: white;
-    font-weight: 600;
-  }
-  
-  /* Responsividade */
-  @media (max-width: 768px) {
-    .footer-links {
-      gap: 0.75rem;
-    }
+  <script>
+    // Configurações globais
+    let currentMode = 'installment';
+    let cdiMensal = NaN;
     
-    .footer-section {
-      padding: 1.5rem;
-    }
-    
-    .footer-section h3 {
-      font-size: 1.25rem;
-    }
-    
-    .content-list li {
-      padding-left: 1.5rem;
-    }
-  }
-</style>
-
-<!-- Script para gerenciar a exibição das seções do rodapé -->
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Atualizar ano no footer
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
-    
-    // Gerenciar cliques nos links do footer
-    const footerLinks = document.querySelectorAll('.footer-links a');
-    const footerSections = document.querySelectorAll('.footer-section');
-    
-    footerLinks.forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
+    // Gerenciador de Modo de Cálculo
+    const modeManager = {
+      init() {
+        const modeOptions = document.querySelectorAll('.mode-option');
+        const slider = document.getElementById('modeSlider');
         
-        const sectionId = this.getAttribute('data-section');
-        
-        // Remover classe ativa de todos os links
-        footerLinks.forEach(lnk => lnk.classList.remove('active'));
-        
-        // Adicionar classe ativa ao link clicado
-        this.classList.add('active');
-        
-        // Ocultar todas as seções
-        footerSections.forEach(section => {
-          section.classList.remove('active');
-        });
-        
-        // Mostrar a seção correspondente
-        const activeSection = document.getElementById(sectionId);
-        if (activeSection) {
-          activeSection.classList.add('active');
-          
-          // Scroll suave até a seção
-          activeSection.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
+        modeOptions.forEach(option => {
+          option.addEventListener('click', () => {
+            const mode = option.dataset.mode;
+            this.switchMode(mode);
           });
+        });
+      },
+      
+      switchMode(mode) {
+        currentMode = mode;
+        const slider = document.getElementById('modeSlider');
+        const installmentBtn = document.getElementById('modeByInstallment');
+        const totalBtn = document.getElementById('modeByTotal');
+        const installmentFields = document.getElementById('installmentFields');
+        const totalFields = document.getElementById('totalFields');
+        
+        // Atualizar botões
+        if (mode === 'installment') {
+          installmentBtn.classList.add('active');
+          totalBtn.classList.remove('active');
+          slider.classList.remove('right');
+          installmentFields.classList.remove('hidden');
+          totalFields.classList.add('hidden');
+        } else {
+          totalBtn.classList.add('active');
+          installmentBtn.classList.remove('active');
+          slider.classList.add('right');
+          totalFields.classList.remove('hidden');
+          installmentFields.classList.add('hidden');
         }
-      });
-    });
-    
-    // Para lidar com âncoras diretas na URL
-    const handleHashChange = () => {
-      const hash = window.location.hash.substring(1);
-      if (hash) {
-        const targetLink = document.querySelector(`.footer-links a[data-section="${hash}"]`);
-        if (targetLink) {
-          targetLink.click();
+        
+        // Limpar campos do modo anterior
+        this.clearModeFields(mode === 'installment' ? 'total' : 'installment');
+      },
+      
+      clearModeFields(mode) {
+        if (mode === 'installment') {
+          document.getElementById('p').value = '';
+        } else {
+          document.getElementById('totalValue').value = '';
         }
       }
     };
     
-    // Checar hash na carga da página
-    handleHashChange();
+    // Inicializar Cleave.js para formatação
+    const initCleave = () => {
+      // Campos monetários
+      new Cleave('#v0', { 
+        numeral: true, 
+        numeralDecimalMark: ',', 
+        delimiter: '.', 
+        numeralDecimalScale: 2, 
+        numeralThousandsGroupStyle: 'thousand' 
+      });
+      
+      new Cleave('#p', { 
+        numeral: true, 
+        numeralDecimalMark: ',', 
+        delimiter: '.', 
+        numeralDecimalScale: 2, 
+        numeralThousandsGroupStyle: 'thousand' 
+      });
+      
+      new Cleave('#totalValue', { 
+        numeral: true, 
+        numeralDecimalMark: ',', 
+        delimiter: '.', 
+        numeralDecimalScale: 2, 
+        numeralThousandsGroupStyle: 'thousand' 
+      });
+      
+      // Campos de percentual
+      new Cleave('#cdipercent', { 
+        numeral: true, 
+        numeralDecimalScale: 0, 
+        numeralThousandsGroupStyle: 'none' 
+      });
+      
+      new Cleave('#cdipercent2', { 
+        numeral: true, 
+        numeralDecimalScale: 0, 
+        numeralThousandsGroupStyle: 'none' 
+      });
+      
+      new Cleave('#n_custom', { 
+        numeral: true, 
+        numeralDecimalScale: 0, 
+        numeralThousandsGroupStyle: 'none' 
+      });
+    };
     
-    // Ouvir mudanças no hash
-    window.addEventListener('hashchange', handleHashChange);
-  });
-</script>
-
-  <!-- Bibliotecas JS -->
-  <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-  <script>
-    // Atualizar ano no footer
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    // Sincronizar campos de CDI
+    document.getElementById('cdipercent').addEventListener('input', function() {
+      document.getElementById('cdipercent2').value = this.value;
+    });
     
-    // Toggle campo "Outra"
+    document.getElementById('cdipercent2').addEventListener('input', function() {
+      document.getElementById('cdipercent').value = this.value;
+    });
+    
+    // Toggle campo "Outra quantidade"
     const nSelect = document.getElementById('n_select');
     const labelNCustom = document.getElementById('label_n_custom');
+    
     function toggleNCustom() {
-      labelNCustom.classList.toggle('hidden', nSelect.value !== 'other');
+      if (nSelect.value === 'other') {
+        labelNCustom.classList.remove('hidden');
+        labelNCustom.style.animation = 'fieldEntry 0.4s ease-out';
+      } else {
+        labelNCustom.classList.add('hidden');
+      }
     }
+    
     nSelect.addEventListener('change', toggleNCustom);
     
-    // Formatação com Cleave.js
-    new Cleave('#v0', { 
-      numeral: true, 
-      numeralDecimalMark: ',', 
-      delimiter: '.', 
-      numeralDecimalScale: 2, 
-      numeralThousandsGroupStyle: 'thousand' 
-    });
-    
-    new Cleave('#p', { 
-      numeral: true, 
-      numeralDecimalMark: ',', 
-      delimiter: '.', 
-      numeralDecimalScale: 2, 
-      numeralThousandsGroupStyle: 'thousand' 
-    });
-    
-    new Cleave('#cdipercent', { 
-      numeral: true, 
-      numeralDecimalScale: 0, 
-      numeralThousandsGroupStyle: 'none' 
-    });
-    
-    new Cleave('#n_custom', { 
-      numeral: true, 
-      numeralDecimalScale: 0, 
-      numeralThousandsGroupStyle: 'none' 
-    });
-
     // Buscar CDI atual
-    let cdiMensal = NaN;
     async function fetchCDI() {
       const el = document.getElementById('cdi_valor');
-      el.innerHTML = '<span class="loading"></span>carregando…';
+      el.innerHTML = '<span class="loading"></span>';
+      
       try {
         const resp = await fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados/ultimos/1?formato=json');
         if (!resp.ok) throw new Error(resp.status);
+        
         const data = await resp.json();
         const diario = parseFloat(data[0].valor.replace(',', '.')) / 100;
         cdiMensal = Math.pow(1 + diario, 21) - 1;
-        el.textContent = (cdiMensal * 100).toLocaleString('pt-BR',{ minimumFractionDigits:2 }) + '%';
+        
+        el.textContent = (cdiMensal * 100).toLocaleString('pt-BR', { 
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2 
+        }) + '% ao mês';
+        
       } catch (err) {
-        el.textContent = 'não disponível';
-        console.error('Erro CDI:', err);
+        el.textContent = 'indisponível';
+        console.error('Erro ao buscar CDI:', err);
       }
     }
     
     // Botão de limpar
     document.getElementById('btnReset').addEventListener('click', () => {
+      // Limpar todos os campos
       document.getElementById('v0').value = '';
       document.getElementById('p').value = '';
+      document.getElementById('totalValue').value = '';
       document.getElementById('cdipercent').value = '';
+      document.getElementById('cdipercent2').value = '';
       document.getElementById('n_select').value = '';
       document.getElementById('n_custom').value = '';
       
@@ -1171,26 +1627,13 @@
         document.getElementById(id).classList.add('hidden');
       });
       
-      // Foco
-      document.getElementById('v0').focus();
-    });    
-
-    // Inicializar ao carregar
-    window.addEventListener('load', () => {
-      fetchCDI();
-      toggleNCustom();
-      document.getElementById('v0').focus();
+      // Resetar para modo padrão
+      modeManager.switchMode('installment');
       
-      // Inicializar botões do header
-      document.getElementById('btnAbout').addEventListener('click', () => {
-        alert('PagCerto é uma calculadora financeira que ajuda você a decidir entre pagar à vista ou parcelar uma compra, considerando o rendimento do seu dinheiro investido.');
-      });
-      
-      document.getElementById('btnContact').addEventListener('click', () => {
-        alert('Para entrar em contato, envie um email para contato@pagcerto.com.br');
-      });
+      // Foco no primeiro campo
+      document.getElementById('v0').focus();
     });
-
+    
     // Função para formatar valores monetários
     function formatMoney(value) {
       return value.toLocaleString('pt-BR', {
@@ -1206,437 +1649,444 @@
       document.getElementById('adMiddle').classList.remove('hidden');
       document.getElementById('adBottom').classList.remove('hidden');
       
-      // Aqui você incluiria o código do AdSense quando for implementar
-      console.log('Carregando anúncios...');
+      // Aqui você incluiria o código do AdSense quando implementar
+      // Por exemplo:
+      // (adsbygoogle = window.adsbygoogle || []).push({});
     }
-
-    // Cálculo e geração de gráficos
+    
+    // Função principal de cálculo
     document.getElementById('btnCalc').addEventListener('click', () => {
-      // Mostrar botão de loading
       const btnCalc = document.getElementById('btnCalc');
       const originalText = btnCalc.innerHTML;
       btnCalc.innerHTML = '<span class="loading"></span>Calculando...';
       btnCalc.disabled = true;
       
-      // Atraso intencional para simular processamento
       setTimeout(() => {
-        const rawV0 = document.getElementById('v0').value.replace(/\./g,'').replace(',', '.').trim();
-        const rawP  = document.getElementById('p').value.replace(/\./g,'').replace(',', '.').trim();
-        const V0 = parseFloat(rawV0), P = parseFloat(rawP);
-        let n = nSelect.value === 'other'
-          ? parseInt(document.getElementById('n_custom').value, 10)
-          : parseInt(nSelect.value, 10);
-        const pct = parseFloat(document.getElementById('cdipercent').value || '100');
-        const r = cdiMensal * (pct / 100);
-        const resEl = document.getElementById('res');
-        
-        // Validação dos campos
-        if (isNaN(V0) || V0 <= 0) {
-          resEl.innerHTML = '<div class="error"><i class="material-icons-round">error_outline</i>Por favor, informe um preço à vista válido.</div>';
+        try {
+          // Obter valores dos campos
+          const rawV0 = document.getElementById('v0').value.replace(/\./g,'').replace(',', '.').trim();
+          const V0 = parseFloat(rawV0);
+          
+          let n = nSelect.value === 'other'
+            ? parseInt(document.getElementById('n_custom').value, 10)
+            : parseInt(nSelect.value, 10);
+          
+          const pct = parseFloat(document.getElementById('cdipercent').value || 
+                               document.getElementById('cdipercent2').value || '100');
+          const r = cdiMensal * (pct / 100);
+          
+          let P, F; // P = valor da parcela, F = valor total parcelado
+          
+          // Determinar P e F baseado no modo
+          if (currentMode === 'installment') {
+            const rawP = document.getElementById('p').value.replace(/\./g,'').replace(',', '.').trim();
+            P = parseFloat(rawP);
+            F = P * n;
+          } else {
+            const rawTotal = document.getElementById('totalValue').value.replace(/\./g,'').replace(',', '.').trim();
+            F = parseFloat(rawTotal);
+            P = F / n;
+          }
+          
+          const resEl = document.getElementById('res');
+          
+          // Validação
+          if (isNaN(V0) || V0 <= 0) {
+            throw new Error('Por favor, informe um preço à vista válido.');
+          }
+          
+          if (!n || n <= 0) {
+            throw new Error('Por favor, selecione a quantidade de parcelas.');
+          }
+          
+          if (currentMode === 'installment' && (isNaN(P) || P <= 0)) {
+            throw new Error('Por favor, informe um valor de parcela válido.');
+          }
+          
+          if (currentMode === 'total' && (isNaN(F) || F <= 0)) {
+            throw new Error('Por favor, informe um valor total parcelado válido.');
+          }
+          
+          if (isNaN(r) || r < 0) {
+            throw new Error('Por favor, verifique o percentual de rendimento.');
+          }
+          
+          // Cálculos principais
+          let juros = 0, pago = 0;
+          for (let i = 0; i < n; i++) {
+            pago += P;
+            juros += Math.max(F - pago, 0) * r;
+          }
+          const CL = F - juros;
+          
+          // Diferença e percentual
+          const difValue = Math.abs(CL - V0);
+          const difPercent = (difValue / V0) * 100;
+          
+          // Construir HTML dos resultados
+          let resultHTML = '';
+          
+          // Se modo total, mostrar valor da parcela calculado
+          if (currentMode === 'total') {
+            resultHTML += `
+            <div class="result-row">
+              <div class="result-label"><i class="material-icons-round">receipt</i>Valor de cada parcela</div>
+              <div class="result-value">${formatMoney(P)}</div>
+            </div>`;
+          }
+          
+          // Total parcelado
+          resultHTML += `
+          <div class="result-row">
+            <div class="result-label"><i class="material-icons-round">credit_card</i>Total parcelado</div>
+            <div class="result-value">${formatMoney(F)}</div>
+          </div>`;
+          
+          // Rendimento
+          resultHTML += `
+          <div class="result-row">
+            <div class="result-label"><i class="material-icons-round">savings</i>Rendimento potencial</div>
+            <div class="result-value">${formatMoney(juros)}</div>
+          </div>`;
+          
+          // Custo líquido
+          resultHTML += `
+          <div class="result-row">
+            <div class="result-label"><i class="material-icons-round">account_balance_wallet</i>Custo líquido</div>
+            <div class="result-value">${formatMoney(CL)}</div>
+          </div>`;
+          
+          // Diferença
+          resultHTML += `
+          <div class="result-row">
+            <div class="result-label"><i class="material-icons-round">compare_arrows</i>Diferença</div>
+            <div class="result-value">${formatMoney(difValue)} (${difPercent.toFixed(1)}%)</div>
+          </div>`;
+          
+          // Recomendação
+          const isBetterParcelado = CL < V0;
+          const savings = isBetterParcelado ? V0 - CL : CL - V0;
+          
+          resultHTML += `
+          <div class="recommendation" style="background:linear-gradient(135deg, ${isBetterParcelado ? '#10b981, #059669' : '#3b82f6, #1e40af'})">
+            <i class="material-icons-round">${isBetterParcelado ? 'credit_card' : 'payments'}</i>
+            <div class="recommendation-text">
+              <h3>${isBetterParcelado ? 'Melhor Parcelar' : 'Melhor Pagar à Vista'}</h3>
+              <p>Você ${isBetterParcelado ? 'economiza' : 'economizaria'} ${formatMoney(savings)} escolhendo ${isBetterParcelado ? 'parcelar e investir o dinheiro' : 'pagar à vista'}.</p>
+            </div>
+          </div>`;
+          
+          resEl.innerHTML = resultHTML;
+          
+          // Gerar gráficos
+          generateCharts(n, P, F, r, V0, CL, juros);
+          
+          // Mostrar resultados e anúncios
+          showResults(true);
+          showAds();
+          
+          // Scroll suave para resultados
+          document.getElementById('resCard').scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest'
+          });
+          
+        } catch (error) {
+          document.getElementById('res').innerHTML = `
+            <div class="error">
+              <i class="material-icons-round">error_outline</i>
+              ${error.message}
+            </div>`;
           showResults(false);
-          resetButton();
-          return;
+        } finally {
+          btnCalc.innerHTML = originalText;
+          btnCalc.disabled = false;
         }
-        
-        if (!n || n <= 0) {
-          resEl.innerHTML = '<div class="error"><i class="material-icons-round">error_outline</i>Por favor, selecione a quantidade de parcelas.</div>';
-          showResults(false);
-          resetButton();
-          return;
-        }
-        
-        if (isNaN(P) || P <= 0) {
-          resEl.innerHTML = '<div class="error"><i class="material-icons-round">error_outline</i>Por favor, informe um valor de parcela válido.</div>';
-          showResults(false);
-          resetButton();
-          return;
-        }
-        
-        if (isNaN(r) || r <= 0) {
-          resEl.innerHTML = '<div class="error"><i class="material-icons-round">error_outline</i>Por favor, verifique o percentual de rendimento.</div>';
-          showResults(false);
-          resetButton();
-          return;
-        }
-
-        // Cálculos principais
-        const F = P * n;
-        let juros = 0, pago = 0;
-        for (let i = 0; i < n; i++) {
-          pago += P;
-          juros += Math.max(F - pago, 0) * r;
-        }
-        const CL = F - juros;
-        
-        // Diferença percentual
-        const difValue = Math.abs(CL - V0);
-        const difPercent = (difValue / V0) * 100;
-        
-        // Exibir resultados
-        let resultHTML = '';
-        
-        // Total parcelado
-        resultHTML += `
-        <div class="result-row">
-          <div class="result-label"><i class="material-icons-round">credit_card</i>Total parcelado</div>
-          <div class="result-value">${formatMoney(F)}</div>
-        </div>`;
-        
-        // Rendimento total
-        resultHTML += `
-        <div class="result-row">
-          <div class="result-label"><i class="material-icons-round">savings</i>Rendimento</div>
-          <div class="result-value">${formatMoney(juros)}</div>
-        </div>`;
-        
-        // Custo líquido
-        resultHTML += `
-        <div class="result-row">
-          <div class="result-label"><i class="material-icons-round">account_balance_wallet</i>Custo líquido</div>
-          <div class="result-value">${formatMoney(CL)}</div>
-        </div>`;
-        
-        // Diferença
-        resultHTML += `
-        <div class="result-row">
-          <div class="result-label"><i class="material-icons-round">compare_arrows</i>Diferença</div>
-          <div class="result-value">${formatMoney(difValue)} (${difPercent.toFixed(2)}%)</div>
-        </div>`;
-        
-        // Recomendação
-        const isBetterParcelado = CL < V0;
-        const savings = isBetterParcelado ? V0 - CL : CL - V0;
-        
-        resultHTML += `
-        <div class="recommendation" style="background:linear-gradient(135deg, ${isBetterParcelado ? '#10b981, #059669' : '#3b82f6, #1e40af'})">
-          <i class="material-icons-round">${isBetterParcelado ? 'credit_card' : 'payments'}</i>
-          <div class="recommendation-text">
-            <h3>${isBetterParcelado ? 'Melhor Parcelar e Investir' : 'Melhor Pagar à Vista'}</h3>
-            <p>Você ${isBetterParcelado ? 'economiza' : 'economizaria'} ${formatMoney(savings)} se ${isBetterParcelado ? 'parcelar' : 'pagar à vista'}.</p>
-          </div>
-        </div>`;
-        
-        resEl.innerHTML = resultHTML;
-        
-        // Gerar dados para gráficos
-const saldos = [];
-const meses = [];
-let acumulado = 0;
-for (let i = 1; i <= n; i++) {
-  acumulado += Math.max(F - (P * i), 0) * r;
-  saldos.push(parseFloat(acumulado.toFixed(2)));
-  meses.push(`Mês ${i}`);
-}
-
-// Configurações comuns dos gráficos
-const fontFamily = "'Roboto', sans-serif";
-const colors = ['#1e40af', '#3b82f6', '#10b981', '#FFB400'];
-const commonOptions = {
-  chart: {
-    fontFamily: fontFamily,
-    toolbar: {
-      show: false  // Desabilitar a barra de ferramentas para todos os gráficos
-    },
-    animations: {
-      enabled: true,
-      easing: 'easeinout',
-      speed: 800
-    },
-    dropShadow: {
-      enabled: true,
-      opacity: 0.1,
-      blur: 3,
-      left: 0,
-      top: 0
-    }
-  },
-  grid: {
-    borderColor: '#e5e7eb',
-    strokeDashArray: 4,
-    padding: {
-      top: 20,       // Aumentado para dar mais espaço
-      right: 20,
-      bottom: 20,
-      left: 20
-    },
-  },
-  tooltip: {
-    theme: 'light',
-    style: {
-      fontFamily: fontFamily
-    },
-    y: {
-      formatter: formatMoney
-    }
-  },
-  legend: {
-    fontFamily: fontFamily,
-    itemMargin: {
-      horizontal: 12,
-      vertical: 5
-    },
-    markers: {
-      width: 12,
-      height: 12,
-      radius: 4
-    }
-  }
-};
-
-// Renderizar gráficos
-ApexCharts.exec('line-chart','destroy');
-new ApexCharts(document.querySelector('#chart-line'), {
-  ...commonOptions,
-  chart: {
-    ...commonOptions.chart,
-    id: 'line-chart',
-    type: 'area',
-    height: 350,
-    zoom: {
-      enabled: false  // Desabilitar o zoom para este gráfico
-    }
-  },
-  series: [{
-    name: 'Rendimento Acumulado',
-    data: saldos
-  }],
-  xaxis: {
-    categories: meses,
-    labels: {
-      style: {
-        fontFamily: fontFamily,
-        colors: '#4B5563'  // Cor mais escura para melhor legibilidade
-      },
-      rotateAlways: false,
-      hideOverlappingLabels: true
-    }
-  },
-  yaxis: {
-    labels: {
-      formatter: formatMoney,
-      style: {
-        fontFamily: fontFamily,
-        colors: '#4B5563'  // Cor mais escura para melhor legibilidade
+      }, 600);
+    });
+    
+    // Função para gerar gráficos
+    function generateCharts(n, P, F, r, V0, CL, juros) {
+      // Dados para o gráfico de linha
+      const saldos = [];
+      const meses = [];
+      let acumulado = 0;
+      
+      for (let i = 1; i <= n; i++) {
+        acumulado += Math.max(F - (P * i), 0) * r;
+        saldos.push(parseFloat(acumulado.toFixed(2)));
+        meses.push(`Mês ${i}`);
       }
-    },
-    tickAmount: 5,  // Controla quantas linhas horizontais são mostradas
-    min: 0  // Garantir que o eixo Y comece em zero
-  },
-  dataLabels: {
-    enabled: false
-  },
-  stroke: {
-    curve: 'smooth',
-    width: 3
-  },
-  fill: {
-    type: 'gradient',
-    gradient: {
-      shadeIntensity: 1,
-      opacityFrom: 0.7,
-      opacityTo: 0.2,
-      stops: [0, 90, 100],
-      colorStops: [
-        {
-          offset: 0,
-          color: colors[1],
-          opacity: 0.8
+      
+      // Configurações comuns
+      const fontFamily = "'Inter', -apple-system, sans-serif";
+      const colors = ['#15212d', '#3b7bea', '#10b981', '#ffb400'];
+      
+      const commonOptions = {
+        chart: {
+          fontFamily: fontFamily,
+          toolbar: { show: false },
+          animations: {
+            enabled: true,
+            easing: 'easeinout',
+            speed: 800,
+            animateGradually: {
+              enabled: true,
+              delay: 150
+            }
+          }
         },
-        {
-          offset: 100,
-          color: colors[1],
-          opacity: 0.2
+        grid: {
+          borderColor: '#e2e8f0',
+          strokeDashArray: 4,
+          padding: {
+            top: 20,
+            right: 20,
+            bottom: 20,
+            left: 20
+          }
+        },
+        tooltip: {
+          theme: 'light',
+          style: { fontFamily: fontFamily },
+          y: { formatter: formatMoney }
+        },
+        legend: {
+          fontFamily: fontFamily,
+          fontSize: '14px',
+          itemMargin: {
+            horizontal: 12,
+            vertical: 8
+          }
         }
-      ]
-    }
-  },
-  markers: {
-    size: 5,
-    colors: [colors[1]],
-    strokeColors: '#fff',
-    strokeWidth: 2,
-    hover: {
-      size: 7
-    }
-  },
-  colors: [colors[1]]
-}).render();
-
-ApexCharts.exec('bar-chart','destroy');
-new ApexCharts(document.querySelector('#chart-bar'), {
-  ...commonOptions,
-  chart: {
-    ...commonOptions.chart,
-    id: 'bar-chart',
-    type: 'bar',
-    height: 350,
-    zoom: {
-      enabled: false  // Desabilitar o zoom
-    }
-  },
-  series: [
-    { name: 'À vista', data: [V0] },
-    { name: 'Parcelado (custo líquido)', data: [CL] }
-  ],
-  xaxis: {
-    categories: ['Comparativo'],
-    labels: {
-      style: {
-        fontFamily: fontFamily,
-        colors: '#4B5563'
-      }
-    }
-  },
-  yaxis: {
-    labels: {
-      formatter: formatMoney,
-      style: {
-        fontFamily: fontFamily,
-        colors: '#4B5563'
-      }
-    },
-    min: 0  // Garantir que o eixo Y comece em zero
-  },
-  plotOptions: {
-    bar: {
-      columnWidth: '50%',
-      borderRadius: 6,
-      dataLabels: {
-        position: 'top'
-      }
-    }
-  },
-  dataLabels: {
-    enabled: true,
-    formatter: formatMoney,
-    style: {
-      fontFamily: fontFamily,
-      fontWeight: 500,
-      colors: ['#000']  // Cor escura para melhor visibilidade
-    },
-    offsetY: -30,  // Aumentado para evitar cortes
-    textAnchor: 'middle'
-  },
-  colors: [colors[0], colors[3]],
-  states: {
-    hover: {
-      filter: {
-        type: 'darken',
-        value: 0.9
-      }
-    }
-  }
-}).render();
-
-ApexCharts.exec('donut-chart','destroy');
-new ApexCharts(document.querySelector('#chart-donut'), {
-  ...commonOptions,
-  chart: {
-    ...commonOptions.chart,
-    id: 'donut-chart',
-    type: 'donut',
-    height: 350
-  },
-  series: [CL, juros],
-  labels: ['Capital Líquido', 'Juros Economizados'],
-  colors: [colors[0], colors[3]],
-  legend: {
-    ...commonOptions.legend,
-    position: 'bottom',
-    fontSize: '14px',
-    labels: {
-      colors: '#4B5563'
-    }
-  },
-  dataLabels: {
-    enabled: true,
-    formatter: function(val) {
-      return val.toFixed(1) + '%';
-    },
-    style: {
-      fontFamily: fontFamily,
-      fontWeight: 500,
-      colors: ['#fff']  // Texto branco para contraste com as cores do gráfico
-    },
-    background: {
-      enabled: false
-    }
-  },
-  plotOptions: {
-    pie: {
-      donut: {
-        size: '60%',  // Tamanho do buraco central
-        labels: {
-          show: true,
-          name: {
-            show: true,
+      };
+      
+      // Gráfico de linha - Crescimento do Saldo
+      ApexCharts.exec('line-chart', 'destroy');
+      new ApexCharts(document.querySelector('#chart-line'), {
+        ...commonOptions,
+        chart: {
+          ...commonOptions.chart,
+          id: 'line-chart',
+          type: 'area',
+          height: 380
+        },
+        series: [{
+          name: 'Rendimento Acumulado',
+          data: saldos
+        }],
+        xaxis: {
+          categories: meses,
+          labels: {
+            style: {
+              fontFamily: fontFamily,
+              colors: '#64748b'
+            },
+            rotateAlways: false
+          }
+        },
+        yaxis: {
+          labels: {
+            formatter: formatMoney,
+            style: {
+              fontFamily: fontFamily,
+              colors: '#64748b'
+            }
+          }
+        },
+        dataLabels: { enabled: false },
+        stroke: {
+          curve: 'smooth',
+          width: 3
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.7,
+            opacityTo: 0.3,
+            stops: [0, 90, 100]
+          }
+        },
+        colors: [colors[1]]
+      }).render();
+      
+      // Gráfico de barras - Comparativo
+      ApexCharts.exec('bar-chart', 'destroy');
+      new ApexCharts(document.querySelector('#chart-bar'), {
+        ...commonOptions,
+        chart: {
+          ...commonOptions.chart,
+          id: 'bar-chart',
+          type: 'bar',
+          height: 380
+        },
+        series: [
+          { name: 'À vista', data: [V0] },
+          { name: 'Custo líquido parcelado', data: [CL] }
+        ],
+        xaxis: {
+          categories: ['Comparativo de Custos'],
+          labels: {
+            style: {
+              fontFamily: fontFamily,
+              colors: '#64748b'
+            }
+          }
+        },
+        yaxis: {
+          labels: {
+            formatter: formatMoney,
+            style: {
+              fontFamily: fontFamily,
+              colors: '#64748b'
+            }
+          }
+        },
+        plotOptions: {
+          bar: {
+            columnWidth: '60%',
+            borderRadius: 8,
+            dataLabels: {
+              position: 'top'
+            }
+          }
+        },
+        dataLabels: {
+          enabled: true,
+          formatter: formatMoney,
+          offsetY: -30,
+          style: {
+            fontSize: '14px',
             fontFamily: fontFamily,
-            fontSize: '16px',
-            fontWeight: 500,
-            color: '#4B5563'
-          },
-          value: {
-            show: true,
-            fontFamily: fontFamily,
-            fontSize: '22px',
             fontWeight: 600,
-            color: '#1F2937',
-            formatter: formatMoney
+            colors: ['#15212d']
+          }
+        },
+        colors: [colors[0], colors[3]]
+      }).render();
+      
+      // Gráfico donut - Composição
+      ApexCharts.exec('donut-chart', 'destroy');
+      new ApexCharts(document.querySelector('#chart-donut'), {
+        ...commonOptions,
+        chart: {
+          ...commonOptions.chart,
+          id: 'donut-chart',
+          type: 'donut',
+          height: 380
+        },
+        series: [CL, juros],
+        labels: ['Custo Real', 'Economia Potencial'],
+        colors: [colors[0], colors[3]],
+        legend: {
+          ...commonOptions.legend,
+          position: 'bottom'
+        },
+        dataLabels: {
+          enabled: true,
+          formatter: function(val) {
+            return val.toFixed(1) + '%';
           },
-          total: {
-            show: true,
-            showAlways: true,
-            label: 'Total',
+          style: {
+            fontSize: '14px',
             fontFamily: fontFamily,
-            fontSize: '16px',
-            fontWeight: 500,
-            color: '#4B5563',
-            formatter: function (w) {
-              const total = w.globals.seriesTotals.reduce((a, b) => a + b, 0);
-              return formatMoney(total);
+            fontWeight: 600,
+            colors: ['#fff']
+          }
+        },
+        plotOptions: {
+          pie: {
+            donut: {
+              size: '65%',
+              labels: {
+                show: true,
+                name: {
+                  show: true,
+                  fontSize: '16px',
+                  fontFamily: fontFamily,
+                  fontWeight: 500,
+                  color: '#64748b'
+                },
+                value: {
+                  show: true,
+                  fontSize: '24px',
+                  fontFamily: "'Poppins', sans-serif",
+                  fontWeight: 600,
+                  color: '#15212d',
+                  formatter: formatMoney
+                },
+                total: {
+                  show: true,
+                  showAlways: true,
+                  label: 'Total Parcelado',
+                  fontSize: '16px',
+                  fontFamily: fontFamily,
+                  fontWeight: 500,
+                  color: '#64748b',
+                  formatter: function(w) {
+                    return formatMoney(F);
+                  }
+                }
+              }
             }
           }
         }
-      }
+      }).render();
     }
-  },
-  responsive: [{
-    breakpoint: 480,
-    options: {
-      chart: {
-        height: 300
-      },
-      legend: {
-        position: 'bottom'
-      }
-    }
-  }]
-}).render();
-
-        // Mostrar resultados e anúncios
-        showResults(true);
-        showAds();
-        resetButton();
-        
-        // Scroll para os resultados
-        document.getElementById('resCard').scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }, 800); // Tempo do delay para simulação
-      
-      function resetButton() {
-        btnCalc.innerHTML = originalText;
-        btnCalc.disabled = false;
-      }
-    });
     
-    // Controla a exibição dos resultados
+    // Controla exibição dos resultados
     function showResults(show) {
       ['resCard', 'lineCard', 'barCard', 'donutCard'].forEach(id => {
         document.getElementById(id).classList.toggle('hidden', !show);
       });
     }
+    
+    // Gerenciar footer
+    document.addEventListener('DOMContentLoaded', function() {
+      // Atualizar ano
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+      
+      // Links do footer
+      const footerLinks = document.querySelectorAll('.footer-links a');
+      const footerSections = document.querySelectorAll('.footer-section');
+      
+      footerLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const sectionId = this.getAttribute('data-section');
+          
+          // Toggle active
+          footerLinks.forEach(lnk => lnk.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Toggle sections
+          footerSections.forEach(section => {
+            section.classList.remove('active');
+          });
+          
+          const activeSection = document.getElementById(sectionId);
+          if (activeSection) {
+            activeSection.classList.add('active');
+            activeSection.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+    });
+    
+    // Inicialização
+    window.addEventListener('load', () => {
+      modeManager.init();
+      initCleave();
+      fetchCDI();
+      toggleNCustom();
+      document.getElementById('v0').focus();
+    });
   </script>
 </body>
 </html>
